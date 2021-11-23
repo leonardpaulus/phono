@@ -1,0 +1,8 @@
+### Get access token
+GET http://localhost:3001/api/oauth/request_token HTTP/1.1
+
+### Get identity response
+GET http://localhost:3001/api/oauth/return HTTP/1.1
+
+### Search
+GET http://localhost:3001/api/search HTTP/1.1
