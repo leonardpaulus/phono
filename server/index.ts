@@ -23,6 +23,8 @@ app.get('/api/hello', (_request, response) => {
 
 let oAuthTokenSecret_2: string | null;
 let oAuthToken_2: string | null;
+let oAuthTokenSecret_4: string | null;
+let oAuthToken_4: string | null;
 
 app.get('/api/oauth/request_token', async (_request, response) => {
   const tokenResponse = await fetch(
@@ -62,34 +64,60 @@ app.get('/api/oauth/return', async (request, response) => {
   const token = await tokenResponse.text();
   console.log(token);
   const params = new URLSearchParams(token);
-  const oAuthAccessToken_4 = params.get('oauth_token');
-  const oAuthTokenSecret_4 = params.get('oauth_token_secret');
+  oAuthToken_4 = params.get('oauth_token');
+  oAuthTokenSecret_4 = params.get('oauth_token_secret');
 
   const identityResponse = await fetch(
     'https://api.discogs.com/oauth/identity',
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken_4}", oauth_signature="${consumerSecret}&${oAuthTokenSecret_4}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthToken_4}", oauth_signature="${consumerSecret}&${oAuthTokenSecret_4}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
       },
     }
   );
   const identity = await identityResponse.json();
   console.log(identity);
+  response.send('logged in');
+  console.log(oAuthToken_4);
+  console.log(oAuthTokenSecret_4);
+});
 
+app.get('/api/search/:searchq', async (request, response) => {
+  const searchQuery = request.params.searchq;
+  console.log(oAuthToken_4);
+  console.log(oAuthTokenSecret_4);
   const searchResponse = await fetch(
-    'https://api.discogs.com/database/search?q=queen',
+    `https://api.discogs.com/database/search?q=${searchQuery}`,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken_4}", oauth_signature="${consumerSecret}&${oAuthTokenSecret_4}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthToken_4}", oauth_signature="${consumerSecret}&${oAuthTokenSecret_4}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
       },
     }
   );
   const search = await searchResponse.json();
+
   response.send(search);
 });
 
+app.get('/api/users/:searchq', async (request, response) => {
+  const searchQuery = request.params.searchq;
+  console.log(oAuthToken_4);
+  console.log(oAuthTokenSecret_4);
+  const searchResponse = await fetch(
+    `https://api.discogs.com/users/${searchQuery}/collection`,
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthToken_4}", oauth_signature="${consumerSecret}&${oAuthTokenSecret_4}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+      },
+    }
+  );
+  const search = await searchResponse.json();
+
+  response.send(search);
+});
 // Serve production bundle
 app.use(express.static('dist'));
 
