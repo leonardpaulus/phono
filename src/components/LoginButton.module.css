@@ -1,0 +1,18 @@
+.loginButton {
+  border: 2px solid;
+  background-color: transparent;
+  color: #6ca799;
+  border-radius: var(--border-radius);
+  padding: 0.6em 0.9em;
+  font-weight: 700;
+}
+
+.loginButton:hover {
+  border: 2px solid;
+  background-color: #6ca799;
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: 0.6em 0.9em;
+  font-weight: 700;
+  cursor: pointer;
+}
