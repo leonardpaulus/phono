@@ -1,0 +1,34 @@
+.defaultSubmit {
+  display: none;
+}
+
+.submitButton {
+  transform: translateX(-2rem);
+  margin-top: 0.25rem;
+  position: absolute;
+}
+
+.textInput {
+  width: 90vw;
+  padding: 0.3rem;
+  border: 2px solid;
+  border-radius: var(--border-radius);
+  border-color: var(--color-secondary);
+  text-align: center;
+}
+
+.textInput::placeholder {
+  text-align: center;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-placeholder);
+  color: var(--color-secondary);
+  opacity: 0.5;
+}
+
+.textInput:focus {
+  outline: none !important;
+}
+
+.form {
+  -webkit-tap-highlight-color: transparent;
+}
