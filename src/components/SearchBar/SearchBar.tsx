@@ -10,9 +10,9 @@ function SearchBar({
   placeholder,
   searchLocation,
 }: SearchBarProps): JSX.Element {
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    await search(searchLocation);
+    console.log(searchLocation); //Add a search function later
   };
 
   return (
