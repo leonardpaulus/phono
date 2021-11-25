@@ -1,18 +1,16 @@
 .loginButton {
   border: 2px solid;
   background-color: transparent;
-  color: #6ca799;
+  color: var(--color-cta);
   border-radius: var(--border-radius);
-  padding: 0.6em 0.9em;
-  font-weight: 700;
+  padding: 0.4em 0.7em;
+  font-weight: var(--font-weight-heading);
+  text-decoration: none;
 }
 
 .loginButton:hover {
-  border: 2px solid;
-  background-color: #6ca799;
+  background-color: var(--color-cta);
   color: #fff;
-  border-radius: var(--border-radius);
-  padding: 0.6em 0.9em;
-  font-weight: 700;
-  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--color-cta);
 }
