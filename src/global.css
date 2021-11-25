@@ -14,6 +14,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1 {
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-heading);
+  color: var(--color-primary);
+}
+
+h2 {
+  font-size: var(--font-weight-subheading);
+  font-weight: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
 :root {
   --border-radius: 0.5rem;
+  --color-primary: #fd9f59;
+  --color-secondary: #fbd2a2;
+  --color-tertiary: #fa683c;
+  --color-text: #fde9d3;
+  --color-cta: #6ca799;
+  --color-background: #111;
+  --color-card: #222;
+  --font-size-heading: 1.5rem;
+  --font-size-text: 1rem;
+  --font-weight-heading: 800;
+  --font-weight-subheading: 700;
+  --font-weight-text: 400;
 }
