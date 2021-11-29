@@ -12,18 +12,35 @@ body {
   font-family: Outfit, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-background);
 }
 
 h1 {
   font-size: var(--font-size-heading);
   font-weight: var(--font-weight-heading);
   color: var(--color-primary);
+  margin: 0;
 }
 
 h2 {
   font-size: var(--font-weight-subheading);
-  font-weight: var(--color-secondary);
+  font-weight: var(--font-weight-subheading);
   color: var(--color-secondary);
+  margin: 0;
+}
+
+h3,
+h4 {
+  font-size: var(--font-size-text);
+  font-weight: var(--font-weight-subheading);
+  color: var(--color-text);
+  margin: 0;
+}
+
+p {
+  font-size: var(--font-size-text);
+  font-weight: var(--font-weight-text);
+  color: var(--color-text);
 }
 
 :root {
