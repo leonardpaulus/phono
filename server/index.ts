@@ -61,8 +61,8 @@ app.get('/api/oauth/return', async (request, response) => {
 
   const token = await tokenResponse.text();
   const params = new URLSearchParams(token);
-  const oAuthAccessToken_4 = params.get('oauth_token');
-  const oAuthTokenSecret_4 = params.get('oauth_token_secret');
+  const oAuthAccessToken = params.get('oauth_token');
+  const oAuthTokenSecret = params.get('oauth_token_secret');
 
   const identityResponse = await fetch(
     'https://api.discogs.com/oauth/identity',
