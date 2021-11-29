@@ -8,27 +8,14 @@ type NavBarProps = {
 };
 
 function NavBar({ activeLink }: NavBarProps): JSX.Element {
+  const active = 'var(--color-secondary)';
+  const inactive = 'var(--color-text)';
+
   return (
     <div className={styles.navigation}>
-      <Search
-        fill={
-          activeLink === 'search'
-            ? 'var(--color-secondary)'
-            : 'var(--color-text)'
-        }
-      />
-      <Home
-        fill={
-          activeLink === 'home' ? 'var(--color-secondary)' : 'var(--color-text)'
-        }
-      />
-      <Friends
-        fill={
-          activeLink === 'friends'
-            ? 'var(--color-secondary)'
-            : 'var(--color-text)'
-        }
-      />
+      <Search fill={activeLink === 'search' ? active : inactive} />
+      <Home fill={activeLink === 'home' ? active : inactive} />
+      <Friends fill={activeLink === 'friends' ? active : inactive} />
     </div>
   );
 }
