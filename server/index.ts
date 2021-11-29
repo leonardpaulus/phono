@@ -25,7 +25,7 @@ let oAuthTokenSecret_2: string | null;
 let oAuthToken_2: string | null;
 
 app.get('/api/oauth/request_token', async (_request, response) => {
-  const tokenResponse = await fetch(
+  const response = await fetch(
     'https://api.discogs.com/oauth/request_token',
     {
       method: 'GET',
