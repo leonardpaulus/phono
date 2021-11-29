@@ -21,7 +21,7 @@ app.get('/api/hello', (_request, response) => {
   response.json({ message: 'Hello from server' });
 });
 
-let oAuthTokenSecret_2: string | null;
+let oAuthTokenSecret: string | null;
 let oAuthToken_2: string | null;
 
 app.get('/api/oauth/request_token', async (_request, response) => {
