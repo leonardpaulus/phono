@@ -1,5 +1,5 @@
 export default function Home(
-  props: React.SVGProps<SVGPathElement>
+  props: React.SVGProps<SVGPathElement & SVGCircleElement>
 ): JSX.Element {
   return (
     <svg
