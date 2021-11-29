@@ -22,7 +22,7 @@ app.get('/api/hello', (_request, response) => {
 });
 
 let oAuthTokenSecret: string | null;
-let oAuthToken_2: string | null;
+let oAuthToken: string | null;
 
 app.get('/api/oauth/request_token', async (_request, response) => {
   const response = await fetch(
