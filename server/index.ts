@@ -41,7 +41,7 @@ app.get('/api/oauth/request_token', async (_request, response) => {
   oAuthToken = params.get('oauth_token');
   oAuthTokenSecret = params.get('oauth_token_secret');
   response.redirect(
-    `https://discogs.com/oauth/authorize?oauth_token=${oAuthToken_2}`
+    `https://discogs.com/oauth/authorize?oauth_token=${oAuthToken}`
   );
 });
 
