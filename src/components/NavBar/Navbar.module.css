@@ -1,0 +1,8 @@
+.navigation {
+  background-color: var(--color-navbar);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  height: 57px;
+}
