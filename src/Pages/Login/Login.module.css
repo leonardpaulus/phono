@@ -1,0 +1,13 @@
+.loginPage {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  place-items: center;
+}
+
+.components {
+  display: grid;
+  place-items: center;
+  gap: 1.5rem;
+}
