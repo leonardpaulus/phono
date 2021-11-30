@@ -1,0 +1,38 @@
+.defaultSubmit {
+  display: none;
+}
+
+.submitButton {
+  transform: translateX(-2rem);
+  margin-top: 0.3rem;
+  position: absolute;
+}
+
+.textInput {
+  width: 90vw;
+  padding: 0.3rem;
+  border: 2px solid;
+  border-radius: var(--border-radius);
+  border-color: var(--color-secondary);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-placeholder);
+  color: var(--color-secondary);
+  text-align: center;
+  background-color: transparent;
+}
+
+.textInput::placeholder {
+  text-align: center;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-placeholder);
+  color: var(--color-secondary);
+  opacity: 0.5;
+}
+
+.textInput:focus {
+  outline: none;
+}
+
+.form {
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,48 @@
+.albumcard {
+  background-color: var(--color-card);
+  width: 90%;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.value {
+  margin-top: 0.7rem;
+  display: grid;
+  width: 100%;
+  text-align: right;
+  color: var(--color-tertiary);
+}
+
+.infoText {
+  margin-top: 0.7rem;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.cta {
+  display: grid;
+  color: var(--color-cta);
+  font-weight: var(--font-weight-subheading);
+  place-items: center;
+  cursor: pointer;
+}
+
+.cta__clicked {
+  display: grid;
+  color: var(--color-cta);
+  font-weight: var(--font-weight-subheading);
+  place-items: center;
+}
+
+.tracklist {
+  margin-top: 1rem;
+  display: grid;
+  row-gap: 0.7rem;
+  grid-template-columns: 25% 60% 15%;
+  grid-template-rows: auto;
+}
+
+.tracklist p:nth-of-type(even) {
+  text-align: right;
+}
