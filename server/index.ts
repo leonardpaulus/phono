@@ -86,7 +86,7 @@ app.get('/api/oauth/return', async (request, response) => {
     response.cookie('accessTokenSecret', oAuthAccessTokenSecret, {
       httpOnly: true,
     });
-    response.send('logged in');
+    response.redirect('http://localhost:3001/api/me');
   }
 });
 
