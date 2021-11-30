@@ -74,7 +74,7 @@ export default function AlbumInfo(): JSX.Element {
         <p>23. Sept. 2016</p>
         <h3>Genre:</h3>
         <p>Hip Hop, Reggae</p>
-        <h3>Stil:</h3>
+        <h3>Style:</h3>
         <p>Dancehall</p>
       </div>
       <div>
