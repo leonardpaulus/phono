@@ -4,6 +4,7 @@
   height: 100vh;
   overflow: hidden;
   place-items: center;
+  justify-content: center;
 }
 
 .components {
