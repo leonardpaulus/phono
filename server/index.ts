@@ -82,7 +82,7 @@ app.get('/api/oauth/return', async (request, response) => {
   const username = identity.username;
   if (oAuthAccessToken && oAuthAccessTokenSecret) {
     response.cookie('username', username, { httpOnly: true });
-    response.cookie('accesstoken', oAuthAccessToken, { httpOnly: true });
+    response.cookie('accessToken', oAuthAccessToken, { httpOnly: true });
     response.cookie('accessTokenSecret', oAuthAccessTokenSecret, {
       httpOnly: true,
     });
@@ -90,30 +90,37 @@ app.get('/api/oauth/return', async (request, response) => {
   }
 });
 
-/* app.get('/api/search/:searchq', async (request, response) => {
+app.get('/api/search/:searchq', async (request, response) => {
   const searchQuery = request.params.searchq;
+
+  const token = request.cookies.accessToken;
+  const secret = request.cookies.accessTokenSecret;
+
   const searchResponse = await fetch(
     `https://api.discogs.com/database/search?q=${searchQuery}`,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken}", oauth_signature="${consumerSecret}&${oAuthAccessTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
       },
     }
   );
   const search = await searchResponse.json();
 
   response.send(search);
-}); */
+});
 
 app.get('/api/me', async (request, response) => {
   const user = request.cookies.username;
+  const token = request.cookies.accessToken;
+  const secret = request.cookies.accessTokenSecret;
+
   const searchResponse = await fetch(
     `https://api.discogs.com/users/${user}/collection`,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken}", oauth_signature="${consumerSecret}&${oAuthAccessTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
       },
     }
   );
