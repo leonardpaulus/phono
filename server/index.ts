@@ -64,7 +64,6 @@ app.get('/api/oauth/return', async (request, response) => {
   );
 
   const token = await tokenResponse.text();
-  console.log(token);
   const params = new URLSearchParams(token);
   oAuthAccessToken = params.get('oauth_token');
   oAuthAccessTokenSecret = params.get('oauth_token_secret');
