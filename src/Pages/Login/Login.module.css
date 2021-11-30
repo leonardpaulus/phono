@@ -20,23 +20,42 @@
 .circle {
   grid-column: 1;
   grid-row: 1;
-  background-color: #c4c4c4;
   border-radius: 50%;
   z-index: -10;
-  opacity: 0.03;
+  animation-name: login;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+  backface-visibility: hidden;
 }
 
 .outerCircle {
-  width: 150vw;
-  height: 150vw;
+  width: 130vw;
+  height: 130vw;
+  animation-delay: 0.3s;
 }
 
 .middleCircle {
-  width: 125vw;
-  height: 125vw;
+  width: 115vw;
+  height: 115vw;
+  animation-delay: 0.2s;
 }
 
 .innerCircle {
   width: 100vw;
   height: 100vw;
+  animation-delay: 0.1s;
+}
+
+@keyframes login {
+  from {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 0.03;
+    background-color: #c4c4c4;
+  }
 }
