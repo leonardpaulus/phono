@@ -7,7 +7,35 @@
 }
 
 .components {
+  grid-column: 1;
+  grid-row: 1;
   display: grid;
   place-items: center;
   gap: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: unset;
+}
+
+.circle {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #c4c4c4;
+  border-radius: 50%;
+  z-index: -10;
+  opacity: 0.03;
+}
+
+.outerCircle {
+  width: 150vw;
+  height: 150vw;
+}
+
+.middleCircle {
+  width: 125vw;
+  height: 125vw;
+}
+
+.innerCircle {
+  width: 100vw;
+  height: 100vw;
 }
