@@ -5,4 +5,4 @@ export default {
   title: 'Pages/MyCollection',
 };
 
-export const LoginPage = () => <MyCollection />;
+export const HomePage = () => <MyCollection />;
