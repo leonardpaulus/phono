@@ -1,12 +1,6 @@
 export default function Phono_Logo() {
   return (
-    <svg
-      width="139"
-      height="172"
-      viewBox="0 0 139 172"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="auto" height="100%" viewBox="0 0 139 172" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
