@@ -1,0 +1,5 @@
+.myCollectionPage {
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 8rem 3rem 16rem auto;
+}
