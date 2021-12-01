@@ -28,70 +28,78 @@ let oAuthRequestToken: string | null;
 let oAuthAccessTokenSecret: string | null;
 let oAuthAccessToken: string | null;
 
-app.get('/api/oauth/request_token', async (_request, response) => {
-  const tokenResponse = await fetch(
-    'https://api.discogs.com/oauth/request_token',
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="http://localhost:3001/api/oauth/return"`,
-      },
-    }
-  );
-
-  const token = await tokenResponse.text();
-  const params = new URLSearchParams(token);
-  oAuthRequestToken = params.get('oauth_token');
-  oAuthRequestTokenSecret = params.get('oauth_token_secret');
-  response.redirect(
-    `https://discogs.com/oauth/authorize?oauth_token=${oAuthRequestToken}`
-  );
-});
-
-app.get('/api/oauth/return', async (request, response) => {
-  const { oauth_verifier: oAuthVerifier } = request.query;
-
-  const tokenResponse = await fetch(
-    'https://api.discogs.com/oauth/access_token',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_nonce="${Date.now()}",oauth_token="${oAuthRequestToken}", oauth_signature=${consumerSecret}&${oAuthRequestTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_verifier="${oAuthVerifier}"`,
-      },
-    }
-  );
-
-  const token = await tokenResponse.text();
-  const params = new URLSearchParams(token);
-  oAuthAccessToken = params.get('oauth_token');
-  oAuthAccessTokenSecret = params.get('oauth_token_secret');
-
-  const identityResponse = await fetch(
-    'https://api.discogs.com/oauth/identity',
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken}", oauth_signature="${consumerSecret}&${oAuthAccessTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
-      },
-    }
-  );
-  const identity = await identityResponse.json();
-  const username = identity.username;
-  if (oAuthAccessToken && oAuthAccessTokenSecret) {
-    response.cookie(
-      'auth',
-      JSON.stringify({
-        username: username,
-        token: oAuthAccessToken,
-        secret: oAuthAccessTokenSecret,
-      }),
-      { httpOnly: true }
+app.get('/api/oauth/request_token', async (_request, response, next) => {
+  try {
+    const tokenResponse = await fetch(
+      'https://api.discogs.com/oauth/request_token',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="http://localhost:3001/api/oauth/return"`,
+        },
+      }
     );
 
-    const redirectURL = `${request.protocol}://${request.hostname}:${port}/api/me`;
-    response.redirect(redirectURL);
+    const token = await tokenResponse.text();
+    const params = new URLSearchParams(token);
+    oAuthRequestToken = params.get('oauth_token');
+    oAuthRequestTokenSecret = params.get('oauth_token_secret');
+    response.redirect(
+      `https://discogs.com/oauth/authorize?oauth_token=${oAuthRequestToken}`
+    );
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
+
+app.get('/api/oauth/return', async (request, response, next) => {
+  const { oauth_verifier: oAuthVerifier } = request.query;
+
+  try {
+    const tokenResponse = await fetch(
+      'https://api.discogs.com/oauth/access_token',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_nonce="${Date.now()}",oauth_token="${oAuthRequestToken}", oauth_signature=${consumerSecret}&${oAuthRequestTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_verifier="${oAuthVerifier}"`,
+        },
+      }
+    );
+
+    const token = await tokenResponse.text();
+    const params = new URLSearchParams(token);
+    oAuthAccessToken = params.get('oauth_token');
+    oAuthAccessTokenSecret = params.get('oauth_token_secret');
+
+    const identityResponse = await fetch(
+      'https://api.discogs.com/oauth/identity',
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${oAuthAccessToken}", oauth_signature="${consumerSecret}&${oAuthAccessTokenSecret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const identity = await identityResponse.json();
+    const username = identity.username;
+    if (oAuthAccessToken && oAuthAccessTokenSecret) {
+      response.cookie(
+        'auth',
+        JSON.stringify({
+          username: username,
+          token: oAuthAccessToken,
+          secret: oAuthAccessTokenSecret,
+        }),
+        { httpOnly: true }
+      );
+
+      const redirectURL = `${request.protocol}://${request.hostname}:${port}/api/me`;
+      response.redirect(redirectURL);
+    }
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
   }
 });
 
