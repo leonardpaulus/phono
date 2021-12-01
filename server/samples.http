@@ -1,0 +1,8 @@
+### Get access token
+GET http://localhost:3001/api/oauth/request_token HTTP/1.1
+
+### Search Database
+GET http://localhost:3001/api/search/queen HTTP/1.1
+
+### Search Users
+GET http://localhost:3001/api/me HTTP/1.1
