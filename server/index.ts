@@ -80,20 +80,28 @@ app.get('/api/oauth/return', async (request, response) => {
   const identity = await identityResponse.json();
   const username = identity.username;
   if (oAuthAccessToken && oAuthAccessTokenSecret) {
-    response.cookie('username', username, { httpOnly: true });
-    response.cookie('accessToken', oAuthAccessToken, { httpOnly: true });
-    response.cookie('accessTokenSecret', oAuthAccessTokenSecret, {
-      httpOnly: true,
-    });
-    response.redirect('http://localhost:3001/api/me');
+    response.cookie(
+      'auth',
+      JSON.stringify({
+        username: username,
+        token: oAuthAccessToken,
+        secret: oAuthAccessTokenSecret,
+      }),
+      { httpOnly: true }
+    );
+
+    const redirectURL = `${request.protocol}://${request.hostname}:${port}/api/me`;
+    response.redirect(redirectURL);
   }
 });
 
 app.get('/api/search/:searchq', async (request, response) => {
   const searchQuery = request.params.searchq;
 
-  const token = request.cookies.accessToken;
-  const secret = request.cookies.accessTokenSecret;
+  const authCookie = JSON.parse(request.cookies.auth);
+
+  const token = authCookie.token;
+  const secret = authCookie.secret;
 
   const searchResponse = await fetch(
     `https://api.discogs.com/database/search?q=${searchQuery}`,
@@ -110,9 +118,11 @@ app.get('/api/search/:searchq', async (request, response) => {
 });
 
 app.get('/api/me', async (request, response) => {
-  const user = request.cookies.username;
-  const token = request.cookies.accessToken;
-  const secret = request.cookies.accessTokenSecret;
+  const authCookie = JSON.parse(request.cookies.auth);
+
+  const user = authCookie.username;
+  const token = authCookie.token;
+  const secret = authCookie.secret;
 
   const searchResponse = await fetch(
     `https://api.discogs.com/users/${user}/collection`,
