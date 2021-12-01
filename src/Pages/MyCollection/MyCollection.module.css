@@ -4,7 +4,7 @@
   place-items: center;
   grid-template-rows: 8rem 4rem 17rem auto;
   overflow: scroll;
-  padding-bottom: 4.5rem;
+  padding-bottom: 4.9rem;
 }
 
 .myCollectionPage::-webkit-scrollbar {
