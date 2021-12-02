@@ -3,16 +3,11 @@ import path from 'path';
 import fetch from 'cross-fetch';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import cors from 'cors';
 dotenv.config();
 
 const port = process.env.PORT || 3001;
 const app = express();
-app.use(
-  cors({
-    origin: '*',
-  })
-);
+
 app.use(cookieParser());
 
 if (!process.env.DISCOGS_CONSUMER_KEY) {
@@ -28,6 +23,19 @@ const consumerSecret = process.env.DISCOGS_CONSUMER_SECRET;
 app.get('/api/hello', (_request, response) => {
   response.json({ message: 'Hello from server' });
 });
+
+type ReleaseProps = {
+  artists_sort: string;
+  title: string;
+  labels: [];
+  genres: [];
+  styles: [];
+  tracklist: [];
+  released_formatted: string;
+  id: number;
+  sales_history: object;
+  huge_thumb: string;
+};
 
 let oAuthRequestTokenSecret: string | null;
 let oAuthRequestToken: string | null;
@@ -153,8 +161,23 @@ app.get('/api/me', async (request, response, next) => {
       }
     );
     const search = await searchResponse.json();
+    const releases = search.releases;
+    const collection = releases.map(
+      (release: { basic_information: ReleaseProps }) => ({
+        title: release.basic_information.title,
+        artist: release.basic_information.artists_sort,
+        labels: release.basic_information.labels,
+        genres: release.basic_information.genres,
+        styles: release.basic_information.styles,
+        tracklist: release.basic_information.tracklist,
+        release: release.basic_information.released_formatted,
+        id: release.basic_information.id,
+        sales_history: release.basic_information.sales_history,
+        huge_thumb: release.basic_information.huge_thumb,
+      })
+    );
 
-    response.send(search);
+    response.send(collection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
