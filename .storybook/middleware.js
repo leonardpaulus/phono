@@ -1,11 +1,11 @@
-import { config } from 'dotenv';
-config();
+const dotenv = require('dotenv');
+dotenv.config();
 
-import { createProxyMiddleware } from 'http-proxy-middleware';
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const { PORT = 3001 } = process.env;
 
-export default function (app) {
+module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
@@ -13,4 +13,4 @@ export default function (app) {
       changeOrigin: true,
     })
   );
-}
+};
