@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AlbumProps } from '../CoverSwiper/CoverSwiper';
 import styles from './AlbumInfo.module.css';
 
@@ -13,59 +13,27 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
 
   const newTracklist = (
     <div className={styles.tracklist}>
-      <p>A1</p>
-      <h4>Intro</h4>
-      <p>0:37</p>
-      <p>A2</p>
-      <h4>Ciao Ciao</h4>
-      <p>2:33</p>
-      <p>A3</p>
-      <h4>Palmen Aus Plastik</h4>
-      <p>3:05</p>
-      <p>A4</p>
-      <h4>Mörder</h4>
-      <p>3:34</p>
-      <p>B1</p>
-      <h4>Ohne Mein Team</h4>
-      <p>3:08</p>
-      <p>B2</p>
-      <h4>Erblindet</h4>
-      <p>3:10</p>
-      <p>B3</p>
-      <h4>Evil</h4>
-      <p>5:42</p>
-      <p>B4</p>
-      <h4>Attackieren</h4>
-      <p>4:01</p>
-      <p>C1</p>
-      <h4>Killa</h4>
-      <p>2:36</p>
-      <p>C2</p>
-      <h4>Ruhe Nach Dem Sturm</h4>
-      <p>3:14</p>
-      <p>C3</p>
-      <h4>Vaporizer</h4>
-      <p>3:52</p>
-      <p>C4</p>
-      <h4>Dankbarkeit</h4>
-      <p>3:29</p>
-      <p>D1</p>
-      <h4>Skimaske</h4>
-      <p>2:27</p>
-      <p>D2</p>
-      <h4>Cabriolet</h4>
-      <p>3:33</p>
-      <p>D3</p>
-      <h4>Daneben</h4>
-      <p>3:44</p>
+      {collection.tracklist.map((track) => (
+        <>
+          <p>{track.position}</p>
+          <h4>{track.title}</h4>
+          <p>{track.duration}</p>
+        </>
+      ))}
     </div>
   );
 
   function handleOnclick() {
     setShowTracklist('Tracklist:');
     setTracklist(newTracklist);
-    setClicked(!clicked);
+    setClicked(true);
   }
+
+  useEffect(() => {
+    setShowTracklist('View Tracklist');
+    setTracklist(null);
+    setClicked(false);
+  }, [collection]);
 
   return (
     <article className={styles.albumcard}>
