@@ -24,7 +24,7 @@ app.get('/api/hello', (_request, response) => {
   response.json({ message: 'Hello from server' });
 });
 
-type ReleaseProps = {
+export type ReleaseProps = {
   artists_sort: string;
   title: string;
   labels: [];
@@ -173,7 +173,7 @@ app.get('/api/me', async (request, response, next) => {
         release: release.basic_information.released_formatted,
         id: release.basic_information.id,
         sales_history: release.basic_information.sales_history,
-        huge_thumb: release.basic_information.huge_thumb,
+        cover: release.basic_information.huge_thumb,
       })
     );
 
