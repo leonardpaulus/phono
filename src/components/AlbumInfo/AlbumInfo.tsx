@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
-import { AlbumProps } from '../CoverSwiper/CoverSwiper';
 import styles from './AlbumInfo.module.css';
-
-type AlbumInfoProps = {
-  collection: AlbumProps;
-};
+import { AlbumInfoProps } from '../../lib/types';
 
 export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');

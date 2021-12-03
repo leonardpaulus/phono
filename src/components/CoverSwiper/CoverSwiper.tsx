@@ -3,34 +3,9 @@ import SwiperCore, { EffectCoverflow } from 'swiper';
 import styles from './CoverSwiper.module.css';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
+import { CoverSwiperProps } from '../../lib/types';
 
 SwiperCore.use([EffectCoverflow]);
-
-export type AlbumProps = {
-  title: string;
-  artist: string;
-  labels: [];
-  genres: [];
-  styles: [];
-  tracklist: [];
-  release: string;
-  id: number;
-  sales_history: SalesHistoryProps;
-  cover: string;
-};
-
-type SalesHistoryProps = {
-  median: SalesValueProps;
-};
-
-type SalesValueProps = {
-  value: object;
-};
-
-type CoverSwiperProps = {
-  collection: AlbumProps[];
-  changeActiveSlide: (index: number) => void;
-};
 
 export default function CoverSwiper({
   collection,
@@ -63,5 +38,4 @@ export default function CoverSwiper({
       </Swiper>
     </div>
   );
-  console.log(onchange);
 }
