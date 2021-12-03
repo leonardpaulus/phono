@@ -3,11 +3,10 @@ import SwiperCore, { EffectCoverflow } from 'swiper';
 import styles from './CoverSwiper.module.css';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-import { ChangeEvent, useState } from 'react';
 
 SwiperCore.use([EffectCoverflow]);
 
-type AlbumProps = {
+export type AlbumProps = {
   title: string;
   artist: string;
   labels: [];
@@ -16,8 +15,16 @@ type AlbumProps = {
   tracklist: [];
   release: string;
   id: number;
-  sales_history: object;
+  sales_history: SalesHistoryProps;
   cover: string;
+};
+
+type SalesHistoryProps = {
+  median: SalesValueProps;
+};
+
+type SalesValueProps = {
+  value: object;
 };
 
 type CoverSwiperProps = {

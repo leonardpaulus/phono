@@ -15,10 +15,6 @@ export default function MyCollection(): JSX.Element {
     getMyCollection();
   }, []);
 
-  if (collection) {
-    console.log(collection[activeSlide]);
-  }
-
   return (
     <div className={styles.myCollectionPage}>
       <Phono_Logo />
@@ -34,7 +30,7 @@ export default function MyCollection(): JSX.Element {
           }
         />
       )}
-      {collection && <AlbumInfo />}
+      {collection && <AlbumInfo collection={collection[activeSlide]} />}
       <div className={styles.navBar}>
         <NavBar activeLink={'home'} />
       </div>

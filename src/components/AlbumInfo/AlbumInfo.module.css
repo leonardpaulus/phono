@@ -17,7 +17,7 @@
   margin-top: 0.7rem;
   display: grid;
   grid-template-columns: 25% 75%;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 2.75rem);
 }
 
 .cta {
@@ -45,4 +45,10 @@
 
 .tracklist p:nth-of-type(even) {
   text-align: right;
+}
+
+.content {
+  color: var(--color-text);
+  font-weight: var(--font-weight-text);
+  font-size: var(--font-size-text);
 }

@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { AlbumProps } from '../CoverSwiper/CoverSwiper';
 import styles from './AlbumInfo.module.css';
 
-export default function AlbumInfo(): JSX.Element {
+type AlbumInfoProps = {
+  collection: AlbumProps;
+};
+
+export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
   const [tracklist, setTracklist] = useState<null | JSX.Element>(null);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -64,18 +69,42 @@ export default function AlbumInfo(): JSX.Element {
 
   return (
     <article className={styles.albumcard}>
-      <h1>Palmen aus Plastik</h1>
-      <h2>Bonez MC & RAF Camora</h2>
-      <p className={styles.value}>83,62€</p>
+      <h1>{collection.title}</h1>
+      <h2>{collection.artist}</h2>
+      <span className={styles.value}>
+        {collection.sales_history.median.value}€
+      </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>
-        <p>AUF!KEINEN!FALL!, Universal Music Group</p>
+        <div>
+          {collection.labels.map((label, index) => (
+            <span key={index} className={styles.content}>
+              {label.name}
+            </span>
+          ))}
+        </div>
         <h3>Release:</h3>
-        <p>23. Sept. 2016</p>
+        <span className={styles.content}>{collection.release}</span>
         <h3>Genre:</h3>
-        <p>Hip Hop, Reggae</p>
-        <h3>Style:</h3>
-        <p>Dancehall</p>
+        <div>
+          {collection.genres.map((genre, index) => (
+            <span key={index} className={styles.content}>
+              {genre}
+              {index + 1 < collection.genres.length && ', '}
+            </span>
+          ))}
+        </div>
+        {collection.styles.length > 0 ? <h3>Style:</h3> : null}
+        {collection.styles.length > 0 ? (
+          <div>
+            {collection.styles.map((style, index) => (
+              <span key={index} className={styles.content}>
+                {style}
+                {index + 1 < collection.styles.length && ', '}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </div>
       <div>
         <span
