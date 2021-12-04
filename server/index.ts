@@ -114,7 +114,7 @@ app.get('/api/search/artist/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&county=germany&&artist=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=master&county=germany&artist=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
