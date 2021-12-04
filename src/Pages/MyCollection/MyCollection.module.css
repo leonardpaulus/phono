@@ -1,0 +1,18 @@
+.myCollectionPage {
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 8rem 4rem 17rem auto;
+  overflow: scroll;
+  padding-bottom: 4.9rem;
+}
+
+.myCollectionPage::-webkit-scrollbar {
+  display: none;
+}
+
+.navBar {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+}

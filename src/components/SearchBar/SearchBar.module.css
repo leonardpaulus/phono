@@ -6,6 +6,7 @@
   transform: translateX(-2rem);
   margin-top: 0.3rem;
   position: absolute;
+  cursor: pointer;
 }
 
 .textInput {

@@ -1,5 +1,6 @@
 import { FormEvent } from 'react';
 import styles from './SearchBar.module.css';
+import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 
 type SearchBarProps = {
   placeholder: string;
@@ -25,8 +26,9 @@ function SearchBar({
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
         <img
-          src="../../src/assets/SearchBarIcon.svg"
+          src={SearchBarIcon}
           className={styles.submitButton}
+          alt={'magnifying glass'}
         />
       </label>
     </form>
