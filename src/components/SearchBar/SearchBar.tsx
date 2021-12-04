@@ -1,19 +1,23 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 
 type SearchBarProps = {
   placeholder: string;
   searchLocation: string;
+  searchQuery: (search: string) => void;
 };
 
-function SearchBar({
-  placeholder,
-  searchLocation,
-}: SearchBarProps): JSX.Element {
+function SearchBar({ placeholder, searchQuery }: SearchBarProps): JSX.Element {
+  const [search, setSearch] = useState<string | null>(null);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log(searchLocation); //Add a search function later
+    if (search != null) {
+      searchQuery(search);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -22,6 +26,7 @@ function SearchBar({
         type="text"
         className={styles.textInput}
         placeholder={placeholder}
+        onChange={(event) => setSearch(event.target.value)}
       ></input>
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
