@@ -25,7 +25,11 @@ function SearchBar({
       ></input>
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
-        <img src={SearchBarIcon} className={styles.submitButton} />
+        <img
+          src={SearchBarIcon}
+          className={styles.submitButton}
+          alt={'magnifying glass'}
+        />
       </label>
     </form>
   );
