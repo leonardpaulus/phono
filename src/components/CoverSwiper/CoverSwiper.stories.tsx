@@ -5,4 +5,6 @@ export default {
   title: 'Components/CoverSwiper',
 };
 
-export const Default = () => <CoverSwiper />;
+export const Default = () => (
+  <CoverSwiper collection={[]} changeActiveSlide={console.log} />
+);
