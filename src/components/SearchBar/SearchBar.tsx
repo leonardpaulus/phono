@@ -4,7 +4,6 @@ import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 
 type SearchBarProps = {
   placeholder: string;
-  searchLocation: string;
   searchQuery: (search: string) => void;
 };
 

@@ -18,10 +18,7 @@ export default function MyCollection(): JSX.Element {
   return (
     <div className={styles.myCollectionPage}>
       <Phono_Logo />
-      <SearchBar
-        placeholder={'Search my Collection'}
-        searchLocation={'myCollection'}
-      />
+      <SearchBar placeholder={'Search my Collection'} />
       {collection && (
         <CoverSwiper
           collection={collection}

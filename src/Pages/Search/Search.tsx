@@ -7,10 +7,7 @@ export default function Search() {
   return (
     <div className={styles.searchPage}>
       <Phono_Logo />
-      <SearchBar
-        placeholder={'Search the library'}
-        searchLocation={'myCollection'}
-      />
+      <SearchBar placeholder={'Search the library'} searchQuery={console.log} />
       <NavBar activeLink={'search'} />
     </div>
   );
