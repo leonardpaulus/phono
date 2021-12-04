@@ -2,7 +2,28 @@
   width: 100vw;
   display: grid;
   place-items: center;
-  grid-template-rows: 8rem 4rem auto;
+  grid-template-rows: 8rem 4rem 3rem auto;
   overflow: scroll;
   padding-bottom: 4.9rem;
+}
+
+.toggleInput {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 0.25rem 1fr;
+  place-items: center;
+}
+
+.divider {
+  width: 1px;
+  height: 1.5rem;
+  background-color: var(--color-text);
+}
+
+.clickedCategory {
+  color: var(--color-primary);
+}
+
+.unclickedCategory {
+  color: var(--color-text);
 }
