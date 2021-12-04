@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useSearchLibrary({ searchQuery }: string) {
+export default function useSearchLibrary(searchQuery: string) {
   const [searchResult, setSearchResult] = useState(null);
 
   const encodedSearchQuery = encodeURIComponent(searchQuery);
