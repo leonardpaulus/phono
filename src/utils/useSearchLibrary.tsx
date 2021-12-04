@@ -1,23 +1,20 @@
 import { useState } from 'react';
 
-export default function useSearchLibrary(searchQuery: string) {
-  const [searchArtistResult, setSearchArtistResult] = useState(null);
-  const [searchTitleResult, setSearchTitleResult] = useState(null);
+export default function useSearchLibrary(
+  searchQuery: string,
+  searchCategory: string
+) {
+  const [searchResult, setSearchResult] = useState(null);
 
   const encodedSearchQuery = encodeURIComponent(searchQuery);
 
   const getSearchResult = async () => {
     const artistResponse = await fetch(
-      `/api/search/artist/${encodedSearchQuery}`
-    );
-    const titleResponse = await fetch(
-      `/api/search/title/${encodedSearchQuery}`
+      `/api/search/${searchCategory}/${encodedSearchQuery}`
     );
     const artistSearch = await artistResponse.json();
-    const titleSearch = await titleResponse.json();
-    setSearchArtistResult(artistSearch);
-    setSearchTitleResult(titleSearch);
+    setSearchResult(artistSearch);
   };
 
-  return { getSearchResult, searchArtistResult, searchTitleResult };
+  return { getSearchResult, searchResult };
 }
