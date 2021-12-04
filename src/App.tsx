@@ -1,7 +1,12 @@
-import MyCollection from './Pages/MyCollection/MyCollection';
+import styles from './App.module.css';
+import { Outlet } from 'react-router';
 
 function App() {
-  return <MyCollection />;
+  return (
+    <div className={styles.app}>
+      <Outlet />
+    </div>
+  );
 }
 
 export default App;

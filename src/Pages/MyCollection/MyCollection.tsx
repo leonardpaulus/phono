@@ -31,9 +31,7 @@ export default function MyCollection(): JSX.Element {
         />
       )}
       {collection && <AlbumInfo collection={collection[activeSlide]} />}
-      <div className={styles.navBar}>
-        <NavBar activeLink={'home'} />
-      </div>
+      <NavBar activeLink={'home'} />
     </div>
   );
 }

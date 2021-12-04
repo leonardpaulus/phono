@@ -109,8 +109,7 @@ app.get('/api/oauth/return', async (request, response, next) => {
         { httpOnly: true }
       );
 
-      const redirectURL = `${request.protocol}://${request.hostname}:${port}/api/me`;
-      response.redirect(redirectURL);
+      response.redirect('http://localhost:3000/home');
     }
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
