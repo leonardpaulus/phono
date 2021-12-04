@@ -3,6 +3,7 @@ import path from 'path';
 import fetch from 'cross-fetch';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import { SearchResultProps, ReleaseProps } from '../src/lib/types';
 dotenv.config();
 
 const port = process.env.PORT || 3001;
@@ -23,19 +24,6 @@ const consumerSecret = process.env.DISCOGS_CONSUMER_SECRET;
 app.get('/api/hello', (_request, response) => {
   response.json({ message: 'Hello from server' });
 });
-
-export type ReleaseProps = {
-  artists_sort: string;
-  title: string;
-  labels: [];
-  genres: [];
-  styles: [];
-  tracklist: [];
-  released_formatted: string;
-  id: number;
-  sales_history: object;
-  huge_thumb: string;
-};
 
 let oAuthRequestTokenSecret: string | null;
 let oAuthRequestToken: string | null;
@@ -126,7 +114,7 @@ app.get('/api/search/artist/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&artist=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=master&county=germany&&artist=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -135,8 +123,14 @@ app.get('/api/search/artist/:searchq', async (request, response, next) => {
       }
     );
     const search = await searchResponse.json();
-
-    response.send(search);
+    const results = search.results;
+    const searchResult = results.map((result: SearchResultProps) => ({
+      title: result.title,
+      id: result.id,
+      cover: result.cover_image,
+      in_collection: result.user_data.in_collection,
+    }));
+    response.send(searchResult);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -152,7 +146,7 @@ app.get('/api/search/title/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&title=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=master&format=album&title=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -161,8 +155,14 @@ app.get('/api/search/title/:searchq', async (request, response, next) => {
       }
     );
     const search = await searchResponse.json();
-
-    response.send(search);
+    const results = search.results;
+    const searchResult = results.map((result: SearchResultProps) => ({
+      title: result.title,
+      id: result.id,
+      cover: result.cover_image,
+      in_collection: result.user_data.in_collection,
+    }));
+    response.send(searchResult);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
