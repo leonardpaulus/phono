@@ -116,7 +116,7 @@ app.get('/api/oauth/return', async (request, response, next) => {
   }
 });
 
-app.get('/api/search/:searchq', async (request, response, next) => {
+app.get('/api/search/artist/:searchq', async (request, response, next) => {
   const searchQuery = request.params.searchq;
 
   try {
@@ -126,7 +126,33 @@ app.get('/api/search/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?q=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=master&artist=${searchQuery}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const search = await searchResponse.json();
+
+    response.send(search);
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
+
+app.get('/api/search/title/:searchq', async (request, response, next) => {
+  const searchQuery = request.params.searchq;
+
+  try {
+    const authCookie = JSON.parse(request.cookies.auth);
+
+    const token = authCookie.token;
+    const secret = authCookie.secret;
+
+    const searchResponse = await fetch(
+      `https://api.discogs.com/database/search?type=master&title=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

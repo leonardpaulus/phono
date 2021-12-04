@@ -26,6 +26,7 @@ function SearchBar({ placeholder, searchQuery }: SearchBarProps): JSX.Element {
         className={styles.textInput}
         placeholder={placeholder}
         onChange={(event) => setSearch(event.target.value)}
+        required
       ></input>
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
