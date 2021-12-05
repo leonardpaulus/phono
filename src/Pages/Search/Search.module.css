@@ -7,6 +7,15 @@
   padding-bottom: 4.9rem;
 }
 
+.searchCards {
+  width: 100%;
+  height: 100%;
+  padding-top: 0.75rem;
+  display: grid;
+  row-gap: 1rem;
+  place-items: center;
+}
+
 .toggleInput {
   display: grid;
   width: 100%;
