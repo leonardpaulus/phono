@@ -1,18 +1,16 @@
 import styles from './SearchCard.module.css';
+import { SearchCardProps } from '../../lib/types';
 
-export default function SearchCard() {
-  return (
-    <article className={styles.searchCard}>
-      <img
-        className={styles.albumCover}
-        src={
-          'https://img.discogs.com/VsUV3UioUol_Su2ID2ZZ8djv8oc=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-667271-1602005647-6694.jpeg.jpg'
-        }
-      />
+export default function SearchCard({ searchResults }: SearchCardProps) {
+  return searchResults.map((searchCard, index) => (
+    <article className={styles.searchCard} key={index}>
+      <img className={styles.albumCover} src={searchCard.cover} />
       <div className={styles.albumInfo}>
-        <h1>...But Seriously</h1>
-        <h2>Phil Collins</h2>
+        <h2 className={styles.title}>{searchCard.title}</h2>
+        <p className={styles.inCollection}>
+          {searchCard.in_collection ? 'In Collection' : 'Not in Collection'}
+        </p>
       </div>
     </article>
-  );
+  ));
 }
