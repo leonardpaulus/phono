@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useSearchLibrary(
   searchQuery: string,
@@ -8,13 +8,16 @@ export default function useSearchLibrary(
 
   const encodedSearchQuery = encodeURIComponent(searchQuery);
 
-  const getSearchResult = async () => {
-    const artistResponse = await fetch(
-      `/api/search/${searchCategory}/${encodedSearchQuery}`
-    );
-    const artistSearch = await artistResponse.json();
-    setSearchResult(artistSearch);
-  };
+  useEffect(() => {
+    const getSearchResult = async () => {
+      const searchResponse = await fetch(
+        `/api/search/${searchCategory}/${encodedSearchQuery}`
+      );
+      const search = await searchResponse.json();
+      setSearchResult(search);
+    };
+    getSearchResult();
+  }, [searchCategory, searchQuery]);
 
-  return { getSearchResult, searchResult };
+  return { searchResult };
 }

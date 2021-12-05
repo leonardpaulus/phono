@@ -8,20 +8,11 @@ import { useEffect, useState } from 'react';
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
-  const { getSearchResult, searchResult } = useSearchLibrary(
-    searchQuery,
-    searchCategory
-  );
+  const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
 
   useEffect(() => {
-    getSearchResult();
-  }, [searchQuery]);
-
-  if (searchResult) {
-    console.log(`SearchQuery = ${searchQuery}`);
-    console.log(`SearchCategory = ${searchCategory}`);
     console.log(searchResult);
-  }
+  }, [searchResult]);
 
   return (
     <div className={styles.searchPage}>
