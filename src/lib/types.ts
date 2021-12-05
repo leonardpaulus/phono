@@ -61,3 +61,14 @@ export type SearchResultProps = {
 type UserDataProps = {
   in_collection: boolean;
 };
+
+type FilteredSearchResultProps = {
+  title: string;
+  id: number;
+  cover: string;
+  in_collection: boolean;
+};
+
+export type SearchCardProps = {
+  searchResults: FilteredSearchResultProps[];
+};
