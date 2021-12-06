@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
+import DeleteIcon from './searchAssets/DeleteIcon.svg';
 
 type SearchBarProps = {
   placeholder: string;
@@ -19,6 +20,10 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      <label>
+        <input type="reset" className={styles.defaultReset} />
+        <img className={styles.deleteButton} src={DeleteIcon} alt={'cross'} />
+      </label>
       <input
         type="text"
         className={styles.textInput}
