@@ -4,7 +4,8 @@ import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
 import { useState } from 'react';
-import SearchCard from '../../components/SearchCard/SearchCard';
+import SearchCardList from '../../components/SearchCard/SearchCardList';
+import Divider from '../../assets/Divider';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -16,7 +17,7 @@ export default function Search() {
       <Phono_Logo />
       <SearchBar
         placeholder={'Search the library'}
-        searchQuery={(search) => setSearchQuery(search)}
+        onSubmit={(search) => setSearchQuery(search)}
       />
       <NavBar activeLink={'search'} />
       <div className={styles.toggleInput}>
@@ -30,7 +31,7 @@ export default function Search() {
         >
           Search for <br /> Title
         </span>
-        <div className={styles.divider}></div>
+        <Divider />
         <span
           onClick={() => setSearchCategory('artist')}
           className={
@@ -44,7 +45,7 @@ export default function Search() {
       </div>
       <div className={styles.searchCards}>
         {searchResult ? (
-          <SearchCard searchResults={searchResult} />
+          <SearchCardList searchResults={searchResult} />
         ) : (
           <p>nix</p>
         )}

@@ -31,8 +31,10 @@
 
 .clickedCategory {
   color: var(--color-primary);
+  text-align: center;
 }
 
 .unclickedCategory {
   color: var(--color-text);
+  text-align: center;
 }

@@ -4,18 +4,16 @@ import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 
 type SearchBarProps = {
   placeholder: string;
-  searchQuery: (search: string) => void;
+  onSubmit: (search: string) => void;
 };
 
-function SearchBar({ placeholder, searchQuery }: SearchBarProps): JSX.Element {
+function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
   const [search, setSearch] = useState<string | null>(null);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (search != null) {
-      searchQuery(search);
-    } else {
-      return;
+      onSubmit(search);
     }
   };
 
@@ -27,7 +25,7 @@ function SearchBar({ placeholder, searchQuery }: SearchBarProps): JSX.Element {
         placeholder={placeholder}
         onChange={(event) => setSearch(event.target.value)}
         required
-      ></input>
+      />
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
         <img
