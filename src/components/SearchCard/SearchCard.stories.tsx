@@ -5,4 +5,4 @@ export default {
   title: 'Components/SearchCard',
 };
 
-export const Card = () => <SearchCard />;
+export const Card = () => <SearchCard searchResults={[]} />;
