@@ -28,7 +28,7 @@ export default function Search() {
               : styles.unclickedCategory
           }
         >
-          Title
+          Search for <br /> Title
         </span>
         <div className={styles.divider}></div>
         <span
@@ -39,7 +39,7 @@ export default function Search() {
               : styles.unclickedCategory
           }
         >
-          Artists
+          Search for <br /> Artists
         </span>
       </div>
       <div className={styles.searchCards}>
