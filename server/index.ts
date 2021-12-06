@@ -114,7 +114,7 @@ app.get('/api/search/artist/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&county=germany&artist=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=release&county=germany&artist=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -146,7 +146,7 @@ app.get('/api/search/title/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&format=album&title=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=release&country=germany&format=lp&title=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -219,7 +219,7 @@ app.get('/api/single-album/:albumid', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/masters/${albumId}`,
+      `https://api.discogs.com/releases/${albumId}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -235,10 +235,9 @@ app.get('/api/single-album/:albumid', async (request, response, next) => {
       genres: search.genres,
       styles: search.styles,
       tracklist: search.tracklist,
-      release: search.released_formatted,
+      release: search.released,
       id: search.id,
-      sales_history: search.sales_history,
-      cover: search.huge_thumb,
+      cover: search.images[0].uri,
     };
 
     response.send(singleAlbum);
