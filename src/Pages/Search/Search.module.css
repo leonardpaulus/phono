@@ -23,12 +23,6 @@
   place-items: center;
 }
 
-.divider {
-  width: 1px;
-  height: 1.5rem;
-  background-color: var(--color-text);
-}
-
 .clickedCategory {
   color: var(--color-primary);
   text-align: center;

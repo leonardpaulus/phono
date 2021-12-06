@@ -1,8 +1,8 @@
-import SearchCard from './SearchCard';
+import SearchCardList from './SearchCardList';
 
 export default {
-  component: SearchCard,
+  component: SearchCardList,
   title: 'Components/SearchCard',
 };
 
-export const Card = () => <SearchCard searchResults={[]} />;
+export const Card = () => <SearchCardList searchResults={[]} />;
