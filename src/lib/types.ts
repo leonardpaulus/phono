@@ -36,6 +36,11 @@ type SalesValueProps = {
   value: object;
 };
 
+export type SearchBarProps = {
+  placeholder: string;
+  onSubmit: (search: string) => void;
+};
+
 export type CoverSwiperProps = {
   collection: AlbumProps[];
   changeActiveSlide: (index: number) => void;

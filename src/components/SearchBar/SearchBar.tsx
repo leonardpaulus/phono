@@ -2,11 +2,7 @@ import { FormEvent, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 import DeleteIcon from './searchAssets/DeleteIcon.svg';
-
-type SearchBarProps = {
-  placeholder: string;
-  onSubmit: (search: string) => void;
-};
+import { SearchBarProps } from '../../lib/types';
 
 function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
   const [search, setSearch] = useState<string | null>(null);
