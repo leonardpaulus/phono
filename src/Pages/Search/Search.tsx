@@ -12,7 +12,7 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
   const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
-  const [albumId, setAlbumId] = useState<string | null>(null);
+  const [albumId, setAlbumId] = useState<number | null>(null);
   const { albumInfo } = useAlbumDetail(albumId);
 
   useEffect(() => {

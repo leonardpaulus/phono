@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useAlbumDetail(albumId: string | null) {
+export default function useAlbumDetail(albumId: number | null) {
   const [albumInfo, setAlbumInfo] = useState(null);
 
   useEffect(() => {
