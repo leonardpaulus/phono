@@ -31,5 +31,15 @@
 }
 
 .inCollection {
-  color: var(--color-text);
+  display: grid;
+  position: absolute;
+}
+
+.coverGreyscale {
+  filter: blur(1px) brightness(0.4);
+}
+
+.albumCover__container {
+  display: grid;
+  place-items: center;
 }
