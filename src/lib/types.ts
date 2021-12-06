@@ -76,4 +76,5 @@ type FilteredSearchResultProps = {
 
 export type SearchCardProps = {
   searchResults: FilteredSearchResultProps[];
+  showAlbum: (id: number) => void;
 };

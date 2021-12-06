@@ -3,14 +3,21 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchCardList from '../../components/SearchCard/SearchCardList';
 import Divider from '../../assets/Divider';
+import useAlbumDetail from '../../utils/useAlbumDetail';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
   const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
+  const [albumId, setAlbumId] = useState<string | null>(null);
+  const { albumInfo } = useAlbumDetail(albumId);
+
+  useEffect(() => {
+    console.log(albumInfo);
+  }, [albumInfo]);
 
   return (
     <div className={styles.searchPage}>
@@ -45,7 +52,10 @@ export default function Search() {
       </div>
       <div className={styles.searchCards}>
         {searchResult ? (
-          <SearchCardList searchResults={searchResult} />
+          <SearchCardList
+            searchResults={searchResult}
+            showAlbum={(id) => setAlbumId(id)}
+          />
         ) : (
           <p>nix</p>
         )}

@@ -2,11 +2,18 @@ import styles from './SearchCardList.module.css';
 import { SearchCardProps } from '../../lib/types';
 import InCollection from '../../assets/InCollection';
 
-export default function SearchCard({ searchResults }: SearchCardProps) {
+export default function SearchCard({
+  searchResults,
+  showAlbum,
+}: SearchCardProps) {
   return (
     <>
       {searchResults.map((searchCard) => (
-        <article className={styles.searchCard} key={searchCard.id}>
+        <article
+          className={styles.searchCard}
+          key={searchCard.id}
+          onClick={() => showAlbum(searchCard.id)}
+        >
           <div className={styles.albumCover__container}>
             <img
               className={
