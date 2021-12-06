@@ -10,9 +10,3 @@
 .myCollectionPage::-webkit-scrollbar {
   display: none;
 }
-
-.navBar {
-  width: 100vw;
-  position: fixed;
-  bottom: 0;
-}

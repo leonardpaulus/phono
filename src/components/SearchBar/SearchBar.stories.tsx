@@ -6,23 +6,17 @@ export default {
 };
 
 export const MyCollection = () => (
-  <SearchBar
-    placeholder={'Search my Collection'}
-    searchLocation={'myCollection'}
-  />
+  <SearchBar placeholder={'Search my Collection'} onSubmit={console.log} />
 );
 
 export const FriendsCollection = () => (
-  <SearchBar
-    placeholder={'Search Friends Collection'}
-    searchLocation={'friendsCollection'}
-  />
+  <SearchBar placeholder={'Search Friends Collection'} onSubmit={console.log} />
 );
 
 export const Users = () => (
-  <SearchBar placeholder={'Search Users'} searchLocation={'users'} />
+  <SearchBar placeholder={'Search Users'} onSubmit={console.log} />
 );
 
 export const Library = () => (
-  <SearchBar placeholder={'Search the library'} searchLocation={'library'} />
+  <SearchBar placeholder={'Search the library'} onSubmit={console.log} />
 );

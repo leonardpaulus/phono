@@ -1,28 +1,32 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
+import DeleteIcon from './searchAssets/DeleteIcon.svg';
+import { SearchBarProps } from '../../lib/types';
 
-type SearchBarProps = {
-  placeholder: string;
-  searchLocation: string;
-};
+function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
+  const [search, setSearch] = useState<string | null>(null);
 
-function SearchBar({
-  placeholder,
-  searchLocation,
-}: SearchBarProps): JSX.Element {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log(searchLocation); //Add a search function later
+    if (search != null) {
+      onSubmit(search);
+    }
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      <label>
+        <input type="reset" className={styles.defaultReset} />
+        <img className={styles.deleteButton} src={DeleteIcon} alt={'cross'} />
+      </label>
       <input
         type="text"
         className={styles.textInput}
         placeholder={placeholder}
-      ></input>
+        onChange={(event) => setSearch(event.target.value)}
+        required
+      />
       <label>
         <input type="submit" className={styles.defaultSubmit}></input>
         <img

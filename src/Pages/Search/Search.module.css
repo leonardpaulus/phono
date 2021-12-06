@@ -1,0 +1,34 @@
+.searchPage {
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 8rem 4rem 3rem auto;
+  overflow: scroll;
+  padding-bottom: 4.9rem;
+}
+
+.searchCards {
+  width: 100%;
+  height: 100%;
+  padding-top: 0.75rem;
+  display: grid;
+  row-gap: 1rem;
+  place-items: center;
+}
+
+.toggleInput {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 0.25rem 1fr;
+  place-items: center;
+}
+
+.clickedCategory {
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.unclickedCategory {
+  color: var(--color-text);
+  text-align: center;
+}

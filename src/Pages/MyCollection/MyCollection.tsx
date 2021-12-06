@@ -18,10 +18,7 @@ export default function MyCollection(): JSX.Element {
   return (
     <div className={styles.myCollectionPage}>
       <Phono_Logo />
-      <SearchBar
-        placeholder={'Search my Collection'}
-        searchLocation={'myCollection'}
-      />
+      <SearchBar placeholder={'Search my Collection'} onSubmit={console.log} />
       {collection && (
         <CoverSwiper
           collection={collection}
@@ -31,9 +28,7 @@ export default function MyCollection(): JSX.Element {
         />
       )}
       {collection && <AlbumInfo collection={collection[activeSlide]} />}
-      <div className={styles.navBar}>
-        <NavBar activeLink={'home'} />
-      </div>
+      <NavBar activeLink={'home'} />
     </div>
   );
 }
