@@ -7,7 +7,6 @@ import { useState } from 'react';
 import SearchCardList from '../../components/SearchCard/SearchCardList';
 import Divider from '../../assets/Divider';
 import useAlbumDetail from '../../utils/useAlbumDetail';
-import { SingleAlbumInfoProps } from '../../lib/types';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 
 export default function Search() {
@@ -15,11 +14,12 @@ export default function Search() {
   const [searchCategory, setSearchCategory] = useState<string>('title');
   const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
   const [albumId, setAlbumId] = useState<number | null>(null);
-  const { albumInfo }: SingleAlbumInfoProps = useAlbumDetail(albumId);
+  const { albumInfo } = useAlbumDetail(albumId);
 
   let searchPageContent;
 
-  if (albumInfo != null) {
+  if (albumInfo) {
+    console.log(albumInfo);
     searchPageContent = (
       <>
         <img src={albumInfo.cover} className={styles.cover} />

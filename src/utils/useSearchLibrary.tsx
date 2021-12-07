@@ -9,14 +9,16 @@ export default function useSearchLibrary(
   const encodedSearchQuery = encodeURIComponent(searchQuery);
 
   useEffect(() => {
-    const getSearchResult = async () => {
-      const searchResponse = await fetch(
-        `/api/search/${searchCategory}/${encodedSearchQuery}`
-      );
-      const search = await searchResponse.json();
-      setSearchResult(search);
-    };
-    getSearchResult();
+    if (searchQuery) {
+      const getSearchResult = async () => {
+        const searchResponse = await fetch(
+          `/api/search/${searchCategory}/${encodedSearchQuery}`
+        );
+        const search = await searchResponse.json();
+        setSearchResult(search);
+      };
+      getSearchResult();
+    }
   }, [searchCategory, searchQuery]);
 
   return { searchResult };

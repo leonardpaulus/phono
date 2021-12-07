@@ -11,7 +11,7 @@ export type ReleaseProps = {
   huge_thumb: string;
 };
 
-type AlbumProps = {
+export type AlbumProps = {
   title: string;
   artist: string;
   labels: LabelProps[];
@@ -22,10 +22,6 @@ type AlbumProps = {
   id: number;
   sales_history: SalesHistoryProps;
   cover: string;
-};
-
-export type AlbumInfoProps = {
-  collection: AlbumProps;
 };
 
 type SalesHistoryProps = {
@@ -79,16 +75,6 @@ export type SearchCardProps = {
   showAlbum: (id: number) => void;
 };
 
-export type SingleAlbumInfoProps = {
-  albumInfo: {
-    cover: string;
-    title: string;
-    artist: string;
-    labels: [];
-    genres: [];
-    styles: [];
-    tracklist: [];
-    release: string;
-    id: number;
-  } | null;
+export type AlbumInfoProps = {
+  collection: AlbumProps;
 };
