@@ -4,7 +4,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
 import { useState } from 'react';
-import SearchCardList from '../../components/SearchCard/SearchCardList';
+import SearchCardList from '../../components/SearchCardList/SearchCardList';
 import Divider from '../../assets/Divider';
 import useAlbumDetail from '../../utils/useAlbumDetail';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
