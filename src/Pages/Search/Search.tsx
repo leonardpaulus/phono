@@ -14,7 +14,7 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
   const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
-  const [albumId, setAlbumId] = useState<number | null>(null);
+  const [albumId, setAlbumId] = useState<number | null | string>(null);
   const { albumInfo } = useAlbumDetail(albumId);
 
   let searchPageContent;
@@ -22,7 +22,7 @@ export default function Search() {
   if (albumInfo) {
     searchPageContent = (
       <>
-        <BackButton goBack={() => setAlbumId(null)} />
+        <BackButton goBack={(back) => setAlbumId(back)} />
         <img src={albumInfo.cover} className={styles.cover} />
         <AlbumInfo collection={albumInfo} />
       </>
@@ -31,7 +31,7 @@ export default function Search() {
     searchPageContent = (
       <>
         <div className={styles.toggleInput}>
-          <span
+          <div
             onClick={() => setSearchCategory('title')}
             className={
               searchCategory === 'title'
@@ -41,9 +41,9 @@ export default function Search() {
           >
             <p>Search</p>
             <p>for Title</p>
-          </span>
+          </div>
           <Divider />
-          <span
+          <div
             onClick={() => setSearchCategory('artist')}
             className={
               searchCategory === 'artist'
@@ -53,7 +53,7 @@ export default function Search() {
           >
             <p>Search for</p>
             <p>Artists</p>
-          </span>
+          </div>
         </div>
         <div className={styles.searchCards}>
           {searchResult ? (
