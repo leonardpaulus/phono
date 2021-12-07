@@ -5,4 +5,6 @@ export default {
   title: 'Components/SearchCard',
 };
 
-export const Card = () => <SearchCardList searchResults={[]} />;
+export const Card = () => (
+  <SearchCardList searchResults={[]} showAlbum={console.log} />
+);

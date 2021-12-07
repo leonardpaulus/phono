@@ -11,7 +11,7 @@ export type ReleaseProps = {
   huge_thumb: string;
 };
 
-type AlbumProps = {
+export type AlbumProps = {
   title: string;
   artist: string;
   labels: LabelProps[];
@@ -22,10 +22,6 @@ type AlbumProps = {
   id: number;
   sales_history: SalesHistoryProps;
   cover: string;
-};
-
-export type AlbumInfoProps = {
-  collection: AlbumProps;
 };
 
 type SalesHistoryProps = {
@@ -74,6 +70,15 @@ type FilteredSearchResultProps = {
   in_collection: boolean;
 };
 
-export type SearchCardProps = {
+export type SearchCardListProps = {
   searchResults: FilteredSearchResultProps[];
+  showAlbum: (id: number) => void;
+};
+
+export type AlbumInfoProps = {
+  collection: AlbumProps;
+};
+
+export type BackButtonProps = {
+  goBack: (back: string) => void;
 };

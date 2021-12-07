@@ -114,7 +114,7 @@ app.get('/api/search/artist/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&county=germany&artist=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=release&county=germany&artist=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -146,7 +146,7 @@ app.get('/api/search/title/:searchq', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=master&format=album&title=${searchQuery}`,
+      `https://api.discogs.com/database/search?type=release&country=germany&format=lp&title=${searchQuery}`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -203,6 +203,44 @@ app.get('/api/me', async (request, response, next) => {
     );
 
     response.send(collection);
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
+
+app.get('/api/single-album/:albumid', async (request, response, next) => {
+  const albumId = request.params.albumid;
+
+  try {
+    const authCookie = JSON.parse(request.cookies.auth);
+
+    /* const user = authCookie.username; */
+    const token = authCookie.token;
+    const secret = authCookie.secret;
+
+    const searchResponse = await fetch(
+      `https://api.discogs.com/releases/${albumId}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const search = await searchResponse.json();
+    const singleAlbum = {
+      title: search.title,
+      artist: search.artists_sort,
+      labels: search.labels,
+      genres: search.genres,
+      styles: search.styles,
+      tracklist: search.tracklist,
+      release: search.released,
+      id: search.id,
+      cover: search.images[0].uri,
+    };
+
+    response.send(singleAlbum);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }

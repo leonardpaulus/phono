@@ -8,7 +8,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [clicked, setClicked] = useState<boolean>(false);
 
   const newTracklist = (
-    <div className={styles.tracklist}>
+    <div className={styles.tracklist} key={collection.id}>
       {collection.tracklist.map((track) => (
         <>
           <p>{track.position}</p>
@@ -32,11 +32,12 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   }, [collection]);
 
   return (
-    <article className={styles.albumcard}>
+    <article className={styles.albumcard} key={collection.id}>
       <h1>{collection.title}</h1>
       <h2>{collection.artist}</h2>
       <span className={styles.value}>
-        {collection.sales_history.median.value}€
+        {collection.sales_history &&
+          `${collection.sales_history.median.value}€`}
       </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>
