@@ -7,7 +7,9 @@ export default function useAlbumDetail(albumId: number | null | string) {
   useEffect(() => {
     if (typeof albumId === 'number') {
       const getAlbumDetail = async () => {
-        const response = await fetch(`/api/single-album/${albumId}`);
+        const response = await fetch(`/api/album/${albumId}`, {
+          method: 'GET',
+        });
         const album = await response.json();
         setAlbumInfo(album);
       };
