@@ -1,0 +1,7 @@
+.backButton {
+  display: grid;
+  height: 2rem;
+  position: absolute;
+  top: 2.5rem;
+  left: 2.5rem;
+}

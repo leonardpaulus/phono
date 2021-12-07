@@ -70,11 +70,15 @@ type FilteredSearchResultProps = {
   in_collection: boolean;
 };
 
-export type SearchCardProps = {
+export type SearchCardListProps = {
   searchResults: FilteredSearchResultProps[];
   showAlbum: (id: number) => void;
 };
 
 export type AlbumInfoProps = {
   collection: AlbumProps;
+};
+
+export type BackButtonProps = {
+  goBack: (back: string) => void;
 };
