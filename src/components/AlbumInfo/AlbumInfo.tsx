@@ -36,7 +36,8 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
       <h1>{collection.title}</h1>
       <h2>{collection.artist}</h2>
       <span className={styles.value}>
-        {collection.sales_history.median.value}€
+        {collection.sales_history &&
+          `${collection.sales_history.median.value}€`}
       </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>

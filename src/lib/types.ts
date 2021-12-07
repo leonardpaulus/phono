@@ -78,3 +78,17 @@ export type SearchCardProps = {
   searchResults: FilteredSearchResultProps[];
   showAlbum: (id: number) => void;
 };
+
+export type SingleAlbumInfoProps = {
+  albumInfo: {
+    cover: string;
+    title: string;
+    artist: string;
+    labels: [];
+    genres: [];
+    styles: [];
+    tracklist: [];
+    release: string;
+    id: number;
+  } | null;
+};

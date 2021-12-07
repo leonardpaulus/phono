@@ -2,7 +2,7 @@
   width: 100vw;
   display: grid;
   place-items: center;
-  grid-template-rows: 8rem 4rem 3rem auto;
+  grid-template-rows: 8rem 4rem auto;
   overflow: scroll;
   padding-bottom: 4.9rem;
 }
@@ -31,4 +31,11 @@
 .unclickedCategory {
   color: var(--color-text);
   text-align: center;
+}
+
+.cover {
+  height: 14.4rem;
+  width: 14.4rem;
+  border-radius: var(--border-radius);
+  margin: 1.3rem;
 }

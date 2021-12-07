@@ -3,21 +3,68 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SearchCardList from '../../components/SearchCard/SearchCardList';
 import Divider from '../../assets/Divider';
 import useAlbumDetail from '../../utils/useAlbumDetail';
+import { SingleAlbumInfoProps } from '../../lib/types';
+import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
   const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
   const [albumId, setAlbumId] = useState<number | null>(null);
-  const { albumInfo } = useAlbumDetail(albumId);
+  const { albumInfo }: SingleAlbumInfoProps = useAlbumDetail(albumId);
 
-  useEffect(() => {
-    console.log(albumInfo);
-  }, [albumInfo]);
+  let searchPageContent;
+
+  if (albumInfo != null) {
+    searchPageContent = (
+      <>
+        <img src={albumInfo.cover} className={styles.cover} />
+        <AlbumInfo collection={albumInfo} />
+      </>
+    );
+  } else {
+    searchPageContent = (
+      <>
+        <div className={styles.toggleInput}>
+          <span
+            onClick={() => setSearchCategory('title')}
+            className={
+              searchCategory === 'title'
+                ? styles.clickedCategory
+                : styles.unclickedCategory
+            }
+          >
+            Search for <br /> Title
+          </span>
+          <Divider />
+          <span
+            onClick={() => setSearchCategory('artist')}
+            className={
+              searchCategory === 'artist'
+                ? styles.clickedCategory
+                : styles.unclickedCategory
+            }
+          >
+            Search for <br /> Artists
+          </span>
+        </div>
+        <div className={styles.searchCards}>
+          {searchResult ? (
+            <SearchCardList
+              searchResults={searchResult}
+              showAlbum={(id) => setAlbumId(id)}
+            />
+          ) : (
+            <p>nix</p>
+          )}
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className={styles.searchPage}>
@@ -26,40 +73,9 @@ export default function Search() {
         placeholder={'Search the library'}
         onSubmit={(search) => setSearchQuery(search)}
       />
+
+      {searchPageContent}
       <NavBar activeLink={'search'} />
-      <div className={styles.toggleInput}>
-        <span
-          onClick={() => setSearchCategory('title')}
-          className={
-            searchCategory === 'title'
-              ? styles.clickedCategory
-              : styles.unclickedCategory
-          }
-        >
-          Search for <br /> Title
-        </span>
-        <Divider />
-        <span
-          onClick={() => setSearchCategory('artist')}
-          className={
-            searchCategory === 'artist'
-              ? styles.clickedCategory
-              : styles.unclickedCategory
-          }
-        >
-          Search for <br /> Artists
-        </span>
-      </div>
-      <div className={styles.searchCards}>
-        {searchResult ? (
-          <SearchCardList
-            searchResults={searchResult}
-            showAlbum={(id) => setAlbumId(id)}
-          />
-        ) : (
-          <p>nix</p>
-        )}
-      </div>
     </div>
   );
 }
