@@ -1,11 +1,11 @@
 import styles from './SearchCardList.module.css';
-import { SearchCardProps } from '../../lib/types';
+import { SearchCardListProps } from '../../lib/types';
 import InCollection from '../../assets/InCollection';
 
-export default function SearchCard({
+export default function SearchCardList({
   searchResults,
   showAlbum,
-}: SearchCardProps) {
+}: SearchCardListProps) {
   return (
     <>
       {searchResults.map((searchCard) => (

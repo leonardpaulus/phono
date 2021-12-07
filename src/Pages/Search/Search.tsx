@@ -8,6 +8,7 @@ import SearchCardList from '../../components/SearchCard/SearchCardList';
 import Divider from '../../assets/Divider';
 import useAlbumDetail from '../../utils/useAlbumDetail';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
+import BackButton from '../../components/BackButton/BackButton';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -19,9 +20,9 @@ export default function Search() {
   let searchPageContent;
 
   if (albumInfo) {
-    console.log(albumInfo);
     searchPageContent = (
       <>
+        <BackButton goBack={() => setAlbumId(null)} />
         <img src={albumInfo.cover} className={styles.cover} />
         <AlbumInfo collection={albumInfo} />
       </>
@@ -38,7 +39,8 @@ export default function Search() {
                 : styles.unclickedCategory
             }
           >
-            Search for <br /> Title
+            <p>Search</p>
+            <p>for Title</p>
           </span>
           <Divider />
           <span
@@ -49,7 +51,8 @@ export default function Search() {
                 : styles.unclickedCategory
             }
           >
-            Search for <br /> Artists
+            <p>Search for</p>
+            <p>Artists</p>
           </span>
         </div>
         <div className={styles.searchCards}>
