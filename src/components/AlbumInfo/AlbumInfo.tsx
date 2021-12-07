@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import styles from './AlbumInfo.module.css';
 import { AlbumInfoProps } from '../../lib/types';
+import useAddToCollection from '../../utils/useAddToCollection';
+import AddToCollection from './AlbumInfoAssets/AddToCollection.svg';
+import RemoveFromCollection from './AlbumInfoAssets/RemoveFromCollection.svg';
 
 export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
   const [tracklist, setTracklist] = useState<null | JSX.Element>(null);
   const [clicked, setClicked] = useState<boolean>(false);
+  const [albumId, setAlbumId] = useState(0);
+  const { inCollection } = useAddToCollection(albumId);
 
   const newTracklist = (
     <div className={styles.tracklist} key={collection.id}>
@@ -31,8 +36,27 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     setClicked(false);
   }, [collection]);
 
+  const handleAddToCollection = () => {
+    collection.in_collection = !collection.in_collection;
+    setAlbumId(collection.id);
+    console.log(inCollection);
+  };
+
   return (
     <article className={styles.albumcard} key={collection.id}>
+      {!collection.in_collection && (
+        <img
+          src={AddToCollection}
+          className={styles.toggleCollectionButton}
+          onClick={() => handleAddToCollection()}
+        />
+      )}
+      {collection.in_collection && (
+        <img
+          src={RemoveFromCollection}
+          className={styles.toggleCollectionButton}
+        />
+      )}
       <h1>{collection.title}</h1>
       <h2>{collection.artist}</h2>
       <span className={styles.value}>
