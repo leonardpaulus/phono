@@ -199,6 +199,7 @@ app.get('/api/me', async (request, response, next) => {
         id: release.basic_information.id,
         sales_history: release.basic_information.sales_history,
         cover: release.basic_information.huge_thumb,
+        in_collection: true,
       })
     );
 

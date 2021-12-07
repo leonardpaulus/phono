@@ -22,6 +22,7 @@ export type AlbumProps = {
   id: number;
   sales_history: SalesHistoryProps;
   cover: string;
+  in_collection: boolean;
 };
 
 type SalesHistoryProps = {
