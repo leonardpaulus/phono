@@ -105,9 +105,9 @@ app.get('/api/oauth/return', async (request, response, next) => {
 });
 
 app.get(
-  '/api/search/:searchcategory/:searchq',
+  '/api/search/:searchcategory/:searchquery',
   async (request, response, next) => {
-    const searchQuery = request.params.searchq;
+    const searchQuery = request.params.searchquery;
     const searchCategory = request.params.searchcategory;
     let format;
     {
