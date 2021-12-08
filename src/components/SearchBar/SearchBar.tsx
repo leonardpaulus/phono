@@ -5,7 +5,7 @@ import DeleteIcon from './searchAssets/DeleteIcon.svg';
 import { SearchBarProps } from '../../lib/types';
 
 function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>();
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -16,10 +16,12 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <label>
-        <input type="reset" className={styles.defaultReset} />
-        <img className={styles.deleteButton} src={DeleteIcon} alt={'cross'} />
-      </label>
+      {search && (
+        <label>
+          <input type="reset" className={styles.defaultReset} />
+          <img className={styles.deleteButton} src={DeleteIcon} alt={'cross'} />
+        </label>
+      )}
       <input
         type="text"
         className={styles.textInput}

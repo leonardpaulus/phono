@@ -104,69 +104,45 @@ app.get('/api/oauth/return', async (request, response, next) => {
   }
 });
 
-app.get('/api/search/artist/:searchq', async (request, response, next) => {
-  const searchQuery = request.params.searchq;
+app.get(
+  '/api/search/:searchcategory/:searchquery',
+  async (request, response, next) => {
+    const searchQuery = request.params.searchquery;
+    const searchCategory = request.params.searchcategory;
+    let format;
+    {
+      searchCategory === 'title' ? (format = '&format=lp') : (format = null);
+    }
 
-  try {
-    const authCookie = JSON.parse(request.cookies.auth);
+    try {
+      const authCookie = JSON.parse(request.cookies.auth);
 
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+      const token = authCookie.token;
+      const secret = authCookie.secret;
 
-    const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=release&county=germany&artist=${searchQuery}`,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
-        },
-      }
-    );
-    const search = await searchResponse.json();
-    const results = search.results;
-    const searchResult = results.map((result: SearchResultProps) => ({
-      title: result.title,
-      id: result.id,
-      cover: result.cover_image,
-      in_collection: result.user_data.in_collection,
-    }));
-    response.send(searchResult);
-  } catch (error) {
-    next(response.status(500).send('Internal Server Error'));
+      const searchResponse = await fetch(
+        `https://api.discogs.com/database/search?type=release&county=germany${format}&${searchCategory}=${searchQuery}`,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+          },
+        }
+      );
+      const search = await searchResponse.json();
+      const results = search.results;
+      const searchResult = results.map((result: SearchResultProps) => ({
+        title: result.title,
+        id: result.id,
+        cover: result.cover_image,
+        in_collection: result.user_data.in_collection,
+      }));
+      response.send(searchResult);
+    } catch (error) {
+      next(response.status(500).send('Internal Server Error'));
+    }
   }
-});
-
-app.get('/api/search/title/:searchq', async (request, response, next) => {
-  const searchQuery = request.params.searchq;
-
-  try {
-    const authCookie = JSON.parse(request.cookies.auth);
-
-    const token = authCookie.token;
-    const secret = authCookie.secret;
-
-    const searchResponse = await fetch(
-      `https://api.discogs.com/database/search?type=release&country=germany&format=lp&title=${searchQuery}`,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
-        },
-      }
-    );
-    const search = await searchResponse.json();
-    const results = search.results;
-    const searchResult = results.map((result: SearchResultProps) => ({
-      title: result.title,
-      id: result.id,
-      cover: result.cover_image,
-      in_collection: result.user_data.in_collection,
-    }));
-    response.send(searchResult);
-  } catch (error) {
-    next(response.status(500).send('Internal Server Error'));
-  }
-});
+);
 
 app.get('/api/me', async (request, response, next) => {
   try {
@@ -176,19 +152,34 @@ app.get('/api/me', async (request, response, next) => {
     const token = authCookie.token;
     const secret = authCookie.secret;
 
-    const searchResponse = await fetch(
+    const collectionResponse = await fetch(
       `https://api.discogs.com/users/${user}/collection`,
       {
         headers: {
+          method: 'GET',
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
         },
       }
     );
-    const search = await searchResponse.json();
-    const releases = search.releases;
-    const collection = releases.map(
-      (release: { basic_information: ReleaseProps }) => ({
+
+    const instanceResponse = await fetch(
+      `https://api.discogs.com/users/${user}/collection/folders/1/releases`,
+      {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const instance = await instanceResponse.json();
+    const instanceReleases = instance.releases;
+
+    const collection = await collectionResponse.json();
+    const collectionReleases = collection.releases;
+    const myCollection = collectionReleases.map(
+      (release: { basic_information: ReleaseProps }, index: number) => ({
         title: release.basic_information.title,
         artist: release.basic_information.artists_sort,
         labels: release.basic_information.labels,
@@ -199,22 +190,23 @@ app.get('/api/me', async (request, response, next) => {
         id: release.basic_information.id,
         sales_history: release.basic_information.sales_history,
         cover: release.basic_information.huge_thumb,
+        in_collection: true,
+        instanceId: instanceReleases[index].instance_id,
       })
     );
 
-    response.send(collection);
+    response.send(myCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
 });
 
-app.get('/api/single-album/:albumid', async (request, response, next) => {
+app.get('/api/album/:albumid', async (request, response, next) => {
   const albumId = request.params.albumid;
 
   try {
     const authCookie = JSON.parse(request.cookies.auth);
 
-    /* const user = authCookie.username; */
     const token = authCookie.token;
     const secret = authCookie.secret;
 
@@ -245,6 +237,63 @@ app.get('/api/single-album/:albumid', async (request, response, next) => {
     next(response.status(500).send('Internal Server Error'));
   }
 });
+
+app.post('/api/collection/:albumid', async (request, response, next) => {
+  const albumId = request.params.albumid;
+
+  try {
+    const authCookie = JSON.parse(request.cookies.auth);
+
+    const user = authCookie.username;
+    const token = authCookie.token;
+    const secret = authCookie.secret;
+
+    await fetch(
+      `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    response.send(true);
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
+
+app.delete(
+  '/api/collection/:albumid/:instanceid',
+  async (request, response, next) => {
+    const albumId = request.params.albumid;
+    const instanceId = request.params.instanceid;
+
+    try {
+      const authCookie = JSON.parse(request.cookies.auth);
+
+      const user = authCookie.username;
+      const token = authCookie.token;
+      const secret = authCookie.secret;
+
+      await fetch(
+        `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}/instances/${instanceId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+          },
+        }
+      );
+      response.send('success');
+    } catch (error) {
+      next(response.status(500).send('Internal Server Error'));
+    }
+  }
+);
+
 // Serve production bundle
 app.use(express.static('dist'));
 

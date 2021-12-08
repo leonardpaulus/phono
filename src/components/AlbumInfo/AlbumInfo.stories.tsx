@@ -18,6 +18,8 @@ export const Default = () => (
       id: 242,
       sales_history: { median: { value: {} } },
       cover: 'cover',
+      in_collection: true,
+      instanceId: 1,
     }}
   />
 );
