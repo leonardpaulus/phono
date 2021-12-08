@@ -8,6 +8,7 @@ GET http://localhost:3001/api/search/queen HTTP/1.1
 GET http://localhost:3001/api/me HTTP/1.1
 
 ### Add Record to Collection
-POST http://localhost:3001/api/collection/2678029 HTTP/1.1
+POST http://localhost:3001/api/collection/10990457 HTTP/1.1
 
- 
+### Delete Record from Collection
+DELETE http://localhost:3001/api/collection/10990457/876787159 HTTP/1.1
