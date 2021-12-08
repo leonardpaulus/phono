@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AlbumInfo.module.css';
 import { AlbumInfoProps } from '../../lib/types';
 import useAddToCollection from '../../utils/useAddToCollection';
@@ -14,7 +14,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [addAlbumId, setAddAlbumId] = useState(0);
   const [removeAlbumId, setRemoveAlbumId] = useState(0);
   useAddToCollection(addAlbumId);
-  if (collection.instanceId) {
+  if (collection.instanceId && collection) {
     const instanceId = collection.instanceId;
     useRemoveFromCollection(removeAlbumId, instanceId);
   }
@@ -22,11 +22,11 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const newTracklist = (
     <div className={styles.tracklist} key={uuidv4()}>
       {collection.tracklist.map((track) => (
-        <>
+        <React.Fragment key={uuidv4()}>
           <p>{track.position}</p>
           <h4>{track.title}</h4>
           <p>{track.duration}</p>
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
