@@ -9,6 +9,7 @@ import Divider from '../../assets/Divider';
 import useAlbumDetail from '../../utils/useAlbumDetail';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import BackButton from '../../components/BackButton/BackButton';
+import SearchRecords from './SearchAssets/SearchRecords.svg';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -62,7 +63,7 @@ export default function Search() {
               showAlbum={(id) => setAlbumId(id)}
             />
           ) : (
-            <p>nix</p>
+            <img className={styles.searchRecordsIcon} src={SearchRecords} />
           )}
         </div>
       </>
