@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function useSearchLibrary(albumId: number) {
+export default function useAddToCollection(albumId: number) {
   const [inCollection, setInCollection] = useState<boolean>(false);
 
   useEffect(() => {
     if (albumId) {
-      const getSearchResult = async () => {
+      const addAlbum = async () => {
         const inCollectionResponse = await fetch(`/api/collection/${albumId}`, {
           method: 'POST',
         });
         const inCollectionStatus = await inCollectionResponse.json();
         setInCollection(inCollectionStatus);
       };
-      getSearchResult();
+      addAlbum();
     }
   }, [albumId]);
 
