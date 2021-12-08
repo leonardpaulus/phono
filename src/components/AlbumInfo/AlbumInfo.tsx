@@ -4,16 +4,21 @@ import { AlbumInfoProps } from '../../lib/types';
 import useAddToCollection from '../../utils/useAddToCollection';
 import AddToCollection from './AlbumInfoAssets/AddToCollection.svg';
 import RemoveFromCollection from './AlbumInfoAssets/RemoveFromCollection.svg';
+import useRemoveFromCollection from '../../utils/useRemoveFromCollection';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
   const [tracklist, setTracklist] = useState<null | JSX.Element>(null);
   const [clicked, setClicked] = useState<boolean>(false);
-  const [albumId, setAlbumId] = useState(0);
-  const { inCollection } = useAddToCollection(albumId);
+  const [addAlbumId, setAddAlbumId] = useState(0);
+  const [removeAlbumId, setRemoveAlbumId] = useState(0);
+  useAddToCollection(addAlbumId);
+  const instanceId = collection.instanceId;
+  useRemoveFromCollection(removeAlbumId, instanceId);
 
   const newTracklist = (
-    <div className={styles.tracklist} key={collection.id}>
+    <div className={styles.tracklist} key={uuidv4()}>
       {collection.tracklist.map((track) => (
         <>
           <p>{track.position}</p>
@@ -38,12 +43,16 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
 
   const handleAddToCollection = () => {
     collection.in_collection = !collection.in_collection;
-    setAlbumId(collection.id);
-    console.log(inCollection);
+    setAddAlbumId(collection.id);
+  };
+
+  const handleRemoveFromCollection = () => {
+    collection.in_collection = !collection.in_collection;
+    setRemoveAlbumId(collection.id);
   };
 
   return (
-    <article className={styles.albumcard} key={collection.id}>
+    <article className={styles.albumcard} key={uuidv4()}>
       {!collection.in_collection && (
         <img
           src={AddToCollection}
@@ -55,6 +64,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         <img
           src={RemoveFromCollection}
           className={styles.toggleCollectionButton}
+          onClick={() => handleRemoveFromCollection()}
         />
       )}
       <h1>{collection.title}</h1>
@@ -65,9 +75,9 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
       </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>
-        <div>
-          {collection.labels.map((label, index) => (
-            <span key={index} className={styles.content}>
+        <div key={uuidv4()}>
+          {collection.labels.map((label) => (
+            <span key={uuidv4()} className={styles.content}>
               {label.name}
             </span>
           ))}
@@ -75,9 +85,9 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         <h3>Release:</h3>
         <span className={styles.content}>{collection.release}</span>
         <h3>Genre:</h3>
-        <div>
+        <div key={uuidv4()}>
           {collection.genres.map((genre, index) => (
-            <span key={index} className={styles.content}>
+            <span key={uuidv4()} className={styles.content}>
               {genre}
               {index + 1 < collection.genres.length && ', '}
             </span>
@@ -85,9 +95,9 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         </div>
         {collection.styles.length > 0 ? <h3>Style:</h3> : null}
         {collection.styles.length > 0 ? (
-          <div>
+          <div key={uuidv4()}>
             {collection.styles.map((style, index) => (
-              <span key={index} className={styles.content}>
+              <span key={uuidv4()} className={styles.content}>
                 {style}
                 {index + 1 < collection.styles.length && ', '}
               </span>
@@ -95,7 +105,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
           </div>
         ) : null}
       </div>
-      <div>
+      <div key={uuidv4()}>
         <span
           className={!clicked ? styles.cta : styles.cta__clicked}
           onClick={() => {
