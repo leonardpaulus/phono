@@ -162,23 +162,6 @@ app.get('/api/me', async (request, response, next) => {
         },
       }
     );
-    const collection = await collectionResponse.json();
-    const collectionReleases = collection.releases;
-    const myCollection = collectionReleases.map(
-      (release: { basic_information: ReleaseProps }) => ({
-        title: release.basic_information.title,
-        artist: release.basic_information.artists_sort,
-        labels: release.basic_information.labels,
-        genres: release.basic_information.genres,
-        styles: release.basic_information.styles,
-        tracklist: release.basic_information.tracklist,
-        release: release.basic_information.released_formatted,
-        id: release.basic_information.id,
-        sales_history: release.basic_information.sales_history,
-        cover: release.basic_information.huge_thumb,
-        in_collection: true,
-      })
-    );
 
     const instanceResponse = await fetch(
       `https://api.discogs.com/users/${user}/collection/folders/1/releases`,
@@ -192,15 +175,27 @@ app.get('/api/me', async (request, response, next) => {
     );
     const instance = await instanceResponse.json();
     const instanceReleases = instance.releases;
-    const myInstance = instanceReleases.map(
-      (instance: { instance_id: number }) => ({
-        instanceId: instance.instance_id,
+
+    const collection = await collectionResponse.json();
+    const collectionReleases = collection.releases;
+    const myCollection = collectionReleases.map(
+      (release: { basic_information: ReleaseProps }, index: number) => ({
+        title: release.basic_information.title,
+        artist: release.basic_information.artists_sort,
+        labels: release.basic_information.labels,
+        genres: release.basic_information.genres,
+        styles: release.basic_information.styles,
+        tracklist: release.basic_information.tracklist,
+        release: release.basic_information.released_formatted,
+        id: release.basic_information.id,
+        sales_history: release.basic_information.sales_history,
+        cover: release.basic_information.huge_thumb,
+        in_collection: true,
+        instanceId: instanceReleases[index].instance_id,
       })
     );
 
-    const finalCollection = Object.assign(myCollection, myInstance);
-
-    response.send(finalCollection);
+    response.send(myCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
