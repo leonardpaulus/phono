@@ -39,3 +39,10 @@
   border-radius: var(--border-radius);
   margin: 1.3rem;
 }
+
+.searchRecordsIcon {
+  height: 50%;
+  width: 50%;
+  margin-top: 3rem;
+  opacity: 0.5;
+}
