@@ -258,7 +258,6 @@ app.post('/api/collection/:albumid', async (request, response, next) => {
         },
       }
     );
-    response.send(true);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -287,7 +286,6 @@ app.delete(
           },
         }
       );
-      response.send('success');
     } catch (error) {
       next(response.status(500).send('Internal Server Error'));
     }
