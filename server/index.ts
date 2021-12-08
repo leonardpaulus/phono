@@ -152,8 +152,8 @@ app.get('/api/me', async (request, response, next) => {
     const token = authCookie.token;
     const secret = authCookie.secret;
 
-    const searchResponse = await fetch(
-      `https://api.discogs.com/users/${user}/collection?page=1&per_page=300`,
+    const collectionResponse = await fetch(
+      `https://api.discogs.com/users/${user}/collection`,
       {
         headers: {
           method: 'GET',
@@ -162,9 +162,9 @@ app.get('/api/me', async (request, response, next) => {
         },
       }
     );
-    const search = await searchResponse.json();
-    const releases = search.releases;
-    const collection = releases.map(
+    const collection = await collectionResponse.json();
+    const collectionReleases = collection.releases;
+    const myCollection = collectionReleases.map(
       (release: { basic_information: ReleaseProps }) => ({
         title: release.basic_information.title,
         artist: release.basic_information.artists_sort,
@@ -180,7 +180,27 @@ app.get('/api/me', async (request, response, next) => {
       })
     );
 
-    response.send(collection);
+    const instanceResponse = await fetch(
+      `https://api.discogs.com/users/${user}/collection/folders/1/releases`,
+      {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const instance = await instanceResponse.json();
+    const instanceReleases = instance.releases;
+    const myInstance = instanceReleases.map(
+      (instance: { instance_id: number }) => ({
+        instanceId: instance.instance_id,
+      })
+    );
+
+    const finalCollection = Object.assign(myCollection, myInstance);
+
+    response.send(finalCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -249,31 +269,35 @@ app.post('/api/collection/:albumid', async (request, response, next) => {
   }
 });
 
-app.delete('/api/collection/:albumid', async (request, response, next) => {
-  const albumId = request.params.albumid;
+app.delete(
+  '/api/collection/:albumid/:instanceid',
+  async (request, response, next) => {
+    const albumId = request.params.albumid;
+    const instanceId = request.params.instanceid;
 
-  try {
-    const authCookie = JSON.parse(request.cookies.auth);
+    try {
+      const authCookie = JSON.parse(request.cookies.auth);
 
-    const user = authCookie.username;
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+      const user = authCookie.username;
+      const token = authCookie.token;
+      const secret = authCookie.secret;
 
-    await fetch(
-      `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}/instances/1`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
-        },
-      }
-    );
-    response.send(request.body);
-  } catch (error) {
-    next(response.status(500).send('Internal Server Error'));
+      await fetch(
+        `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}/instances/${instanceId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+          },
+        }
+      );
+      response.send('success');
+    } catch (error) {
+      next(response.status(500).send('Internal Server Error'));
+    }
   }
-});
+);
 
 // Serve production bundle
 app.use(express.static('dist'));
