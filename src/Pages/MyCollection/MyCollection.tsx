@@ -3,23 +3,23 @@ import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import NavBar from '../../components/NavBar/NavBar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useMyCollection from '../../utils/useMyCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 
 export default function MyCollection(): JSX.Element {
-  const { getMyCollection, collection } = useMyCollection();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { collection, filteredCollection } = useMyCollection(searchQuery);
   const [activeSlide, setActiveSlide] = useState<number>(0);
-
-  useEffect(() => {
-    getMyCollection();
-  }, []);
 
   return (
     <div className={styles.myCollectionPage}>
       <Phono_Logo />
-      <SearchBar placeholder={'Search my Collection'} onSubmit={console.log} />
-      {collection && (
+      <SearchBar
+        placeholder={'Search my Collection'}
+        onSubmit={(search) => setSearchQuery(search)}
+      />
+      {collection && !filteredCollection && (
         <CoverSwiper
           collection={collection}
           changeActiveSlide={(activeSlideIndex) =>
@@ -27,7 +27,20 @@ export default function MyCollection(): JSX.Element {
           }
         />
       )}
-      {collection && <AlbumInfo collection={collection[activeSlide]} />}
+      {filteredCollection && (
+        <CoverSwiper
+          collection={filteredCollection}
+          changeActiveSlide={(activeSlideIndex) =>
+            setActiveSlide(activeSlideIndex)
+          }
+        />
+      )}
+      {collection && !filteredCollection && (
+        <AlbumInfo collection={collection[activeSlide]} />
+      )}
+      {filteredCollection && (
+        <AlbumInfo collection={filteredCollection[activeSlide]} />
+      )}
       <NavBar activeLink={'home'} />
     </div>
   );
