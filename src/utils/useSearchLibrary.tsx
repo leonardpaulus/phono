@@ -18,6 +18,8 @@ export default function useSearchLibrary(
         setSearchResult(search);
       };
       getSearchResult();
+    } else if (searchQuery === '') {
+      setSearchResult(null);
     }
   }, [searchCategory, searchQuery]);
 
