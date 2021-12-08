@@ -1,21 +1,25 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 import DeleteIcon from './searchAssets/DeleteIcon.svg';
 import { SearchBarProps } from '../../lib/types';
 
 function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
-  const [search, setSearch] = useState<string>();
+  const [search, setSearch] = useState<string>('');
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (search != null) {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault;
+    onSubmit(search);
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
       onSubmit(search);
-    }
-  };
+    }, 300);
+  }, [search]);
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={(event) => handleSubmit(event)}>
       {search && (
         <label>
           <input type="reset" className={styles.defaultReset} />
