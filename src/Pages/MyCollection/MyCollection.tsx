@@ -62,7 +62,7 @@ export default function MyCollection(): JSX.Element {
       {collection && !filteredCollection && searchResult && (
         <AlbumInfo collection={collection[activeSlide]} />
       )}
-      {filteredCollection && searchResult && (
+      {filteredCollection && !searchResult && (
         <AlbumInfo collection={filteredCollection[activeSlide]} />
       )}
       <NavBar activeLink={'home'} />
