@@ -22,6 +22,7 @@ export default function CoverSwiper({
           depth: 200,
           modifier: 3,
         }}
+        lazy={true}
         mousewheel={true}
         centerInsufficientSlides={true}
         slidesPerView={1}

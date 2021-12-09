@@ -40,6 +40,7 @@ export type SearchBarProps = {
 };
 
 export type CoverSwiperProps = {
+  filteredCollection?: AlbumProps[];
   collection: AlbumProps[];
   changeActiveSlide: (index: number) => void;
 };
@@ -79,6 +80,7 @@ export type SearchCardListProps = {
 
 export type AlbumInfoProps = {
   collection: AlbumProps;
+  filteredCollection?: AlbumProps[];
 };
 
 export type BackButtonProps = {

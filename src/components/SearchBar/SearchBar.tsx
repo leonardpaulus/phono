@@ -19,7 +19,12 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
       {search && (
         <label>
           <input type="reset" className={styles.defaultReset} />
-          <img className={styles.deleteButton} src={DeleteIcon} alt={'cross'} />
+          <img
+            className={styles.deleteButton}
+            src={DeleteIcon}
+            alt={'cross'}
+            onClick={() => onSubmit('')}
+          />
         </label>
       )}
       <input

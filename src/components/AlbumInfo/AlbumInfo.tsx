@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AlbumInfo.module.css';
 import { AlbumInfoProps } from '../../lib/types';
 import useAddToCollection from '../../utils/useAddToCollection';
@@ -14,17 +14,19 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [addAlbumId, setAddAlbumId] = useState(0);
   const [removeAlbumId, setRemoveAlbumId] = useState(0);
   useAddToCollection(addAlbumId);
-  const instanceId = collection.instanceId;
-  useRemoveFromCollection(removeAlbumId, instanceId);
+  if (collection.instanceId && collection) {
+    const instanceId = collection.instanceId;
+    useRemoveFromCollection(removeAlbumId, instanceId);
+  }
 
   const newTracklist = (
     <div className={styles.tracklist} key={uuidv4()}>
       {collection.tracklist.map((track) => (
-        <>
+        <React.Fragment key={uuidv4()}>
           <p>{track.position}</p>
           <h4>{track.title}</h4>
           <p>{track.duration}</p>
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
@@ -70,8 +72,9 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
       <h1>{collection.title}</h1>
       <h2>{collection.artist}</h2>
       <span className={styles.value}>
-        {collection.sales_history &&
-          `${collection.sales_history.median.value}€`}
+        {collection.sales_history
+          ? `${collection.sales_history.median.value} €`
+          : '-- €'}
       </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>
@@ -93,8 +96,10 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
             </span>
           ))}
         </div>
-        {collection.styles.length > 0 ? <h3>Style:</h3> : null}
-        {collection.styles.length > 0 ? (
+        {collection.styles && collection.styles.length > 0 ? (
+          <h3>Style:</h3>
+        ) : null}
+        {collection.styles && collection.styles.length > 0 ? (
           <div key={uuidv4()}>
             {collection.styles.map((style, index) => (
               <span key={uuidv4()} className={styles.content}>
@@ -104,6 +109,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
             ))}
           </div>
         ) : null}
+        {!collection.styles && null}
       </div>
       <div key={uuidv4()}>
         <span

@@ -121,7 +121,7 @@ app.get(
       const secret = authCookie.secret;
 
       const searchResponse = await fetch(
-        `https://api.discogs.com/database/search?type=release&county=germany${format}&${searchCategory}=${searchQuery}`,
+        `https://api.discogs.com/database/search?type=release&county=usa${format}&${searchCategory}=${searchQuery}`,
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -258,7 +258,6 @@ app.post('/api/collection/:albumid', async (request, response, next) => {
         },
       }
     );
-    response.send(true);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -287,7 +286,6 @@ app.delete(
           },
         }
       );
-      response.send('success');
     } catch (error) {
       next(response.status(500).send('Internal Server Error'));
     }
