@@ -121,7 +121,7 @@ app.get(
       const secret = authCookie.secret;
 
       const searchResponse = await fetch(
-        `https://api.discogs.com/database/search?type=release&county=germany${format}&${searchCategory}=${searchQuery}`,
+        `https://api.discogs.com/database/search?type=release&county=usa${format}&${searchCategory}=${searchQuery}`,
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
