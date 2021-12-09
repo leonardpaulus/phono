@@ -11,6 +11,12 @@ export type ReleaseProps = {
   huge_thumb: string;
 };
 
+export type FriendsProps = {
+  id: number;
+  username: string;
+  avatar_url: string;
+};
+
 export type AlbumProps = {
   title: string;
   artist: string;

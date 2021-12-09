@@ -3,7 +3,11 @@ import path from 'path';
 import fetch from 'cross-fetch';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import { SearchResultProps, ReleaseProps } from '../src/lib/types';
+import {
+  SearchResultProps,
+  ReleaseProps,
+  FriendsProps,
+} from '../src/lib/types';
 dotenv.config();
 
 const port = process.env.PORT || 3001;
@@ -291,6 +295,39 @@ app.delete(
     }
   }
 );
+
+app.get('/api/friends', async (request, response, next) => {
+  try {
+    const authCookie = JSON.parse(request.cookies.auth);
+
+    const user = authCookie.username;
+    const token = authCookie.token;
+    const secret = authCookie.secret;
+
+    const searchResponse = await fetch(
+      `https://api.discogs.com/users/${user}/friends`,
+      {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+    const friendsResponse = await searchResponse.json();
+    const friendsList = friendsResponse.friends;
+    const friends = friendsList.map((friend: { user: FriendsProps }) => ({
+      id: friend.user.id,
+      username: friend.user.username,
+      avatar: friend.user.avatar_url,
+    }));
+    response.send(friends);
+
+    response.send(friends);
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
 
 // Serve production bundle
 app.use(express.static('dist'));
