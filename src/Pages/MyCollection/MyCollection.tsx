@@ -6,20 +6,44 @@ import NavBar from '../../components/NavBar/NavBar';
 import { useState } from 'react';
 import useMyCollection from '../../utils/useMyCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
+import NoMatchingSearchResult from './MyCollectionAssets/NoMatchingSearchResult.svg';
 
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
-  const { collection, filteredCollection } = useMyCollection(searchQuery);
+  const [searchResult, setSearchResult] = useState<boolean>(true);
+  const { collection, filteredCollection } = useMyCollection(
+    searchQuery,
+    () => {
+      setSearchResult(false);
+    }
+  );
   const [activeSlide, setActiveSlide] = useState<number>(0);
+
+  function handleOnSubmit(search: string) {
+    setSearchQuery(search);
+    if (search === '') {
+      setSearchResult(true);
+    }
+  }
 
   return (
     <div className={styles.myCollectionPage}>
       <Phono_Logo />
       <SearchBar
         placeholder={'Search my Collection'}
-        onSubmit={(search) => setSearchQuery(search)}
+        onSubmit={(search) => handleOnSubmit(search)}
       />
-      {collection && !filteredCollection && (
+      {!searchResult && (
+        <>
+          <img
+            src={NoMatchingSearchResult}
+            className={styles.noMatchingSearchResultsIcon}
+          />
+          <p>We&apos;re sorry!</p>
+          <p>No Matching search Results found :(</p>
+        </>
+      )}
+      {collection && !filteredCollection && searchResult && (
         <CoverSwiper
           collection={collection}
           changeActiveSlide={(activeSlideIndex) =>
@@ -27,7 +51,7 @@ export default function MyCollection(): JSX.Element {
           }
         />
       )}
-      {filteredCollection && (
+      {filteredCollection && searchResult && (
         <CoverSwiper
           collection={filteredCollection}
           changeActiveSlide={(activeSlideIndex) =>
@@ -35,10 +59,10 @@ export default function MyCollection(): JSX.Element {
           }
         />
       )}
-      {collection && !filteredCollection && (
+      {collection && !filteredCollection && searchResult && (
         <AlbumInfo collection={collection[activeSlide]} />
       )}
-      {filteredCollection && (
+      {filteredCollection && searchResult && (
         <AlbumInfo collection={filteredCollection[activeSlide]} />
       )}
       <NavBar activeLink={'home'} />

@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
 import Fuse from 'fuse.js';
+import { FuseSearchProps } from '../lib/types';
 
-export default function useMyCollection(searchQuery: string) {
+export default function useMyCollection(
+  searchQuery: string,
+  onNoSearchResults: () => void
+) {
   const [collection, setCollection] = useState(null);
-  const [filteredCollection, setFilteredCollection] = useState(null);
+  const [filteredCollection, setFilteredCollection] =
+    useState<FuseSearchProps | null>(null);
 
   const options = {
     isCaseSensitive: false,
@@ -11,6 +16,12 @@ export default function useMyCollection(searchQuery: string) {
     includeMatches: false,
     threshold: 0.3,
     keys: ['artist', 'title'],
+  };
+
+  const getMyCollection = async () => {
+    const response = await fetch('/api/me');
+    const myCollection = await response.json();
+    setCollection(myCollection);
   };
 
   useEffect(() => {
@@ -21,7 +32,7 @@ export default function useMyCollection(searchQuery: string) {
       if (result.length === 0) {
         if (mounted) {
           setFilteredCollection(null);
-          alert('No matching search results');
+          onNoSearchResults();
         }
       } else {
         if (mounted) {
@@ -35,15 +46,10 @@ export default function useMyCollection(searchQuery: string) {
     if (collection === null) {
       getMyCollection();
     }
-
-    return () => (mounted = false);
+    return () => {
+      mounted = false;
+    };
   }, [searchQuery]);
-
-  const getMyCollection = async () => {
-    const response = await fetch('/api/me');
-    const myCollection = await response.json();
-    setCollection(myCollection);
-  };
 
   return { collection, filteredCollection };
 }
