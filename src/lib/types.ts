@@ -84,3 +84,7 @@ export type AlbumInfoProps = {
 export type BackButtonProps = {
   goBack: (back: string) => void;
 };
+
+export type FuseSearchProps = {
+  result: AlbumProps[];
+};
