@@ -17,6 +17,16 @@ export type FriendsProps = {
   avatar_url: string;
 };
 
+export type FriendListProps = {
+  friendsList: FriendProps[];
+};
+
+export type FriendProps = {
+  id: number;
+  username: string;
+  avatar: string;
+};
+
 export type AlbumProps = {
   title: string;
   artist: string;
