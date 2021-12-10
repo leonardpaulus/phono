@@ -67,5 +67,6 @@ export default function useCollection(
   return {
     collection,
     filteredCollection,
+    setCollection,
   };
 }

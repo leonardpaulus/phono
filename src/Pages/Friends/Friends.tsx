@@ -5,13 +5,23 @@ import NavBar from '../../components/NavBar/NavBar';
 import useFriends from '../../utils/useFriends';
 import { useEffect, useState } from 'react';
 import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
+import useCollection from '../../utils/useCollection';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
-  const [friendsCollection, setFriendsCollection] = useState(null);
+  const [friend, setFriend] = useState<string | null>(null);
+  const [searchResult, setSearchResult] = useState<boolean>(true);
+  const { collection, setCollection } = useCollection(
+    () => {
+      setSearchResult(false);
+    },
+    '',
+    friend
+  );
 
   useEffect(() => {
     getFriendsList();
+    setCollection(null);
   }, []);
 
   let friendsCards;
@@ -21,13 +31,11 @@ export default function Friends() {
       <div className={styles.friendCards}>
         <FriendsCardList
           friendsList={friendsList}
-          showFriendsCollection={(username) => setFriendsCollection(username)}
+          showFriend={(username) => setFriend(username)}
         />
       </div>
     );
   }
-
-  console.log(friendsList);
 
   return (
     <div className={styles.friendsPage}>
