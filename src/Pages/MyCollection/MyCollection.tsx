@@ -6,7 +6,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
-import NoMatchingSearchResult from './MyCollectionAssets/NoMatchingSearchResult.svg';
+import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
