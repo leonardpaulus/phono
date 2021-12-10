@@ -324,6 +324,48 @@ app.get('/api/friends', async (request, response, next) => {
   }
 });
 
+app.get('/api/friends/:username', async (request, response, next) => {
+  try {
+    const authCookie = JSON.parse(request.cookies.auth);
+
+    const username = request.params.username;
+    const token = authCookie.token;
+    const secret = authCookie.secret;
+
+    const collectionResponse = await fetch(
+      `https://api.discogs.com/users/${username}/collection`,
+      {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}", oauth_nonce="${Date.now()}", oauth_token="${token}", oauth_signature="${consumerSecret}&${secret}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}"`,
+        },
+      }
+    );
+
+    const collection = await collectionResponse.json();
+    const collectionReleases = collection.releases;
+    const userCollection = collectionReleases.map(
+      (release: { basic_information: ReleaseProps }) => ({
+        title: release.basic_information.title,
+        artist: release.basic_information.artists_sort,
+        labels: release.basic_information.labels,
+        genres: release.basic_information.genres,
+        styles: release.basic_information.styles,
+        tracklist: release.basic_information.tracklist,
+        release: release.basic_information.released_formatted,
+        id: release.basic_information.id,
+        sales_history: release.basic_information.sales_history,
+        cover: release.basic_information.huge_thumb,
+      })
+    );
+
+    response.send(userCollection);
+  } catch (error) {
+    next(response.status(500).send('Internal Server Error'));
+  }
+});
+
 // Serve production bundle
 app.use(express.static('dist'));
 
