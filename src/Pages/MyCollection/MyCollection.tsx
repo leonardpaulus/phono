@@ -3,7 +3,7 @@ import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import NavBar from '../../components/NavBar/NavBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import NoMatchingSearchResult from './MyCollectionAssets/NoMatchingSearchResult.svg';
@@ -11,9 +11,12 @@ import NoMatchingSearchResult from './MyCollectionAssets/NoMatchingSearchResult.
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState<boolean>(true);
-  const { collection, filteredCollection } = useCollection(() => {
-    setSearchResult(false);
-  }, searchQuery);
+  const { collection, filteredCollection, getCollection } = useCollection(
+    () => {
+      setSearchResult(false);
+    },
+    searchQuery
+  );
   const [activeSlide, setActiveSlide] = useState<number>(0);
 
   function handleOnSubmit(search: string) {
@@ -22,6 +25,10 @@ export default function MyCollection(): JSX.Element {
       setSearchResult(true);
     }
   }
+
+  useEffect(() => {
+    getCollection();
+  }, []);
 
   return (
     <div className={styles.myCollectionPage}>
