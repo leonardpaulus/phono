@@ -19,7 +19,7 @@ export type FriendsProps = {
 
 export type FriendListProps = {
   friendsList: FriendProps[];
-  showFriendsCollection: (username: string) => void;
+  showFriend: (username: string) => void;
 };
 
 export type FriendProps = {
