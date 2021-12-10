@@ -3,11 +3,12 @@ import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import NavBar from '../../components/NavBar/NavBar';
 import useFriends from '../../utils/useFriends';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
+  const [friendsCollection, setFriendsCollection] = useState(null);
 
   useEffect(() => {
     getFriendsList();
@@ -18,7 +19,10 @@ export default function Friends() {
   if (friendsList) {
     friendsCards = (
       <div className={styles.friendCards}>
-        <FriendsCardList friendsList={friendsList} />
+        <FriendsCardList
+          friendsList={friendsList}
+          showFriendsCollection={(username) => setFriendsCollection(username)}
+        />
       </div>
     );
   }
