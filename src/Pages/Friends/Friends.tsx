@@ -15,7 +15,7 @@ export default function Friends() {
     () => {
       setSearchResult(false);
     },
-    '',
+    null,
     friend
   );
 
@@ -23,6 +23,13 @@ export default function Friends() {
     getFriendsList();
     setCollection(null);
   }, []);
+
+  if (collection) {
+    console.log('COLLECTION');
+  }
+  if (!searchResult) {
+    console.log('SearchResult');
+  }
 
   let friendsCards;
 
