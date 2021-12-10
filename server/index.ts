@@ -333,7 +333,7 @@ app.get('/api/friends/:username', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const collectionResponse = await fetch(
-      `https://api.discogs.com/users/${username}/collection`,
+      `https://api.discogs.com/users/${username}/collection?page=1&per_page=250`,
       {
         headers: {
           method: 'GET',
