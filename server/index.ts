@@ -25,10 +25,6 @@ if (!process.env.DISCOGS_CONSUMER_SECRET) {
 const consumerKey = process.env.DISCOGS_CONSUMER_KEY;
 const consumerSecret = process.env.DISCOGS_CONSUMER_SECRET;
 
-app.get('/api/hello', (_request, response) => {
-  response.json({ message: 'Hello from server' });
-});
-
 let oAuthRequestTokenSecret: string | null;
 let oAuthRequestToken: string | null;
 let oAuthAccessTokenSecret: string | null;
@@ -321,7 +317,6 @@ app.get('/api/friends', async (request, response, next) => {
       username: friend.user.username,
       avatar: friend.user.avatar_url,
     }));
-    response.send(friends);
 
     response.send(friends);
   } catch (error) {
