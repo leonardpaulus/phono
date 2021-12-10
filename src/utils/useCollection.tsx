@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import Fuse from 'fuse.js';
 import { AlbumProps } from '../lib/types';
 
-export default function useMyCollection(
+export default function useCollection(
+  username?: string,
   searchQuery: string,
   onNoSearchResults: () => void
 ) {
@@ -13,6 +14,7 @@ export default function useMyCollection(
   const [filteredCollection, setFilteredCollection] = useState<
     AlbumProps[] | null
   >(null);
+  const [friendsCollection, setFriendsCollection] = useState(null);
 
   const options = {
     isCaseSensitive: false,
@@ -26,6 +28,12 @@ export default function useMyCollection(
     const response = await fetch('/api/me');
     const myCollection = await response.json();
     setCollection(myCollection);
+  };
+
+  const getFriendsCollection = async () => {
+    const response = await fetch(`/api/friends/${username}`);
+    const userCollection = await response.json();
+    setFriendsCollection(userCollection);
   };
 
   useEffect(() => {
@@ -56,5 +64,10 @@ export default function useMyCollection(
     };
   }, [searchQuery]);
 
-  return { collection, filteredCollection };
+  return {
+    collection,
+    filteredCollection,
+    getFriendsCollection,
+    friendsCollection,
+  };
 }
