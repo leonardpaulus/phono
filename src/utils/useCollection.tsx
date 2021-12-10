@@ -6,15 +6,14 @@ import Fuse from 'fuse.js';
 import { AlbumProps } from '../lib/types';
 
 export default function useCollection(
-  username?: string,
-  searchQuery: string,
-  onNoSearchResults: () => void
+  onNoSearchResults: () => void,
+  searchQuery?: string,
+  username?: string | null
 ) {
   const [collection, setCollection] = useState<AlbumProps[] | null>(null);
   const [filteredCollection, setFilteredCollection] = useState<
     AlbumProps[] | null
   >(null);
-  const [friendsCollection, setFriendsCollection] = useState(null);
 
   const options = {
     isCaseSensitive: false,
@@ -24,16 +23,17 @@ export default function useCollection(
     keys: ['artist', 'title'],
   };
 
-  const getMyCollection = async () => {
-    const response = await fetch('/api/me');
-    const myCollection = await response.json();
-    setCollection(myCollection);
-  };
+  let URL;
+  if (username) {
+    URL = `/api/friends/${username}`;
+  } else {
+    URL = '/api/me';
+  }
 
-  const getFriendsCollection = async () => {
-    const response = await fetch(`/api/friends/${username}`);
-    const userCollection = await response.json();
-    setFriendsCollection(userCollection);
+  const getCollection = async () => {
+    const response = await fetch(URL);
+    const fetchedCollection = await response.json();
+    setCollection(fetchedCollection);
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function useCollection(
       setFilteredCollection(null);
     }
     if (collection === null) {
-      getMyCollection();
+      getCollection();
     }
     return () => {
       mounted = false;
@@ -67,7 +67,5 @@ export default function useCollection(
   return {
     collection,
     filteredCollection,
-    getFriendsCollection,
-    friendsCollection,
   };
 }
