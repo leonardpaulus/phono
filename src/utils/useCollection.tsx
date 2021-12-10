@@ -7,7 +7,7 @@ import { AlbumProps } from '../lib/types';
 
 export default function useCollection(
   onNoSearchResults: () => void,
-  searchQuery?: string,
+  searchQuery?: string | null,
   username?: string | null
 ) {
   const [collection, setCollection] = useState<AlbumProps[] | null>(null);
@@ -23,6 +23,12 @@ export default function useCollection(
     keys: ['artist', 'title'],
   };
 
+  const getCollection = async () => {
+    const response = await fetch(URL);
+    const fetchedCollection = await response.json();
+    setCollection(fetchedCollection);
+  };
+
   let URL;
   if (username) {
     URL = `/api/friends/${username}`;
@@ -30,11 +36,11 @@ export default function useCollection(
     URL = '/api/me';
   }
 
-  const getCollection = async () => {
-    const response = await fetch(URL);
-    const fetchedCollection = await response.json();
-    setCollection(fetchedCollection);
-  };
+  useEffect(() => {
+    if (username) {
+      getCollection();
+    }
+  }, [username]);
 
   useEffect(() => {
     let mounted = true;
@@ -56,17 +62,19 @@ export default function useCollection(
     if (searchQuery === '') {
       setFilteredCollection(null);
     }
-    if (collection === null) {
-      getCollection();
-    }
     return () => {
       mounted = false;
     };
   }, [searchQuery]);
 
   return {
+    getCollection,
     collection,
     filteredCollection,
     setCollection,
   };
 }
+
+/* if (collection === null) {
+  getCollection();
+} */
