@@ -4,6 +4,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import NavBar from '../../components/NavBar/NavBar';
 import useFriends from '../../utils/useFriends';
 import { useEffect } from 'react';
+import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
@@ -11,6 +12,17 @@ export default function Friends() {
   useEffect(() => {
     getFriendsList();
   }, []);
+
+  let friendsCards;
+
+  if (friendsList) {
+    friendsCards = (
+      <div className={styles.friendCards}>
+        <FriendsCardList friendsList={friendsList} />
+      </div>
+    );
+  }
+
   console.log(friendsList);
 
   return (
@@ -20,6 +32,7 @@ export default function Friends() {
         placeholder={'Search Users'}
         onSubmit={(search) => console.log(search)}
       />
+      {friendsCards}
       <NavBar activeLink={'friends'} />
     </div>
   );
