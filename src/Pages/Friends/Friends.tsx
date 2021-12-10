@@ -16,20 +16,51 @@ export default function Friends() {
   const [friend, setFriend] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<boolean>(true);
   const [activeSlide, setActiveSlide] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const { collection, setCollection, filteredCollection } = useCollection(
     () => {
       setSearchResult(false);
     },
-    null,
+    searchQuery,
     friend
   );
 
   let friendsContent;
+  let searchBar;
 
   useEffect(() => {
     getFriendsList();
     setCollection(null);
   }, []);
+
+  function handleOnSubmit(search: string) {
+    setSearchQuery(search);
+    if (search === '') {
+      setSearchResult(true);
+    }
+  }
+
+  function handleGoBack() {
+    setCollection(null);
+    setSearchQuery('');
+  }
+
+  if (collection) {
+    searchBar = (
+      <SearchBar
+        placeholder={`Search ${friend}s Collection`}
+        onSubmit={(search) => handleOnSubmit(search)}
+      />
+    );
+  }
+  if (!collection) {
+    searchBar = (
+      <SearchBar
+        placeholder={'Search Users'}
+        onSubmit={(search) => console.log(search)}
+      />
+    );
+  }
 
   if (!collection && friendsList) {
     friendsContent = (
@@ -44,7 +75,7 @@ export default function Friends() {
   if (collection) {
     friendsContent = (
       <>
-        <BackButton goBack={() => setCollection(null)} />
+        <BackButton goBack={() => handleGoBack()} />
         {!searchResult && (
           <>
             <img
@@ -84,10 +115,7 @@ export default function Friends() {
   return (
     <div className={styles.friendsPage}>
       <Phono_Logo />
-      <SearchBar
-        placeholder={'Search Users'}
-        onSubmit={(search) => console.log(search)}
-      />
+      {searchBar}
       {friendsContent}
       <NavBar activeLink={'friends'} />
     </div>

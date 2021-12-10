@@ -15,3 +15,10 @@
   row-gap: 1rem;
   place-items: center;
 }
+
+.noMatchingSearchResultsIcon {
+  height: 50%;
+  width: 50%;
+  margin-top: 3rem;
+  opacity: 0.7;
+}
