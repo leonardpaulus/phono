@@ -66,12 +66,10 @@ export default function Friends() {
 
   if (!collection && friendsList) {
     friendsContent = (
-      <div className={styles.friendCards}>
-        <FriendsCardList
-          friendsList={friendsList}
-          showFriend={(username) => setFriend(username)}
-        />
-      </div>
+      <FriendsCardList
+        friendsList={friendsList}
+        showFriend={(username) => setFriend(username)}
+      />
     );
   }
   if (!collection && friend) {
