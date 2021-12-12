@@ -20,6 +20,7 @@ h1 {
   font-weight: var(--font-weight-heading);
   color: var(--color-primary);
   margin: 0;
+  padding-right: 2.5rem;
 }
 
 h2 {

@@ -74,7 +74,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
       <span className={styles.value}>
         {collection.sales_history
           ? `${collection.sales_history.median.value} €`
-          : '-- €'}
+          : null}
       </span>
       <div className={styles.infoText}>
         <h3>Label: </h3>
