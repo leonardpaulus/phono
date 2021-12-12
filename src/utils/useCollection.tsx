@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import Fuse from 'fuse.js';
 import { AlbumProps } from '../lib/types';
 
-export default function useMyCollection(
-  searchQuery: string,
-  onNoSearchResults: () => void
+export default function useCollection(
+  onNoSearchResults: () => void,
+  searchQuery?: string | null,
+  username?: string | null
 ) {
   const [collection, setCollection] = useState<AlbumProps[] | null>(null);
   const [filteredCollection, setFilteredCollection] = useState<
@@ -22,11 +23,24 @@ export default function useMyCollection(
     keys: ['artist', 'title'],
   };
 
-  const getMyCollection = async () => {
-    const response = await fetch('/api/me');
-    const myCollection = await response.json();
-    setCollection(myCollection);
+  const getCollection = async () => {
+    const response = await fetch(URL);
+    const fetchedCollection = await response.json();
+    setCollection(fetchedCollection);
   };
+
+  let URL;
+  if (username) {
+    URL = `/api/friends/${username}`;
+  } else {
+    URL = '/api/me';
+  }
+
+  useEffect(() => {
+    if (username) {
+      getCollection();
+    }
+  }, [username]);
 
   useEffect(() => {
     let mounted = true;
@@ -48,13 +62,15 @@ export default function useMyCollection(
     if (searchQuery === '') {
       setFilteredCollection(null);
     }
-    if (collection === null) {
-      getMyCollection();
-    }
     return () => {
       mounted = false;
     };
   }, [searchQuery]);
 
-  return { collection, filteredCollection };
+  return {
+    getCollection,
+    collection,
+    filteredCollection,
+    setCollection,
+  };
 }

@@ -11,6 +11,23 @@ export type ReleaseProps = {
   huge_thumb: string;
 };
 
+export type FriendsProps = {
+  id: number;
+  username: string;
+  avatar_url: string;
+};
+
+export type FriendListProps = {
+  friendsList: FriendProps[];
+  showFriend: (username: string) => void;
+};
+
+export type FriendProps = {
+  id: number;
+  username: string;
+  avatar: string;
+};
+
 export type AlbumProps = {
   title: string;
   artist: string;
