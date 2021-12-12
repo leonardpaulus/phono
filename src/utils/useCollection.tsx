@@ -74,7 +74,3 @@ export default function useCollection(
     setCollection,
   };
 }
-
-/* if (collection === null) {
-  getCollection();
-} */
