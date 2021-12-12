@@ -14,11 +14,23 @@ import SearchRecords from './SearchAssets/SearchRecords.svg';
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
-  const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
+  const { searchResult, setSearchResult } = useSearchLibrary(
+    searchQuery,
+    searchCategory
+  );
   const [albumId, setAlbumId] = useState<number | null | string>(null);
   const { albumInfo } = useAlbumDetail(albumId);
 
   let searchPageContent;
+
+  function handleSearchArtist() {
+    setSearchResult(null);
+    setSearchCategory('artist');
+  }
+  function handleSearchTitle() {
+    setSearchResult(null);
+    setSearchCategory('title');
+  }
 
   if (albumInfo) {
     searchPageContent = (
@@ -33,7 +45,7 @@ export default function Search() {
       <>
         <div className={styles.toggleInput}>
           <div
-            onClick={() => setSearchCategory('title')}
+            onClick={() => handleSearchTitle()}
             className={
               searchCategory === 'title'
                 ? styles.clickedCategory
@@ -45,7 +57,7 @@ export default function Search() {
           </div>
           <Divider />
           <div
-            onClick={() => setSearchCategory('artist')}
+            onClick={() => handleSearchArtist()}
             className={
               searchCategory === 'artist'
                 ? styles.clickedCategory
@@ -56,16 +68,14 @@ export default function Search() {
             <p>Artists</p>
           </div>
         </div>
-        <div className={styles.searchCards}>
-          {searchResult ? (
-            <SearchCardList
-              searchResults={searchResult}
-              showAlbum={(id) => setAlbumId(id)}
-            />
-          ) : (
-            <img className={styles.searchRecordsIcon} src={SearchRecords} />
-          )}
-        </div>
+        {searchResult ? (
+          <SearchCardList
+            searchResults={searchResult}
+            showAlbum={(id) => setAlbumId(id)}
+          />
+        ) : (
+          <img className={styles.searchRecordsIcon} src={SearchRecords} />
+        )}
       </>
     );
   }

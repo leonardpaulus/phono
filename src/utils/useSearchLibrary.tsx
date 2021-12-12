@@ -23,5 +23,5 @@ export default function useSearchLibrary(
     }
   }, [searchCategory, searchQuery]);
 
-  return { searchResult };
+  return { searchResult, setSearchResult };
 }
