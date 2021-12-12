@@ -7,7 +7,8 @@ export default function useRemoveFromCollection(
   const [removeCollection, setRemoveCollection] = useState<boolean>(true);
 
   useEffect(() => {
-    if (removeAlbumId) {
+    let mounted = true;
+    if (removeAlbumId && mounted) {
       const removeAlbum = async () => {
         const inCollectionResponse = await fetch(
           `/api/collection/${removeAlbumId}/${instanceId}`,
@@ -20,6 +21,9 @@ export default function useRemoveFromCollection(
       };
       removeAlbum();
     }
+    return () => {
+      mounted = false;
+    };
   }, [removeAlbumId]);
 
   return { removeCollection };
