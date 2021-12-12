@@ -10,6 +10,7 @@ import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import BackButton from '../../components/BackButton/BackButton';
+import Loading from '../../assets/Loading.svg';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
@@ -43,6 +44,7 @@ export default function Friends() {
   function handleGoBack() {
     setCollection(null);
     setSearchQuery('');
+    setFriend(null);
   }
 
   if (collection) {
@@ -70,6 +72,17 @@ export default function Friends() {
           showFriend={(username) => setFriend(username)}
         />
       </div>
+    );
+  }
+  if (!collection && friend) {
+    friendsContent = (
+      <>
+        <div className={styles.loadingContainer}>
+          <img src={Loading} className={styles.loading} />
+          <p>Loading</p>
+          <p>{friend}s Collection ...</p>
+        </div>
+      </>
     );
   }
   if (collection) {

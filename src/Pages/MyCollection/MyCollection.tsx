@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
+import Loading from '../../assets/Loading.svg';
 
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +38,13 @@ export default function MyCollection(): JSX.Element {
         placeholder={'Search my Collection'}
         onSubmit={(search) => handleOnSubmit(search)}
       />
+      {!collection && (
+        <div className={styles.loadingContainer}>
+          <img src={Loading} className={styles.loading} />
+          <p>Loading</p>
+          <p>my Collection ...</p>
+        </div>
+      )}
       {!searchResult && (
         <>
           <img
