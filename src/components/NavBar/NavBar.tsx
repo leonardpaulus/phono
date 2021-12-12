@@ -9,7 +9,7 @@ type NavBarProps = {
 };
 
 function NavBar({ activeLink }: NavBarProps): JSX.Element {
-  const active = 'var(--color-secondary)';
+  const active = 'var(--color-primary)';
   const inactive = 'var(--color-text)';
 
   return (
