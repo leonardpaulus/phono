@@ -35,8 +35,8 @@ export default function MyCollection(): JSX.Element {
     <div
       className={
         !collection
-          ? `${styles.page} ${styles.emptyPage}`
-          : `${styles.page} ${styles.collectionPage}`
+          ? `${styles.page} ${styles.emptypage}`
+          : `${styles.page} ${styles.collectionpage}`
       }
     >
       <Phono_Logo />

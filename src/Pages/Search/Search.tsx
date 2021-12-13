@@ -84,8 +84,8 @@ export default function Search() {
     <div
       className={
         !albumInfo
-          ? `${styles.page} ${styles.emptyPage}`
-          : `${styles.page} ${styles.collectionPage}`
+          ? `${styles.page} ${styles.emptypage}`
+          : `${styles.page} ${styles.collectionpage}`
       }
     >
       <Phono_Logo />
