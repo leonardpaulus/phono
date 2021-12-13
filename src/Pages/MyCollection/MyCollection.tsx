@@ -2,7 +2,6 @@ import styles from './MyCollection.module.css';
 import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
-import NavBar from '../../components/NavBar/NavBar';
 import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
@@ -77,7 +76,6 @@ export default function MyCollection(): JSX.Element {
       {filteredCollection && searchResult && (
         <AlbumInfo collection={filteredCollection[activeSlide]} />
       )}
-      <NavBar activeLink={'home'} />
     </div>
   );
 }

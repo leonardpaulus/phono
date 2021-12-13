@@ -1,7 +1,6 @@
 import styles from './Friends.module.css';
 import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import NavBar from '../../components/NavBar/NavBar';
 import useFriends from '../../utils/useFriends';
 import { useEffect, useState } from 'react';
 import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
@@ -126,7 +125,6 @@ export default function Friends() {
       <Phono_Logo />
       {searchBar}
       {friendsContent}
-      <NavBar activeLink={'friends'} />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
 import { useState } from 'react';
@@ -95,7 +94,6 @@ export default function Search() {
       />
 
       {searchPageContent}
-      <NavBar activeLink={'search'} />
     </div>
   );
 }

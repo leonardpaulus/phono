@@ -5,7 +5,7 @@ import Search from './NavigationAssets/Search';
 import { Link } from 'react-router-dom';
 
 type NavBarProps = {
-  activeLink?: 'search' | 'home' | 'friends';
+  activeLink?: string;
 };
 
 function NavBar({ activeLink }: NavBarProps): JSX.Element {
@@ -15,13 +15,13 @@ function NavBar({ activeLink }: NavBarProps): JSX.Element {
   return (
     <div className={styles.navigation}>
       <Link to="/search">
-        <Search fill={activeLink === 'search' ? active : inactive} />
+        <Search fill={activeLink === '/search' ? active : inactive} />
       </Link>
       <Link to="/home">
-        <Home fill={activeLink === 'home' ? active : inactive} />
+        <Home fill={activeLink === '/home' ? active : inactive} />
       </Link>
       <Link to="/friends">
-        <Friends fill={activeLink === 'friends' ? active : inactive} />
+        <Friends fill={activeLink === '/friends' ? active : inactive} />
       </Link>
     </div>
   );
