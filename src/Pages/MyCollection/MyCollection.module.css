@@ -1,14 +1,13 @@
-.myCollectionPage {
-  width: 100%;
-  display: grid;
-  place-items: center;
-  grid-template-rows: 8rem 4rem 17rem auto;
-  overflow: scroll;
-  padding-bottom: 4.9rem;
+.page {
+  composes: page from global;
 }
 
-.myCollectionPage::-webkit-scrollbar {
-  display: none;
+.emptypage {
+  composes: emptypage from global;
+}
+
+.collectionpage {
+  composes: collectionpage from global;
 }
 
 .noMatchingSearchResultsIcon {
@@ -16,34 +15,4 @@
   width: 50%;
   margin-top: 3rem;
   opacity: 0.7;
-}
-
-.loading {
-  height: 4rem;
-  width: 4rem;
-}
-
-.loadingContainer {
-  display: grid;
-  place-items: center;
-  margin-top: 2.5rem;
-  animation: pulse 0.6s ease-in-out infinite;
-}
-
-.loadingContainer p {
-  color: var(--color-secondary);
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.03);
-  }
-
-  100% {
-    transform: scale(1);
-  }
 }

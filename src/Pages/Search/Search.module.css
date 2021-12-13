@@ -1,14 +1,13 @@
-.searchPage {
-  width: 100%;
-  display: grid;
-  place-items: center;
-  grid-template-rows: 8rem 4rem auto;
-  overflow: scroll;
-  padding-bottom: 4.9rem;
+.page {
+  composes: page from global;
 }
 
-.searchPage::-webkit-scrollbar {
-  display: none;
+.emptypage {
+  composes: emptypage from global;
+}
+
+.collectionpage {
+  composes: collectionpage from global;
 }
 
 .searchCards {
@@ -41,7 +40,6 @@
   height: 14.4rem;
   width: 14.4rem;
   border-radius: var(--border-radius);
-  margin: 1.3rem;
 }
 
 .searchRecordsIcon {

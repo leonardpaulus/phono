@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
-import Loading from '../../assets/Loading.svg';
+import Loading from '../../components/Loading/Loading';
 
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,19 +32,19 @@ export default function MyCollection(): JSX.Element {
   }, []);
 
   return (
-    <div className={styles.myCollectionPage}>
+    <div
+      className={
+        !collection
+          ? `${styles.page} ${styles.emptyPage}`
+          : `${styles.page} ${styles.collectionPage}`
+      }
+    >
       <Phono_Logo />
       <SearchBar
         placeholder={'Search my Collection'}
         onSubmit={(search) => handleOnSubmit(search)}
       />
-      {!collection && (
-        <div className={styles.loadingContainer}>
-          <img src={Loading} className={styles.loading} />
-          <p>Loading</p>
-          <p>my Collection ...</p>
-        </div>
-      )}
+      {!collection && <Loading />}
       {!searchResult && (
         <>
           <img

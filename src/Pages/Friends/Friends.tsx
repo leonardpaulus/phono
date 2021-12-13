@@ -10,7 +10,7 @@ import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import BackButton from '../../components/BackButton/BackButton';
-import Loading from '../../assets/Loading.svg';
+import Loading from '../../components/Loading/Loading';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
@@ -73,15 +73,7 @@ export default function Friends() {
     );
   }
   if (!collection && friend) {
-    friendsContent = (
-      <>
-        <div className={styles.loadingContainer}>
-          <img src={Loading} className={styles.loading} />
-          <p>Loading</p>
-          <p>{friend}s Collection ...</p>
-        </div>
-      </>
-    );
+    friendsContent = <Loading />;
   }
   if (collection) {
     friendsContent = (
@@ -124,7 +116,13 @@ export default function Friends() {
   }
 
   return (
-    <div className={styles.friendsPage}>
+    <div
+      className={
+        !collection
+          ? `${styles.page} ${styles.emptyPage}`
+          : `${styles.page} ${styles.collectionPage}`
+      }
+    >
       <Phono_Logo />
       {searchBar}
       {friendsContent}

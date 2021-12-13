@@ -68,3 +68,23 @@ p {
   --font-weight-text: 400;
   --font-family: 'Outfit';
 }
+
+.page {
+  display: grid;
+  width: 100%;
+  place-items: center;
+  overflow: scroll;
+  padding-bottom: 4.9rem;
+}
+
+.emptypage {
+  grid-template-rows: 8rem 4rem auto;
+}
+
+.collectionpage {
+  grid-template-rows: 8rem 4rem 17rem auto;
+}
+
+.page::-webkit-scrollbar {
+  display: none;
+}

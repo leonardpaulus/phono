@@ -81,7 +81,13 @@ export default function Search() {
   }
 
   return (
-    <div className={styles.searchPage}>
+    <div
+      className={
+        !albumInfo
+          ? `${styles.page} ${styles.emptyPage}`
+          : `${styles.page} ${styles.collectionPage}`
+      }
+    >
       <Phono_Logo />
       <SearchBar
         placeholder={'Search the library'}
