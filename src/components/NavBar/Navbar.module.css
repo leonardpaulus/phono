@@ -5,7 +5,7 @@
   place-items: center;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   height: 3.75rem;
-  width: 100%;
+  width: 375px;
   position: fixed;
   bottom: 0;
 }

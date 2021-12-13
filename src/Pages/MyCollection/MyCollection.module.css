@@ -1,5 +1,5 @@
 .myCollectionPage {
-  width: 100vw;
+  width: 100%;
   display: grid;
   place-items: center;
   grid-template-rows: 8rem 4rem 17rem auto;

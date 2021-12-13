@@ -1,10 +1,14 @@
 .searchPage {
-  width: 100vw;
+  width: 100%;
   display: grid;
   place-items: center;
   grid-template-rows: 8rem 4rem auto;
   overflow: scroll;
   padding-bottom: 4.9rem;
+}
+
+.searchPage::-webkit-scrollbar {
+  display: none;
 }
 
 .searchCards {
