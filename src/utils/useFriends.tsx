@@ -18,7 +18,7 @@ export default function useFriends(
     isCaseSensitive: false,
     findAllMatches: true,
     includeMatches: false,
-    threshold: 0.3,
+    threshold: 0.5,
     keys: ['username'],
   };
 

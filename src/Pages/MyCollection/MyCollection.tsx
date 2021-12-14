@@ -4,7 +4,6 @@ import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
-import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import Loading from '../../components/Loading/Loading';
 
 export default function MyCollection(): JSX.Element {
@@ -43,15 +42,10 @@ export default function MyCollection(): JSX.Element {
       />
       {!collection && <Loading />}
       {!searchResult && (
-        <>
-          <img
-            src={NoMatchingSearchResult}
-            className={styles.noMatchingSearchResultsIcon}
-            alt={''}
-          />
+        <div className={styles.searchError}>
           <p>We&apos;re sorry!</p>
           <p>No Matching search Results found :(</p>
-        </>
+        </div>
       )}
       {collection && !filteredCollection && searchResult && (
         <CoverSwiper

@@ -6,15 +6,14 @@ import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
-import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import BackButton from '../../components/BackButton/BackButton';
 import Loading from '../../components/Loading/Loading';
 
 export default function Friends() {
-  const [searchFriend, setsearchFriend] = useState('');
+  const [searchFriend, setSearchFriend] = useState('');
   const { getFriendsList, friendsList, filteredFriendsList } = useFriends(
     () => {
-      console.log;
+      setSearchResult(false);
     },
     searchFriend
   );
@@ -37,6 +36,11 @@ export default function Friends() {
     getFriendsList();
     setCollection(null);
   }, []);
+
+  useEffect(() => {
+    setSearchResult(true);
+    setSearchFriend('');
+  }, [friend]);
 
   function handleOnSubmit(search: string) {
     setSearchQuery(search);
@@ -63,7 +67,7 @@ export default function Friends() {
     searchBar = (
       <SearchBar
         placeholder={'Search my Friends'}
-        onSubmit={(search) => setsearchFriend(search)}
+        onSubmit={(search) => setSearchFriend(search)}
       />
     );
   }
@@ -87,19 +91,23 @@ export default function Friends() {
   if (!collection && friend) {
     friendsContent = <Loading />;
   }
+  if (!filteredFriendsList && searchFriend && !searchResult) {
+    friendsContent = (
+      <div className={styles.searchError}>
+        <p>We&apos;re sorry!</p>
+        <p>No Matching search Results found :(</p>
+      </div>
+    );
+  }
   if (collection) {
     friendsContent = (
       <>
         <BackButton goBack={() => handleGoBack()} />
         {!searchResult && (
-          <>
-            <img
-              src={NoMatchingSearchResult}
-              className={styles.noMatchingSearchResultsIcon}
-            />
+          <div className={styles.searchError}>
             <p>We&apos;re sorry!</p>
             <p>No Matching search Results found :(</p>
-          </>
+          </div>
         )}
         {collection && !filteredCollection && searchResult && (
           <CoverSwiper
