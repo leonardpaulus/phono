@@ -1,4 +1,3 @@
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';

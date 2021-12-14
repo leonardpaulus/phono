@@ -1,5 +1,4 @@
 import styles from './MyCollection.module.css';
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import { useEffect, useState } from 'react';

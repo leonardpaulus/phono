@@ -1,5 +1,4 @@
 import styles from './Friends.module.css';
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import useFriends from '../../utils/useFriends';
 import { useEffect, useState } from 'react';
