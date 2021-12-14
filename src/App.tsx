@@ -6,6 +6,7 @@ import Search from './Pages/Search/Search';
 import Friends from './Pages/Friends/Friends';
 import NavBar from './components/NavBar/NavBar';
 import Phono_Logo from './assets/Phono_Logo';
+import styles from './App.module.css';
 
 function App() {
   const [activeLink, setActiveLink] = useState<string>();
@@ -15,7 +16,7 @@ function App() {
   }, [current]);
 
   return (
-    <>
+    <div className={styles.app}>
       <Phono_Logo />
       <Routes>
         <Route path="/" element={<Login />} />
@@ -25,7 +26,7 @@ function App() {
       </Routes>
 
       {activeLink !== '/' && <NavBar activeLink={activeLink} />}
-    </>
+    </div>
   );
 }
 
