@@ -97,7 +97,7 @@ app.get('/api/oauth/return', async (request, response, next) => {
         { httpOnly: true }
       );
 
-      response.redirect('http://localhost:3000/home');
+      response.redirect('/home');
     }
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
@@ -333,7 +333,7 @@ app.get('/api/friends/:username', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const collectionResponse = await fetch(
-      `https://api.discogs.com/users/${username}/collection?page=1&per_page=250`,
+      `https://api.discogs.com/users/${username}/collection?page=1&per_page=50`,
       {
         headers: {
           method: 'GET',

@@ -101,5 +101,5 @@ export type AlbumInfoProps = {
 };
 
 export type BackButtonProps = {
-  goBack: (back: string) => void;
+  goBack: () => void;
 };

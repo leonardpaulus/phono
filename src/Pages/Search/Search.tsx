@@ -1,6 +1,4 @@
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import NavBar from '../../components/NavBar/NavBar';
 import styles from './Search.module.css';
 import useSearchLibrary from '../../utils/useSearchLibrary';
 import { useState } from 'react';
@@ -14,16 +12,28 @@ import SearchRecords from './SearchAssets/SearchRecords.svg';
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchCategory, setSearchCategory] = useState<string>('title');
-  const { searchResult } = useSearchLibrary(searchQuery, searchCategory);
-  const [albumId, setAlbumId] = useState<number | null | string>(null);
-  const { albumInfo } = useAlbumDetail(albumId);
+  const { searchResult, setSearchResult } = useSearchLibrary(
+    searchQuery,
+    searchCategory
+  );
+  const [albumId, setAlbumId] = useState<number | null>(null);
+  const { albumInfo, setAlbumInfo } = useAlbumDetail(albumId);
 
   let searchPageContent;
+
+  function handleSearchArtist() {
+    setSearchResult(null);
+    setSearchCategory('artist');
+  }
+  function handleSearchTitle() {
+    setSearchResult(null);
+    setSearchCategory('title');
+  }
 
   if (albumInfo) {
     searchPageContent = (
       <>
-        <BackButton goBack={(back) => setAlbumId(back)} />
+        <BackButton goBack={() => setAlbumInfo(null)} />
         <img src={albumInfo.cover} className={styles.cover} />
         <AlbumInfo collection={albumInfo} />
       </>
@@ -33,7 +43,7 @@ export default function Search() {
       <>
         <div className={styles.toggleInput}>
           <div
-            onClick={() => setSearchCategory('title')}
+            onClick={() => handleSearchTitle()}
             className={
               searchCategory === 'title'
                 ? styles.clickedCategory
@@ -45,7 +55,7 @@ export default function Search() {
           </div>
           <Divider />
           <div
-            onClick={() => setSearchCategory('artist')}
+            onClick={() => handleSearchArtist()}
             className={
               searchCategory === 'artist'
                 ? styles.clickedCategory
@@ -56,30 +66,32 @@ export default function Search() {
             <p>Artists</p>
           </div>
         </div>
-        <div className={styles.searchCards}>
-          {searchResult ? (
-            <SearchCardList
-              searchResults={searchResult}
-              showAlbum={(id) => setAlbumId(id)}
-            />
-          ) : (
-            <img className={styles.searchRecordsIcon} src={SearchRecords} />
-          )}
-        </div>
+        {searchResult ? (
+          <SearchCardList
+            searchResults={searchResult}
+            showAlbum={(id) => setAlbumId(id)}
+          />
+        ) : (
+          <img className={styles.searchRecordsIcon} src={SearchRecords} />
+        )}
       </>
     );
   }
 
   return (
-    <div className={styles.searchPage}>
-      <Phono_Logo />
+    <div
+      className={
+        !albumInfo
+          ? `${styles.page} ${styles.emptypage}`
+          : `${styles.page} ${styles.collectionpage}`
+      }
+    >
       <SearchBar
         placeholder={'Search the library'}
         onSubmit={(search) => setSearchQuery(search)}
       />
 
       {searchPageContent}
-      <NavBar activeLink={'search'} />
     </div>
   );
 }

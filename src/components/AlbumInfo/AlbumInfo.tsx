@@ -6,6 +6,7 @@ import AddToCollection from './AlbumInfoAssets/AddToCollection.svg';
 import RemoveFromCollection from './AlbumInfoAssets/RemoveFromCollection.svg';
 import useRemoveFromCollection from '../../utils/useRemoveFromCollection';
 import { v4 as uuidv4 } from 'uuid';
+import { useSpring, useTransition, animated, config } from 'react-spring';
 
 export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
@@ -18,6 +19,20 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     const instanceId = collection.instanceId;
     useRemoveFromCollection(removeAlbumId, instanceId);
   }
+
+  const albumInfoCard = useSpring({
+    from: { y: 120, opacity: 0 },
+    to: { y: 0, opacity: 1 },
+    config: config.stiff,
+  });
+
+  const albumInfoText = useTransition(collection, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    reset: !clicked,
+    config: config.slow,
+  });
 
   const newTracklist = (
     <div className={styles.tracklist} key={uuidv4()}>
@@ -54,7 +69,11 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   };
 
   return (
-    <article className={styles.albumcard} key={uuidv4()}>
+    <animated.article
+      style={albumInfoCard}
+      className={styles.albumcard}
+      key={uuidv4()}
+    >
       {!collection.in_collection && (
         <img
           src={AddToCollection}
@@ -69,48 +88,71 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
           onClick={() => handleRemoveFromCollection()}
         />
       )}
-      <h1>{collection.title}</h1>
-      <h2>{collection.artist}</h2>
-      <span className={styles.value}>
-        {collection.sales_history
-          ? `${collection.sales_history.median.value} €`
-          : '-- €'}
-      </span>
-      <div className={styles.infoText}>
-        <h3>Label: </h3>
-        <div key={uuidv4()}>
-          {collection.labels.map((label) => (
-            <span key={uuidv4()} className={styles.content}>
-              {label.name}
-            </span>
-          ))}
-        </div>
-        <h3>Release:</h3>
-        <span className={styles.content}>{collection.release}</span>
-        <h3>Genre:</h3>
-        <div key={uuidv4()}>
-          {collection.genres.map((genre, index) => (
-            <span key={uuidv4()} className={styles.content}>
-              {genre}
-              {index + 1 < collection.genres.length && ', '}
-            </span>
-          ))}
-        </div>
-        {collection.styles && collection.styles.length > 0 ? (
-          <h3>Style:</h3>
-        ) : null}
-        {collection.styles && collection.styles.length > 0 ? (
-          <div key={uuidv4()}>
-            {collection.styles.map((style, index) => (
-              <span key={uuidv4()} className={styles.content}>
-                {style}
-                {index + 1 < collection.styles.length && ', '}
-              </span>
-            ))}
-          </div>
-        ) : null}
-        {!collection.styles && null}
-      </div>
+      {albumInfoText(
+        (fadeIn, collection) =>
+          collection && (
+            <>
+              <animated.h1 style={fadeIn}>{collection.title}</animated.h1>
+              <animated.h2 style={fadeIn}>{collection.artist}</animated.h2>
+
+              <animated.span style={fadeIn} className={styles.value}>
+                {collection.sales_history
+                  ? `${collection.sales_history.median.value} €`
+                  : null}
+              </animated.span>
+              <animated.div style={fadeIn} className={styles.infoText}>
+                <animated.h3 style={fadeIn}>Label: </animated.h3>
+                <animated.div key={uuidv4()}>
+                  {collection.labels.map((label) => (
+                    <animated.span
+                      style={fadeIn}
+                      key={uuidv4()}
+                      className={styles.content}
+                    >
+                      {label.name}
+                    </animated.span>
+                  ))}
+                </animated.div>
+                <animated.h3 style={fadeIn}>Release:</animated.h3>
+                <animated.span style={fadeIn} className={styles.content}>
+                  {collection.release}
+                </animated.span>
+                <animated.h3 style={fadeIn}>Genre:</animated.h3>
+                <animated.div key={uuidv4()}>
+                  {collection.genres.map((genre, index) => (
+                    <animated.span
+                      style={fadeIn}
+                      key={uuidv4()}
+                      className={styles.content}
+                    >
+                      {genre}
+                      {index + 1 < collection.genres.length && ', '}
+                    </animated.span>
+                  ))}
+                </animated.div>
+                {collection.styles && collection.styles.length > 0 ? (
+                  <animated.h3 style={fadeIn}>Style:</animated.h3>
+                ) : null}
+                {collection.styles && collection.styles.length > 0 ? (
+                  <animated.div key={uuidv4()}>
+                    {collection.styles.map((style, index) => (
+                      <animated.span
+                        style={fadeIn}
+                        key={uuidv4()}
+                        className={styles.content}
+                      >
+                        {style}
+                        {index + 1 < collection.styles.length && ', '}
+                      </animated.span>
+                    ))}
+                  </animated.div>
+                ) : null}
+                {!collection.styles && null}
+              </animated.div>
+            </>
+          )
+      )}
+      ;
       <div key={uuidv4()}>
         <span
           className={!clicked ? styles.cta : styles.cta__clicked}
@@ -122,6 +164,6 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         </span>
         {tracklist}
       </div>
-    </article>
+    </animated.article>
   );
 }

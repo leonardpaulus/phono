@@ -1,14 +1,13 @@
-.myCollectionPage {
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  grid-template-rows: 8rem 4rem 17rem auto;
-  overflow: scroll;
-  padding-bottom: 4.9rem;
+.page {
+  composes: page from global;
 }
 
-.myCollectionPage::-webkit-scrollbar {
-  display: none;
+.emptypage {
+  composes: emptypage from global;
+}
+
+.collectionpage {
+  composes: collectionpage from global;
 }
 
 .noMatchingSearchResultsIcon {

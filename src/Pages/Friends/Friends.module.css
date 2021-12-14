@@ -1,19 +1,13 @@
-.friendsPage {
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  grid-template-rows: 8rem 4rem auto;
-  overflow: scroll;
-  padding-bottom: 4.9rem;
+.page {
+  composes: page from global;
 }
 
-.friendCards {
-  width: 100%;
-  height: 100%;
-  padding-top: 0.75rem;
-  display: grid;
-  row-gap: 1rem;
-  place-items: center;
+.emptypage {
+  composes: emptypage from global;
+}
+
+.collectionpage {
+  composes: collectionpage from global;
 }
 
 .noMatchingSearchResultsIcon {

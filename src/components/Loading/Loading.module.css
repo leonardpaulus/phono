@@ -1,0 +1,29 @@
+.loading {
+  display: grid;
+  place-items: center;
+  animation: pulse 0.6s ease-in-out infinite;
+  margin-top: 10rem;
+}
+
+.loadingImage {
+  width: 4rem;
+  height: 4rem;
+}
+
+.loading p {
+  color: var(--color-secondary);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

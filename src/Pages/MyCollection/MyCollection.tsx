@@ -1,12 +1,11 @@
 import styles from './MyCollection.module.css';
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
-import NavBar from '../../components/NavBar/NavBar';
 import { useEffect, useState } from 'react';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
+import Loading from '../../components/Loading/Loading';
 
 export default function MyCollection(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,12 +30,18 @@ export default function MyCollection(): JSX.Element {
   }, []);
 
   return (
-    <div className={styles.myCollectionPage}>
-      <Phono_Logo />
+    <div
+      className={
+        !collection
+          ? `${styles.page} ${styles.emptypage}`
+          : `${styles.page} ${styles.collectionpage}`
+      }
+    >
       <SearchBar
         placeholder={'Search my Collection'}
         onSubmit={(search) => handleOnSubmit(search)}
       />
+      {!collection && <Loading />}
       {!searchResult && (
         <>
           <img
@@ -69,7 +74,6 @@ export default function MyCollection(): JSX.Element {
       {filteredCollection && searchResult && (
         <AlbumInfo collection={filteredCollection[activeSlide]} />
       )}
-      <NavBar activeLink={'home'} />
     </div>
   );
 }

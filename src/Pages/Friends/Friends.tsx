@@ -1,7 +1,5 @@
 import styles from './Friends.module.css';
-import Phono_Logo from '../../assets/Phono_Logo';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import NavBar from '../../components/NavBar/NavBar';
 import useFriends from '../../utils/useFriends';
 import { useEffect, useState } from 'react';
 import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
@@ -10,6 +8,7 @@ import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
 import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import BackButton from '../../components/BackButton/BackButton';
+import Loading from '../../components/Loading/Loading';
 
 export default function Friends() {
   const { getFriendsList, friendsList } = useFriends();
@@ -43,6 +42,7 @@ export default function Friends() {
   function handleGoBack() {
     setCollection(null);
     setSearchQuery('');
+    setFriend(null);
   }
 
   if (collection) {
@@ -64,13 +64,14 @@ export default function Friends() {
 
   if (!collection && friendsList) {
     friendsContent = (
-      <div className={styles.friendCards}>
-        <FriendsCardList
-          friendsList={friendsList}
-          showFriend={(username) => setFriend(username)}
-        />
-      </div>
+      <FriendsCardList
+        friendsList={friendsList}
+        showFriend={(username) => setFriend(username)}
+      />
     );
+  }
+  if (!collection && friend) {
+    friendsContent = <Loading />;
   }
   if (collection) {
     friendsContent = (
@@ -113,11 +114,15 @@ export default function Friends() {
   }
 
   return (
-    <div className={styles.friendsPage}>
-      <Phono_Logo />
+    <div
+      className={
+        !collection
+          ? `${styles.page} ${styles.emptypage}`
+          : `${styles.page} ${styles.collectionpage}`
+      }
+    >
       {searchBar}
       {friendsContent}
-      <NavBar activeLink={'friends'} />
     </div>
   );
 }
