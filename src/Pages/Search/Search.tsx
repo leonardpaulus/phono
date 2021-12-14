@@ -34,7 +34,7 @@ export default function Search() {
     searchPageContent = (
       <>
         <BackButton goBack={() => setAlbumInfo(null)} />
-        <img src={albumInfo.cover} className={styles.cover} />
+        <img src={albumInfo.cover} className={styles.cover} alt={''} />
         <AlbumInfo collection={albumInfo} />
       </>
     );
@@ -72,7 +72,11 @@ export default function Search() {
             showAlbum={(id) => setAlbumId(id)}
           />
         ) : (
-          <img className={styles.searchRecordsIcon} src={SearchRecords} />
+          <img
+            className={styles.searchRecordsIcon}
+            src={SearchRecords}
+            alt={''}
+          />
         )}
       </>
     );

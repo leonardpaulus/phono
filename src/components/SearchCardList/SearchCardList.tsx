@@ -33,6 +33,7 @@ export default function SearchCardList({
                       : `${styles.albumCover}`
                   }
                   src={searchCard.cover}
+                  alt={''}
                 />
                 {searchCard.in_collection && (
                   <div className={styles.inCollection}>

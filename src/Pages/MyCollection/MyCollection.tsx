@@ -47,6 +47,7 @@ export default function MyCollection(): JSX.Element {
           <img
             src={NoMatchingSearchResult}
             className={styles.noMatchingSearchResultsIcon}
+            alt={''}
           />
           <p>We&apos;re sorry!</p>
           <p>No Matching search Results found :(</p>

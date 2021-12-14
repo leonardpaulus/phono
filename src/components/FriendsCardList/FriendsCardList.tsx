@@ -24,7 +24,7 @@ export default function FriendsCardList({
               key={friend.id}
               onClick={() => showFriend(friend.username)}
             >
-              <img className={styles.avatar} src={friend.avatar} />
+              <img className={styles.avatar} src={friend.avatar} alt={''} />
               <div className={styles.username}>
                 <h2>{friend.username}</h2>
               </div>
