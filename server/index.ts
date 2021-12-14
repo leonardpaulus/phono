@@ -153,7 +153,7 @@ app.get('/api/me', async (request, response, next) => {
     const secret = authCookie.secret;
 
     const collectionResponse = await fetch(
-      `https://api.discogs.com/users/${user}/collection`,
+      `https://api.discogs.com/users/${user}/collection?header=1&sort=added&sort_order=desc`,
       {
         headers: {
           method: 'GET',
