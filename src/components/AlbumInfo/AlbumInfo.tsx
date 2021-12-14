@@ -26,18 +26,8 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     config: config.stiff,
   });
 
-  const tracklistTransition = useSpring({
-    from: { y: 100, opacity: 0 },
-    to: { y: 0, opacity: 1 },
-    config: config.stiff,
-  });
-
   const newTracklist = (
-    <animated.div
-      style={tracklistTransition}
-      className={styles.tracklist}
-      key={uuidv4()}
-    >
+    <div className={styles.tracklist} key={uuidv4()}>
       {collection.tracklist.map((track) => (
         <React.Fragment key={uuidv4()}>
           <p>{track.position}</p>
@@ -45,7 +35,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
           <p>{track.duration}</p>
         </React.Fragment>
       ))}
-    </animated.div>
+    </div>
   );
 
   function handleOnclick() {
