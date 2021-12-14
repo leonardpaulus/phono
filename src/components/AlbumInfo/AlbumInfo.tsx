@@ -30,7 +30,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-    reset: true,
+    reset: !clicked,
     config: config.slow,
   });
 
