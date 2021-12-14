@@ -87,7 +87,6 @@ export default function Search() {
           : `${styles.page} ${styles.collectionpage}`
       }
     >
-      <Phono_Logo />
       <SearchBar
         placeholder={'Search the library'}
         onSubmit={(search) => setSearchQuery(search)}

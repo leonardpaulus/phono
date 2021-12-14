@@ -5,6 +5,7 @@ import Login from './Pages/Login/Login';
 import Search from './Pages/Search/Search';
 import Friends from './Pages/Friends/Friends';
 import NavBar from './components/NavBar/NavBar';
+import Phono_Logo from './assets/Phono_Logo';
 
 function App() {
   const [activeLink, setActiveLink] = useState<string>();
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <>
+      <Phono_Logo />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="home" element={<MyCollection />} />

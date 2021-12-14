@@ -122,7 +122,6 @@ export default function Friends() {
           : `${styles.page} ${styles.collectionpage}`
       }
     >
-      <Phono_Logo />
       {searchBar}
       {friendsContent}
     </div>

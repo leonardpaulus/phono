@@ -38,7 +38,6 @@ export default function MyCollection(): JSX.Element {
           : `${styles.page} ${styles.collectionpage}`
       }
     >
-      <Phono_Logo />
       <SearchBar
         placeholder={'Search my Collection'}
         onSubmit={(search) => handleOnSubmit(search)}
