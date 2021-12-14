@@ -9,7 +9,7 @@ export default function BackButton({ goBack }: BackButtonProps): JSX.Element {
       viewBox="0 0 21 38"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      onClick={() => goBack('back')}
+      onClick={() => goBack()}
       className={styles.backButton}
     >
       <path

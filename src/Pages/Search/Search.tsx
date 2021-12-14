@@ -16,8 +16,8 @@ export default function Search() {
     searchQuery,
     searchCategory
   );
-  const [albumId, setAlbumId] = useState<number | null | string>(null);
-  const { albumInfo } = useAlbumDetail(albumId);
+  const [albumId, setAlbumId] = useState<number | null>(null);
+  const { albumInfo, setAlbumInfo } = useAlbumDetail(albumId);
 
   let searchPageContent;
 
@@ -33,7 +33,7 @@ export default function Search() {
   if (albumInfo) {
     searchPageContent = (
       <>
-        <BackButton goBack={(back) => setAlbumId(back)} />
+        <BackButton goBack={() => setAlbumInfo(null)} />
         <img src={albumInfo.cover} className={styles.cover} />
         <AlbumInfo collection={albumInfo} />
       </>
