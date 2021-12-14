@@ -11,5 +11,9 @@
 }
 
 .searchError {
+  display: grid;
   text-align: center;
+  height: 17rem;
+  place-items: center;
+  align-content: center;
 }
