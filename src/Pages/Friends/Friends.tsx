@@ -11,7 +11,13 @@ import BackButton from '../../components/BackButton/BackButton';
 import Loading from '../../components/Loading/Loading';
 
 export default function Friends() {
-  const { getFriendsList, friendsList } = useFriends();
+  const [searchFriend, setsearchFriend] = useState('');
+  const { getFriendsList, friendsList, filteredFriendsList } = useFriends(
+    () => {
+      console.log;
+    },
+    searchFriend
+  );
   const [friend, setFriend] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<boolean>(true);
   const [activeSlide, setActiveSlide] = useState<number>(0);
@@ -56,8 +62,8 @@ export default function Friends() {
   if (!collection) {
     searchBar = (
       <SearchBar
-        placeholder={'Search Users'}
-        onSubmit={(search) => console.log(search)}
+        placeholder={'Search my Friends'}
+        onSubmit={(search) => setsearchFriend(search)}
       />
     );
   }
@@ -66,6 +72,14 @@ export default function Friends() {
     friendsContent = (
       <FriendsCardList
         friendsList={friendsList}
+        showFriend={(username) => setFriend(username)}
+      />
+    );
+  }
+  if (!collection && filteredFriendsList) {
+    friendsContent = (
+      <FriendsCardList
+        friendsList={filteredFriendsList}
         showFriend={(username) => setFriend(username)}
       />
     );

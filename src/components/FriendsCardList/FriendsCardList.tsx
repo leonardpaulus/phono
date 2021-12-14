@@ -10,6 +10,7 @@ export default function FriendsCardList({
     from: { y: 800, opacity: 0 },
     enter: { y: 0, opacity: 1 },
     leave: { y: 800, opacity: 0 },
+    reset: true,
     trail: 30,
   });
 
