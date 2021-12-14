@@ -6,6 +6,7 @@ import AddToCollection from './AlbumInfoAssets/AddToCollection.svg';
 import RemoveFromCollection from './AlbumInfoAssets/RemoveFromCollection.svg';
 import useRemoveFromCollection from '../../utils/useRemoveFromCollection';
 import { v4 as uuidv4 } from 'uuid';
+import { useSpring, animated, config } from 'react-spring';
 
 export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
@@ -19,8 +20,24 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     useRemoveFromCollection(removeAlbumId, instanceId);
   }
 
+  const albumInfoCard = useSpring({
+    from: { y: 120, opacity: 0 },
+    to: { y: 0, opacity: 1 },
+    config: config.stiff,
+  });
+
+  const tracklistTransition = useSpring({
+    from: { y: 100, opacity: 0 },
+    to: { y: 0, opacity: 1 },
+    config: config.stiff,
+  });
+
   const newTracklist = (
-    <div className={styles.tracklist} key={uuidv4()}>
+    <animated.div
+      style={tracklistTransition}
+      className={styles.tracklist}
+      key={uuidv4()}
+    >
       {collection.tracklist.map((track) => (
         <React.Fragment key={uuidv4()}>
           <p>{track.position}</p>
@@ -28,7 +45,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
           <p>{track.duration}</p>
         </React.Fragment>
       ))}
-    </div>
+    </animated.div>
   );
 
   function handleOnclick() {
@@ -54,7 +71,11 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   };
 
   return (
-    <article className={styles.albumcard} key={uuidv4()}>
+    <animated.article
+      style={albumInfoCard}
+      className={styles.albumcard}
+      key={uuidv4()}
+    >
       {!collection.in_collection && (
         <img
           src={AddToCollection}
@@ -122,6 +143,6 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         </span>
         {tracklist}
       </div>
-    </article>
+    </animated.article>
   );
 }
