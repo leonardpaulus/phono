@@ -7,8 +7,10 @@ import {
   SearchResultProps,
   ReleaseProps,
   FriendsProps,
+  AlbumProps,
 } from '../src/lib/types';
 dotenv.config();
+import jwt from 'jsonwebtoken';
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -20,6 +22,12 @@ if (!process.env.DISCOGS_CONSUMER_KEY) {
 }
 if (!process.env.DISCOGS_CONSUMER_SECRET) {
   throw new Error('No Discogs Consumer Secret available');
+}
+
+const { JWT_SECRET } = process.env;
+
+if (!JWT_SECRET) {
+  throw new Error('No JWT_SECRET provided');
 }
 
 const consumerKey = process.env.DISCOGS_CONSUMER_KEY;
@@ -70,8 +78,8 @@ app.get('/api/oauth/return', async (request, response, next) => {
       }
     );
 
-    const token = await tokenResponse.text();
-    const params = new URLSearchParams(token);
+    const responseToken = await tokenResponse.text();
+    const params = new URLSearchParams(responseToken);
     oAuthAccessToken = params.get('oauth_token');
     oAuthAccessTokenSecret = params.get('oauth_token_secret');
 
@@ -85,14 +93,16 @@ app.get('/api/oauth/return', async (request, response, next) => {
       }
     );
     const identity = await identityResponse.json();
-    const username = identity.username;
+    const username = jwt.sign(identity.username, JWT_SECRET);
     if (oAuthAccessToken && oAuthAccessTokenSecret) {
+      const token = jwt.sign(oAuthAccessToken, JWT_SECRET);
+      const secret = jwt.sign(oAuthAccessTokenSecret, JWT_SECRET);
       response.cookie(
         'auth',
         JSON.stringify({
           username: username,
-          token: oAuthAccessToken,
-          secret: oAuthAccessTokenSecret,
+          token: token,
+          secret: secret,
         }),
         { httpOnly: true }
       );
@@ -117,8 +127,8 @@ app.get(
     try {
       const authCookie = JSON.parse(request.cookies.auth);
 
-      const token = authCookie.token;
-      const secret = authCookie.secret;
+      const token = jwt.verify(authCookie.token, JWT_SECRET);
+      const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
       const searchResponse = await fetch(
         `https://api.discogs.com/database/search?type=release&county=usa${format}&${searchCategory}=${searchQuery}`,
@@ -148,9 +158,9 @@ app.get('/api/me', async (request, response, next) => {
   try {
     const authCookie = JSON.parse(request.cookies.auth);
 
-    const user = authCookie.username;
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+    const user = jwt.verify(authCookie.username, JWT_SECRET);
+    const token = jwt.verify(authCookie.token, JWT_SECRET);
+    const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const collectionResponse = await fetch(
       `https://api.discogs.com/users/${user}/collection`,
@@ -194,8 +204,13 @@ app.get('/api/me', async (request, response, next) => {
         instanceId: instanceReleases[index].instance_id,
       })
     );
+    const myUniqueCollection = [
+      ...new Map(
+        myCollection.map((album: AlbumProps) => [album.id, album])
+      ).values(),
+    ];
 
-    response.send(myCollection);
+    response.send(myUniqueCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -207,8 +222,8 @@ app.get('/api/album/:albumid', async (request, response, next) => {
   try {
     const authCookie = JSON.parse(request.cookies.auth);
 
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+    const token = jwt.verify(authCookie.token, JWT_SECRET);
+    const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const searchResponse = await fetch(
       `https://api.discogs.com/releases/${albumId}`,
@@ -244,9 +259,9 @@ app.post('/api/collection/:albumid', async (request, response, next) => {
   try {
     const authCookie = JSON.parse(request.cookies.auth);
 
-    const user = authCookie.username;
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+    const user = jwt.verify(authCookie.username, JWT_SECRET);
+    const token = jwt.verify(authCookie.token, JWT_SECRET);
+    const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     await fetch(
       `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}`,
@@ -272,9 +287,9 @@ app.delete(
     try {
       const authCookie = JSON.parse(request.cookies.auth);
 
-      const user = authCookie.username;
-      const token = authCookie.token;
-      const secret = authCookie.secret;
+      const user = jwt.verify(authCookie.username, JWT_SECRET);
+      const token = jwt.verify(authCookie.token, JWT_SECRET);
+      const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
       await fetch(
         `https://api.discogs.com/users/${user}/collection/folders/1/releases/${albumId}/instances/${instanceId}`,
@@ -296,9 +311,9 @@ app.get('/api/friends', async (request, response, next) => {
   try {
     const authCookie = JSON.parse(request.cookies.auth);
 
-    const user = authCookie.username;
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+    const user = jwt.verify(authCookie.username, JWT_SECRET);
+    const token = jwt.verify(authCookie.token, JWT_SECRET);
+    const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const searchResponse = await fetch(
       `https://api.discogs.com/users/${user}/friends`,
@@ -329,8 +344,8 @@ app.get('/api/friends/:username', async (request, response, next) => {
     const authCookie = JSON.parse(request.cookies.auth);
 
     const username = request.params.username;
-    const token = authCookie.token;
-    const secret = authCookie.secret;
+    const token = jwt.verify(authCookie.token, JWT_SECRET);
+    const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const collectionResponse = await fetch(
       `https://api.discogs.com/users/${username}/collection?page=1&per_page=50`,
@@ -360,7 +375,13 @@ app.get('/api/friends/:username', async (request, response, next) => {
       })
     );
 
-    response.send(userCollection);
+    const userUniqueCollection = [
+      ...new Map(
+        userCollection.map((album: AlbumProps) => [album.id, album])
+      ).values(),
+    ];
+
+    response.send(userUniqueCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -370,8 +391,8 @@ app.get('/api/friends/:username', async (request, response, next) => {
 app.use(express.static('dist'));
 
 //Handle client routing, return all requestts on the app
-app.get('/', (_request, response) => {
-  response.sendFile(path.join(__dirname, '../dist/index.html'));
+app.get('*', (_request, response) => {
+  response.sendFile(path.join(__dirname, '../index.html'));
 });
 
 app.listen(port, () => {

@@ -10,6 +10,7 @@ export default function FriendsCardList({
     from: { y: 800, opacity: 0 },
     enter: { y: 0, opacity: 1 },
     leave: { y: 800, opacity: 0 },
+    reset: true,
     trail: 30,
   });
 
@@ -24,7 +25,7 @@ export default function FriendsCardList({
               key={friend.id}
               onClick={() => showFriend(friend.username)}
             >
-              <img className={styles.avatar} src={friend.avatar} />
+              <img className={styles.avatar} src={friend.avatar} alt={''} />
               <div className={styles.username}>
                 <h2>{friend.username}</h2>
               </div>

@@ -1,11 +1,11 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import styles from './SearchBar.module.css';
 import SearchBarIcon from './searchAssets/SearchBarIcon.svg';
 import DeleteIcon from './searchAssets/DeleteIcon.svg';
 import { SearchBarProps } from '../../lib/types';
 
 function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
-  const [search, setSearch] = useState<string>();
+  const [search, setSearch] = useState<string>('');
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -13,6 +13,10 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
       onSubmit(search);
     }
   };
+
+  useEffect(() => {
+    setSearch('');
+  }, [placeholder]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -32,6 +36,7 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
         className={styles.textInput}
         placeholder={placeholder}
         onChange={(event) => setSearch(event.target.value)}
+        value={search}
         required
       />
       <label>

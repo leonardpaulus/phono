@@ -1,4 +1,4 @@
-import styles from './Phono_Logo.module.css';
+import styles from './PhonoLogo.module.css';
 
 export default function Phono_Logo() {
   return (

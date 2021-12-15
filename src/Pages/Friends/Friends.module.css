@@ -10,9 +10,10 @@
   composes: collectionpage from global;
 }
 
-.noMatchingSearchResultsIcon {
-  height: 50%;
-  width: 50%;
-  margin-top: 3rem;
-  opacity: 0.7;
+.searchError {
+  display: grid;
+  text-align: center;
+  height: 17rem;
+  place-items: center;
+  align-content: center;
 }

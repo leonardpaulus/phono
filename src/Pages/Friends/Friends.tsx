@@ -6,12 +6,17 @@ import FriendsCardList from '../../components/FriendsCardList/FriendsCardList';
 import useCollection from '../../utils/useCollection';
 import CoverSwiper from '../../components/CoverSwiper/CoverSwiper';
 import AlbumInfo from '../../components/AlbumInfo/AlbumInfo';
-import NoMatchingSearchResult from '../../assets/NoMatchingSearchResult.svg';
 import BackButton from '../../components/BackButton/BackButton';
 import Loading from '../../components/Loading/Loading';
 
 export default function Friends() {
-  const { getFriendsList, friendsList } = useFriends();
+  const [searchFriend, setSearchFriend] = useState('');
+  const { getFriendsList, friendsList, filteredFriendsList } = useFriends(
+    () => {
+      setSearchResult(false);
+    },
+    searchFriend
+  );
   const [friend, setFriend] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<boolean>(true);
   const [activeSlide, setActiveSlide] = useState<number>(0);
@@ -31,6 +36,11 @@ export default function Friends() {
     getFriendsList();
     setCollection(null);
   }, []);
+
+  useEffect(() => {
+    setSearchResult(true);
+    setSearchFriend('');
+  }, [friend]);
 
   function handleOnSubmit(search: string) {
     setSearchQuery(search);
@@ -56,8 +66,8 @@ export default function Friends() {
   if (!collection) {
     searchBar = (
       <SearchBar
-        placeholder={'Search Users'}
-        onSubmit={(search) => console.log(search)}
+        placeholder={'Search my Friends'}
+        onSubmit={(search) => setSearchFriend(search)}
       />
     );
   }
@@ -70,22 +80,34 @@ export default function Friends() {
       />
     );
   }
+  if (!collection && filteredFriendsList) {
+    friendsContent = (
+      <FriendsCardList
+        friendsList={filteredFriendsList}
+        showFriend={(username) => setFriend(username)}
+      />
+    );
+  }
   if (!collection && friend) {
     friendsContent = <Loading />;
+  }
+  if (!filteredFriendsList && searchFriend && !searchResult) {
+    friendsContent = (
+      <div className={styles.searchError}>
+        <p>We&apos;re sorry!</p>
+        <p>No Matching search Results found :(</p>
+      </div>
+    );
   }
   if (collection) {
     friendsContent = (
       <>
         <BackButton goBack={() => handleGoBack()} />
         {!searchResult && (
-          <>
-            <img
-              src={NoMatchingSearchResult}
-              className={styles.noMatchingSearchResultsIcon}
-            />
+          <div className={styles.searchError}>
             <p>We&apos;re sorry!</p>
             <p>No Matching search Results found :(</p>
-          </>
+          </div>
         )}
         {collection && !filteredCollection && searchResult && (
           <CoverSwiper

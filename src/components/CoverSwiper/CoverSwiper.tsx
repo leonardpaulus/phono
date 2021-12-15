@@ -40,7 +40,7 @@ export default function CoverSwiper({
       >
         {collection.map((album) => (
           <SwiperSlide key={album.id}>
-            <img className={styles.cover} src={album.cover} />
+            <img className={styles.cover} src={album.cover} alt={''} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,5 +1,5 @@
 import styles from './Login.module.css';
-import Phono_Logo from '../../assets/Phono_Logo';
+import PhonoLogo from '../../assets/PhonoLogo';
 import LoginButton from '../../components/LoginButton/LoginButton';
 
 export default function Login() {
@@ -9,7 +9,7 @@ export default function Login() {
       <div className={`${styles.middleCircle} ${styles.circle}`}></div>
       <div className={`${styles.innerCircle} ${styles.circle}`}></div>
       <div className={styles.components}>
-        <Phono_Logo />
+        <PhonoLogo />
         <LoginButton />
       </div>
     </div>
