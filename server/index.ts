@@ -46,9 +46,9 @@ app.get('/api/oauth/request_token', async (request, response, next) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="https://${
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="http://${
             request.hostname
-          }/home"`,
+          }/api/oauth/return"`,
         },
       }
     );
@@ -109,7 +109,7 @@ app.get('/api/oauth/return', async (request, response, next) => {
         { httpOnly: true }
       );
 
-      response.redirect(`https://${request.hostname}/home"`);
+      response.redirect('/home');
     }
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
