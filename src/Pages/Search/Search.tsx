@@ -21,13 +21,9 @@ export default function Search() {
 
   let searchPageContent;
 
-  function handleSearchArtist() {
+  function handleSearch(category: string) {
     setSearchResult(null);
-    setSearchCategory('artist');
-  }
-  function handleSearchTitle() {
-    setSearchResult(null);
-    setSearchCategory('title');
+    setSearchCategory(category);
   }
 
   if (albumInfo) {
@@ -43,7 +39,7 @@ export default function Search() {
       <>
         <div className={styles.toggleInput}>
           <div
-            onClick={() => handleSearchTitle()}
+            onClick={() => handleSearch('title')}
             className={
               searchCategory === 'title'
                 ? styles.clickedCategory
@@ -55,7 +51,7 @@ export default function Search() {
           </div>
           <Divider />
           <div
-            onClick={() => handleSearchArtist()}
+            onClick={() => handleSearch('artist')}
             className={
               searchCategory === 'artist'
                 ? styles.clickedCategory
