@@ -22,6 +22,10 @@
   animation-timing-function: ease-in-out;
 }
 
+.components svg {
+  transform: scale(1.8);
+}
+
 .circle {
   grid-column: 1;
   grid-row: 1;
