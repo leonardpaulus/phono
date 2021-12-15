@@ -16,7 +16,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
   const [removeAlbumId, setRemoveAlbumId] = useState(0);
   useAddToCollection(addAlbumId);
   if (collection.instanceId && collection) {
-    const instanceId = collection.instanceId;
+    const instanceId = collection?.instanceId;
     useRemoveFromCollection(removeAlbumId, instanceId);
   }
 

@@ -18,6 +18,11 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
     setSearch('');
   }, [placeholder]);
 
+  function handleReset() {
+    onSubmit('');
+    setSearch('');
+  }
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       {search && (
@@ -27,7 +32,7 @@ function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
             className={styles.deleteButton}
             src={DeleteIcon}
             alt={'cross'}
-            onClick={() => onSubmit('')}
+            onClick={() => handleReset()}
           />
         </label>
       )}

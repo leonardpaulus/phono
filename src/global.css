@@ -78,11 +78,11 @@ p {
 }
 
 .emptypage {
-  grid-template-rows: 4rem auto;
+  grid-template-rows: 2rem auto;
 }
 
 .collectionpage {
-  grid-template-rows: 4rem 17rem auto;
+  grid-template-rows: 2rem 16.5rem auto;
 }
 
 .page::-webkit-scrollbar {

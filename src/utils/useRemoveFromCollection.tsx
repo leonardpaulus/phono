@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function useRemoveFromCollection(
   removeAlbumId: number,
-  instanceId: number
+  instanceId?: number
 ) {
   const [removeCollection, setRemoveCollection] = useState<boolean>(true);
 
