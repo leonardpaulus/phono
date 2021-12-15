@@ -109,7 +109,7 @@ app.get('/api/oauth/return', async (request, response, next) => {
         { httpOnly: true }
       );
 
-      response.redirect('/home');
+      response.redirect(`https://${request.hostname}/home"`);
     }
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
