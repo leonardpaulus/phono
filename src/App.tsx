@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Phono_Logo />
+      {current.pathname != '/' && <Phono_Logo />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="home" element={<MyCollection />} />
@@ -25,7 +25,7 @@ function App() {
         <Route path="friends" element={<Friends />} />
       </Routes>
 
-      {activeLink !== '/' && <NavBar activeLink={activeLink} />}
+      {activeLink != '/' && <NavBar activeLink={activeLink} />}
     </div>
   );
 }
