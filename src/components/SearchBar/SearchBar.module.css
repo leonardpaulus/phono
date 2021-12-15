@@ -21,6 +21,7 @@
   width: 90%;
   padding: 0.3rem;
   border: 2px solid;
+  font-size: var(--font-size-text);
   border-radius: var(--border-radius);
   border-color: var(--color-secondary);
   font-family: var(--font-family);
