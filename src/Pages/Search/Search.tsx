@@ -38,29 +38,27 @@ export default function Search() {
     searchPageContent = (
       <>
         <div className={styles.toggleInput}>
-          <div
+          <button
             onClick={() => handleSearch('title')}
             className={
               searchCategory === 'title'
-                ? styles.clickedCategory
-                : styles.unclickedCategory
+                ? `${styles.categoryButton} ${styles.categoryActive}`
+                : `${styles.categoryButton} ${styles.categoryInactive}`
             }
           >
-            <p>Search</p>
-            <p>for Title</p>
-          </div>
+            Search for Title
+          </button>
           <Divider />
-          <div
+          <button
             onClick={() => handleSearch('artist')}
             className={
               searchCategory === 'artist'
-                ? styles.clickedCategory
-                : styles.unclickedCategory
+                ? `${styles.categoryButton} ${styles.categoryActive}`
+                : `${styles.categoryButton} ${styles.categoryInactive}`
             }
           >
-            <p>Search for</p>
-            <p>Artists</p>
-          </div>
+            Search for Artist
+          </button>
         </div>
         {searchResult ? (
           <SearchCardList

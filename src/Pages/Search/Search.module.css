@@ -26,14 +26,20 @@
   place-items: center;
 }
 
-.clickedCategory p {
-  color: var(--color-primary);
+.categoryButton {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
   text-align: center;
+  margin: 1rem 3rem;
 }
 
-.unclickedCategory p {
+.categoryActive {
+  color: var(--color-primary);
+}
+
+.categoryInactive {
   color: var(--color-text);
-  text-align: center;
 }
 
 .cover {
