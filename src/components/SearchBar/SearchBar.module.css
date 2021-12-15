@@ -5,14 +5,14 @@
 
 .submitButton {
   transform: translateX(-2rem);
-  margin-top: 0.3rem;
+  margin-top: 0.5rem;
   position: absolute;
   cursor: pointer;
 }
 
 .deleteButton {
   transform: translateX(0.5rem);
-  margin-top: 0.35rem;
+  margin-top: 0.5rem;
   position: absolute;
   cursor: pointer;
 }
