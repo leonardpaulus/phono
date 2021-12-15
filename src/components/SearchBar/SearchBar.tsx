@@ -5,7 +5,7 @@ import DeleteIcon from './searchAssets/DeleteIcon.svg';
 import { SearchBarProps } from '../../lib/types';
 
 function SearchBar({ placeholder, onSubmit }: SearchBarProps): JSX.Element {
-  const [search, setSearch] = useState<string>();
+  const [search, setSearch] = useState<string>('');
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
