@@ -38,7 +38,7 @@ let oAuthRequestToken: string | null;
 let oAuthAccessTokenSecret: string | null;
 let oAuthAccessToken: string | null;
 
-app.get('/api/oauth/request_token', async (_request, response, next) => {
+app.get('/api/oauth/request_token', async (request, response, next) => {
   try {
     const tokenResponse = await fetch(
       'https://api.discogs.com/oauth/request_token',
@@ -46,7 +46,9 @@ app.get('/api/oauth/request_token', async (_request, response, next) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="/home"`,
+          Authorization: `OAuth oauth_consumer_key="${consumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Date.now()}",oauth_nonce="${Date.now()}",oauth_version="1.0",oauth_signature="${consumerSecret}&", oauth_callback="${
+            request.hostname
+          }/home"`,
         },
       }
     );
