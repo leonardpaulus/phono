@@ -112,7 +112,7 @@ export default function Friends() {
         {collection && !filteredCollection && searchResult && (
           <CoverSwiper
             collection={collection}
-            changeActiveSlide={(activeSlideIndex) =>
+            onChangeActiveSlide={(activeSlideIndex) =>
               setActiveSlide(activeSlideIndex)
             }
           />
@@ -120,7 +120,7 @@ export default function Friends() {
         {filteredCollection && searchResult && (
           <CoverSwiper
             collection={filteredCollection}
-            changeActiveSlide={(activeSlideIndex) =>
+            onChangeActiveSlide={(activeSlideIndex) =>
               setActiveSlide(activeSlideIndex)
             }
           />

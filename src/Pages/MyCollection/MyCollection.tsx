@@ -50,7 +50,7 @@ export default function MyCollection(): JSX.Element {
       {collection && !filteredCollection && searchResult && (
         <CoverSwiper
           collection={collection}
-          changeActiveSlide={(activeSlideIndex) =>
+          onChangeActiveSlide={(activeSlideIndex) =>
             setActiveSlide(activeSlideIndex)
           }
         />
@@ -58,7 +58,7 @@ export default function MyCollection(): JSX.Element {
       {filteredCollection && searchResult && (
         <CoverSwiper
           collection={filteredCollection}
-          changeActiveSlide={(activeSlideIndex) =>
+          onChangeActiveSlide={(activeSlideIndex) =>
             setActiveSlide(activeSlideIndex)
           }
         />

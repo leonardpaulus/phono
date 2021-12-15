@@ -10,7 +10,7 @@ SwiperCore.use([EffectCoverflow]);
 
 export default function CoverSwiper({
   collection,
-  changeActiveSlide,
+  onChangeActiveSlide,
 }: CoverSwiperProps): JSX.Element {
   const coverSwiper = useSpring({
     from: { scale: 0.7, opacity: 0 },
@@ -36,7 +36,7 @@ export default function CoverSwiper({
         loop={false}
         touchEventsTarget={'wrapper'}
         preloadImages={true}
-        onSlideChange={(slide) => changeActiveSlide(slide.activeIndex)}
+        onSlideChange={(slide) => onChangeActiveSlide(slide.activeIndex)}
       >
         {collection.map((album) => (
           <SwiperSlide key={album.id}>
