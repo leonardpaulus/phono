@@ -7,6 +7,7 @@ import {
   SearchResultProps,
   ReleaseProps,
   FriendsProps,
+  AlbumProps,
 } from '../src/lib/types';
 dotenv.config();
 import jwt from 'jsonwebtoken';
@@ -162,7 +163,7 @@ app.get('/api/me', async (request, response, next) => {
     const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const collectionResponse = await fetch(
-      `https://api.discogs.com/users/${user}/collection?header=1&sort=added&sort_order=desc`,
+      `https://api.discogs.com/users/${user}/collection`,
       {
         headers: {
           method: 'GET',
@@ -203,8 +204,13 @@ app.get('/api/me', async (request, response, next) => {
         instanceId: instanceReleases[index].instance_id,
       })
     );
+    const myUniqueCollection = [
+      ...new Map(
+        myCollection.map((album: AlbumProps) => [album.id, album])
+      ).values(),
+    ];
 
-    response.send(myCollection);
+    response.send(myUniqueCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -369,7 +375,13 @@ app.get('/api/friends/:username', async (request, response, next) => {
       })
     );
 
-    response.send(userCollection);
+    const userUniqueCollection = [
+      ...new Map(
+        userCollection.map((album: AlbumProps) => [album.id, album])
+      ).values(),
+    ];
+
+    response.send(userUniqueCollection);
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
