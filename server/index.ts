@@ -379,8 +379,8 @@ app.get('/api/friends/:username', async (request, response, next) => {
 app.use(express.static('dist'));
 
 //Handle client routing, return all requestts on the app
-app.get('/', (_request, response) => {
-  response.sendFile(path.join(__dirname, '../dist/index.html'));
+app.get('*', (_request, response) => {
+  response.sendFile(path.join(__dirname, '../index.html'));
 });
 
 app.listen(port, () => {
