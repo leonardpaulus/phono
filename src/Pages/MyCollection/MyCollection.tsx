@@ -63,11 +63,11 @@ export default function MyCollection(): JSX.Element {
           }
         />
       )}
-      {collection && !filteredCollection && searchResult && (
-        <AlbumInfo collection={collection[activeSlide]} />
+      {collection?.[activeSlide] && !filteredCollection && searchResult && (
+        <AlbumInfo album={collection[activeSlide]} />
       )}
-      {filteredCollection && searchResult && (
-        <AlbumInfo collection={filteredCollection[activeSlide]} />
+      {filteredCollection?.[activeSlide] && searchResult && (
+        <AlbumInfo album={filteredCollection[activeSlide]} />
       )}
     </div>
   );

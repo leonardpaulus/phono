@@ -96,7 +96,7 @@ export type SearchCardListProps = {
 };
 
 export type AlbumInfoProps = {
-  collection: AlbumProps;
+  album: AlbumProps;
   filteredCollection?: AlbumProps[];
 };
 
