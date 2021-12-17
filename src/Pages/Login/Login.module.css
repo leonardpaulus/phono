@@ -1,6 +1,5 @@
 .loginPage {
   display: grid;
-  width: 100%;
   height: 100vh;
   overflow: hidden;
   place-items: center;
