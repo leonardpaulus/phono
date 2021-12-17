@@ -7,7 +7,7 @@ export default {
 
 export const Default = () => (
   <AlbumInfo
-    collection={{
+    album={{
       title: 'title',
       artist: 'artist',
       labels: [],

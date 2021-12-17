@@ -31,7 +31,7 @@ export default function Search() {
       <>
         <BackButton goBack={() => setAlbumInfo(null)} />
         <img src={albumInfo.cover} className={styles.cover} alt={''} />
-        <AlbumInfo collection={albumInfo} />
+        <AlbumInfo album={albumInfo} />
       </>
     );
   } else {
