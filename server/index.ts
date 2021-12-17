@@ -165,7 +165,7 @@ app.get('/api/me', async (request, response, next) => {
     const secret = jwt.verify(authCookie.secret, JWT_SECRET);
 
     const collectionResponse = await fetch(
-      `https://api.discogs.com/users/${user}/collection?header=1&sort=added&sort_order=desc`,
+      `https://api.discogs.com/users/${user}/collection`,
       {
         headers: {
           method: 'GET',
@@ -275,6 +275,7 @@ app.post('/api/collection/:albumid', async (request, response, next) => {
         },
       }
     );
+    response.send('success');
   } catch (error) {
     next(response.status(500).send('Internal Server Error'));
   }
@@ -303,6 +304,7 @@ app.delete(
           },
         }
       );
+      response.send('success');
     } catch (error) {
       next(response.status(500).send('Internal Server Error'));
     }
