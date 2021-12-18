@@ -6,5 +6,5 @@ export default {
 };
 
 export const Default = () => (
-  <CoverSwiper collection={[]} changeActiveSlide={console.log} />
+  <CoverSwiper collection={[]} onChangeActiveSlide={console.log} />
 );

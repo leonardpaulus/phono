@@ -112,7 +112,7 @@ export default function Friends() {
         {collection && !filteredCollection && searchResult && (
           <CoverSwiper
             collection={collection}
-            changeActiveSlide={(activeSlideIndex) =>
+            onChangeActiveSlide={(activeSlideIndex) =>
               setActiveSlide(activeSlideIndex)
             }
           />
@@ -120,16 +120,16 @@ export default function Friends() {
         {filteredCollection && searchResult && (
           <CoverSwiper
             collection={filteredCollection}
-            changeActiveSlide={(activeSlideIndex) =>
+            onChangeActiveSlide={(activeSlideIndex) =>
               setActiveSlide(activeSlideIndex)
             }
           />
         )}
-        {collection && !filteredCollection && searchResult && (
-          <AlbumInfo collection={collection[activeSlide]} />
+        {collection?.[activeSlide] && !filteredCollection && searchResult && (
+          <AlbumInfo album={collection[activeSlide]} />
         )}
-        {filteredCollection && searchResult && (
-          <AlbumInfo collection={filteredCollection[activeSlide]} />
+        {filteredCollection?.[activeSlide] && searchResult && (
+          <AlbumInfo album={filteredCollection[activeSlide]} />
         )}
       </>
     );

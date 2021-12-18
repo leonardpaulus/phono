@@ -6,7 +6,7 @@ import Fuse from 'fuse.js';
 import { AlbumProps } from '../lib/types';
 
 export default function useCollection(
-  onNoSearchResults: () => void,
+  onNoSearchResults?: () => void,
   searchQuery?: string | null,
   username?: string | null
 ) {
@@ -67,10 +67,28 @@ export default function useCollection(
     };
   }, [searchQuery]);
 
+  async function removeAlbum(removeAlbum: AlbumProps) {
+    setCollection((albums) => [
+      albums?.filter((album) => album.id !== removeAlbum.id),
+    ]);
+    await fetch(`/api/collection/${removeAlbum.id}/${removeAlbum.instanceId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async function addAlbum(addAlbum: AlbumProps) {
+    setCollection((albums) => [albums, addAlbum]);
+    await fetch(`/api/collection/${addAlbum.id}`, {
+      method: 'POST',
+    });
+  }
+
   return {
     getCollection,
     collection,
     filteredCollection,
     setCollection,
+    removeAlbum,
+    addAlbum,
   };
 }

@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './AlbumInfo.module.css';
 import { AlbumInfoProps } from '../../lib/types';
-import useAddToCollection from '../../utils/useAddToCollection';
 import AddToCollection from './AlbumInfoAssets/AddToCollection.svg';
 import RemoveFromCollection from './AlbumInfoAssets/RemoveFromCollection.svg';
-import useRemoveFromCollection from '../../utils/useRemoveFromCollection';
 import { v4 as uuidv4 } from 'uuid';
 import { useSpring, useTransition, animated, config } from 'react-spring';
+import useCollection from '../../utils/useCollection';
 
-export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
+export default function AlbumInfo({ album }: AlbumInfoProps): JSX.Element {
   const [showTracklist, setShowTracklist] = useState<string>('View Tracklist');
   const [tracklist, setTracklist] = useState<null | JSX.Element>(null);
   const [clicked, setClicked] = useState<boolean>(false);
-  const [addAlbumId, setAddAlbumId] = useState(0);
-  const [removeAlbumId, setRemoveAlbumId] = useState(0);
-  useAddToCollection(addAlbumId);
-  if (collection.instanceId && collection) {
-    const instanceId = collection?.instanceId;
-    useRemoveFromCollection(removeAlbumId, instanceId);
-  }
+  const { removeAlbum, addAlbum } = useCollection();
 
   const albumInfoCard = useSpring({
     from: { y: 120, opacity: 0 },
@@ -26,7 +19,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     config: config.stiff,
   });
 
-  const albumInfoText = useTransition(collection, {
+  const albumInfoText = useTransition(album, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -36,7 +29,7 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
 
   const newTracklist = (
     <div className={styles.tracklist} key={uuidv4()}>
-      {collection.tracklist.map((track) => (
+      {album.tracklist.map((track) => (
         <React.Fragment key={uuidv4()}>
           <p>{track.position}</p>
           <h4>{track.title}</h4>
@@ -56,16 +49,16 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
     setShowTracklist('View Tracklist');
     setTracklist(null);
     setClicked(false);
-  }, [collection]);
+  }, [album]);
 
-  const handleAddToCollection = () => {
-    collection.in_collection = !collection.in_collection;
-    setAddAlbumId(collection.id);
+  const handleAddToCollection = async () => {
+    album.in_collection = !album.in_collection;
+    await addAlbum(album);
   };
 
-  const handleRemoveFromCollection = () => {
-    collection.in_collection = !collection.in_collection;
-    setRemoveAlbumId(collection.id);
+  const handleRemoveFromCollection = async () => {
+    album.in_collection = !album.in_collection;
+    await removeAlbum(album);
   };
 
   return (
@@ -74,14 +67,14 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
       className={styles.albumcard}
       key={uuidv4()}
     >
-      {!collection.in_collection && (
+      {!album.in_collection && (
         <img
           src={AddToCollection}
           className={styles.toggleCollectionButton}
           onClick={() => handleAddToCollection()}
         />
       )}
-      {collection.in_collection && (
+      {album.in_collection && (
         <img
           src={RemoveFromCollection}
           className={styles.toggleCollectionButton}
@@ -89,21 +82,21 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
         />
       )}
       {albumInfoText(
-        (fadeIn, collection) =>
-          collection && (
+        (fadeIn, album) =>
+          album && (
             <>
-              <animated.h1 style={fadeIn}>{collection.title}</animated.h1>
-              <animated.h2 style={fadeIn}>{collection.artist}</animated.h2>
+              <animated.h1 style={fadeIn}>{album.title}</animated.h1>
+              <animated.h2 style={fadeIn}>{album.artist}</animated.h2>
 
               <animated.span style={fadeIn} className={styles.value}>
-                {collection.sales_history
-                  ? `${collection.sales_history.median.value} €`
+                {album.sales_history
+                  ? `${album.sales_history.median.value} €`
                   : null}
               </animated.span>
               <animated.div style={fadeIn} className={styles.infoText}>
                 <animated.h3 style={fadeIn}>Label: </animated.h3>
                 <animated.div key={uuidv4()}>
-                  {collection.labels.map((label) => (
+                  {album.labels.map((label) => (
                     <animated.span
                       style={fadeIn}
                       key={uuidv4()}
@@ -115,44 +108,43 @@ export default function AlbumInfo({ collection }: AlbumInfoProps): JSX.Element {
                 </animated.div>
                 <animated.h3 style={fadeIn}>Release:</animated.h3>
                 <animated.span style={fadeIn} className={styles.content}>
-                  {collection.release}
+                  {album.release}
                 </animated.span>
                 <animated.h3 style={fadeIn}>Genre:</animated.h3>
                 <animated.div key={uuidv4()}>
-                  {collection.genres.map((genre, index) => (
+                  {album.genres.map((genre, index) => (
                     <animated.span
                       style={fadeIn}
                       key={uuidv4()}
                       className={styles.content}
                     >
                       {genre}
-                      {index + 1 < collection.genres.length && ', '}
+                      {index + 1 < album.genres.length && ', '}
                     </animated.span>
                   ))}
                 </animated.div>
-                {collection.styles && collection.styles.length > 0 ? (
+                {album.styles && album.styles.length > 0 ? (
                   <animated.h3 style={fadeIn}>Style:</animated.h3>
                 ) : null}
-                {collection.styles && collection.styles.length > 0 ? (
+                {album.styles && album.styles.length > 0 ? (
                   <animated.div key={uuidv4()}>
-                    {collection.styles.map((style, index) => (
+                    {album.styles.map((style, index) => (
                       <animated.span
                         style={fadeIn}
                         key={uuidv4()}
                         className={styles.content}
                       >
                         {style}
-                        {index + 1 < collection.styles.length && ', '}
+                        {index + 1 < album.styles.length && ', '}
                       </animated.span>
                     ))}
                   </animated.div>
                 ) : null}
-                {!collection.styles && null}
+                {!album.styles && null}
               </animated.div>
             </>
           )
       )}
-      ;
       <div key={uuidv4()}>
         <span
           className={!clicked ? styles.cta : styles.cta__clicked}

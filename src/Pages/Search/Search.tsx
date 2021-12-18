@@ -21,13 +21,9 @@ export default function Search() {
 
   let searchPageContent;
 
-  function handleSearchArtist() {
+  function handleSearch(category: string) {
     setSearchResult(null);
-    setSearchCategory('artist');
-  }
-  function handleSearchTitle() {
-    setSearchResult(null);
-    setSearchCategory('title');
+    setSearchCategory(category);
   }
 
   if (albumInfo) {
@@ -35,36 +31,34 @@ export default function Search() {
       <>
         <BackButton goBack={() => setAlbumInfo(null)} />
         <img src={albumInfo.cover} className={styles.cover} alt={''} />
-        <AlbumInfo collection={albumInfo} />
+        <AlbumInfo album={albumInfo} />
       </>
     );
   } else {
     searchPageContent = (
       <>
         <div className={styles.toggleInput}>
-          <div
-            onClick={() => handleSearchTitle()}
+          <button
+            onClick={() => handleSearch('title')}
             className={
               searchCategory === 'title'
-                ? styles.clickedCategory
-                : styles.unclickedCategory
+                ? `${styles.categoryButton} ${styles.categoryActive}`
+                : `${styles.categoryButton} ${styles.categoryInactive}`
             }
           >
-            <p>Search</p>
-            <p>for Title</p>
-          </div>
+            Search for Title
+          </button>
           <Divider />
-          <div
-            onClick={() => handleSearchArtist()}
+          <button
+            onClick={() => handleSearch('artist')}
             className={
               searchCategory === 'artist'
-                ? styles.clickedCategory
-                : styles.unclickedCategory
+                ? `${styles.categoryButton} ${styles.categoryActive}`
+                : `${styles.categoryButton} ${styles.categoryInactive}`
             }
           >
-            <p>Search for</p>
-            <p>Artists</p>
-          </div>
+            Search for Artist
+          </button>
         </div>
         {searchResult ? (
           <SearchCardList

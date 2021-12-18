@@ -5,14 +5,14 @@
 
 .submitButton {
   transform: translateX(-2rem);
-  margin-top: 0.3rem;
+  margin-top: 0.5rem;
   position: absolute;
   cursor: pointer;
 }
 
 .deleteButton {
   transform: translateX(0.5rem);
-  margin-top: 0.35rem;
+  margin-top: 0.5rem;
   position: absolute;
   cursor: pointer;
 }
@@ -21,6 +21,7 @@
   width: 90%;
   padding: 0.3rem;
   border: 2px solid;
+  font-size: var(--font-size-text);
   border-radius: var(--border-radius);
   border-color: var(--color-secondary);
   font-family: var(--font-family);
@@ -32,6 +33,7 @@
 
 .textInput::placeholder {
   text-align: center;
+  font-size: var(--font-size-text);
   font-family: var(--font-family);
   font-weight: var(--font-weight-placeholder);
   color: var(--color-secondary);

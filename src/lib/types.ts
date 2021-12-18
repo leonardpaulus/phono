@@ -59,7 +59,7 @@ export type SearchBarProps = {
 export type CoverSwiperProps = {
   filteredCollection?: AlbumProps[];
   collection: AlbumProps[];
-  changeActiveSlide: (index: number) => void;
+  onChangeActiveSlide: (index: number) => void;
 };
 
 type TracklistProps = {
@@ -96,7 +96,7 @@ export type SearchCardListProps = {
 };
 
 export type AlbumInfoProps = {
-  collection: AlbumProps;
+  album: AlbumProps;
   filteredCollection?: AlbumProps[];
 };
 
