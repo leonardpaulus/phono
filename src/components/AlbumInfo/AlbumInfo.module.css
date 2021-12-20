@@ -23,6 +23,7 @@
 }
 
 .cta {
+  margin-top: 1rem;
   display: grid;
   color: var(--color-cta);
   font-weight: var(--font-weight-subheading);

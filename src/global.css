@@ -76,11 +76,11 @@ p {
 }
 
 .emptypage {
-  grid-template-rows: 2rem auto;
+  grid-template-rows: 2.5rem auto;
 }
 
 .collectionpage {
-  grid-template-rows: 2rem 16.5rem auto;
+  grid-template-rows: 2.5rem 16.5rem auto;
 }
 
 .page::-webkit-scrollbar {
